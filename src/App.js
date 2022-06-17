@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from './components/NavBar';
-import Profile from './pages/Profile';
+import Profile from './pages/profile/Profile';
 import './App.css';
 
 function App() {
