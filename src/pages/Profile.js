@@ -3,18 +3,21 @@ import axios from "axios";
 
 export default function Profile() {
 
-    const [data, setData] = useState([]);
-    const [username, setUsername] = useState("adjong87")
-
-    const getData = async () => {
-        const { data } = await axios.get(`http://localhost:8082/members?username=${username}`);
-        setData(data);
-    };
+    const [userData, setUserData] = useState({});
 
     useEffect(() => {
-        getData();
+        axios.get("http://localhost:8082/members")
+            .then((response) => {
+                setUserData(response);
+                console.log(userData);
+            }).catch(error => {
+            console.error('There was an error!', error);
+        });
+
     }, []);
 
-
-    return <div>{JSON.stringify(data)}</div>;
+    return <div>
+        {JSON.stringify(userData)}
+        trest
+    </div>;
 }
