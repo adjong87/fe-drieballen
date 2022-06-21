@@ -2,12 +2,12 @@ import React, {useContext} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import NavBar from './components//navBar/NavBar';
 import Profile from './pages//profile/Profile';
-import Home from './pages/Home';
 import {AuthContext} from './components/context/AuthContext';
 import './App.css';
-import Register from "./pages/register/Register";
+import Register from "./pages/admin/register/Register";
 import Login from "./pages/login/Login";
-import Overview from "./pages/overview/Overview";
+import Overview from "./pages/admin/overview/Overview";
+import CreateGame from "./pages/admin/createGame/CreateGame";
 
 function App() {
     const {isAuth} = useContext(AuthContext);
@@ -26,8 +26,11 @@ function App() {
                     <Route exact path="/overview">
                         <Overview/>
                     </Route>
+                    <Route exact path="/create">
+                        <CreateGame/>
+                    </Route>
                     <Route path="/profile">
-                        {isAuth ? <Profile/> : <Redirect to="/"/>}
+                        <Profile/>
                     </Route>
                     {/*<Route exact path="/login">*/}
                     {/*    <Login />*/}

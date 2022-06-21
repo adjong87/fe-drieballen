@@ -1,4 +1,4 @@
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import './NavBar.css'
 import {useState} from "react";
 
@@ -8,13 +8,20 @@ function NavBar() {
     return (
         <nav>
             <div>
-                {role == "ADMIN" &&
+                {role === "ADMIN" &&
                     <ul>
                         <li>
                             <button
                                 type="button"
+                                onClick={() => history.push('/profile')}>
+                                My profile
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
                                 onClick={() => history.push('/newMember')}>
-                                Maak gebruiker aan
+                                Add new member
                             </button>
                         </li>
                         <li>
@@ -22,6 +29,13 @@ function NavBar() {
                                 type="button"
                                 onClick={() => history.push('/overview')}>
                                 Overview
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                onClick={() => history.push('/create')}>
+                                Create Game
                             </button>
                         </li>
                     </ul>}

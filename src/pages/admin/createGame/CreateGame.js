@@ -56,7 +56,7 @@ function CreateGame() {
         <>
             <div className="create-game-container">
                 <div className="player-containers">
-                    <form className="player-forms" action="#">
+                    <form className="player-forms" action="src/pages/admin/createGame/CreateGame#">
                         <label htmlFor="playerOne">Mét pit</label>
                         <select name="playerOneSelect" id="p1" onChange={(e) => setPlayerOne(e.target.value)}>
                             {/*<option value={playerOne}>{playerOne}</option>*/}
@@ -78,7 +78,7 @@ function CreateGame() {
                         <h1>{playerOne} VS {playerTwo}</h1> : <h1>Dit kan niet</h1>}
                 </div>
                 <div className="player-containers">
-                    <form className="player-forms" action="#">
+                    <form className="player-forms" action="src/pages/admin/createGame/CreateGame#">
                         <label htmlFor="playerTwo">Zonder pit</label>
                         <select name="playerTwoSelect" id="p2" onChange={(f) => setPlayerTwo(f.target.value)}>
                             <option value="Sjaak">Sjaak</option>
