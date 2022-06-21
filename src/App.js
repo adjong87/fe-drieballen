@@ -4,10 +4,10 @@ import NavBar from './components//navBar/NavBar';
 import Profile from './pages//profile/Profile';
 import {AuthContext} from './components/context/AuthContext';
 import './App.css';
-import Register from "./pages/admin/register/Register";
 import Login from "./pages/login/Login";
 import Overview from "./pages/admin/overview/Overview";
 import CreateGame from "./pages/admin/createGame/CreateGame";
+import AddMember from "./pages/admin/newMember/AddMember";
 
 function App() {
     const {isAuth} = useContext(AuthContext);
@@ -21,7 +21,7 @@ function App() {
                         <Login/>
                     </Route>
                     <Route exact path="/newMember">
-                        <Register/>
+                        <AddMember/>
                     </Route>
                     <Route exact path="/overview">
                         <Overview/>
@@ -35,8 +35,8 @@ function App() {
                     {/*<Route exact path="/login">*/}
                     {/*    <Login />*/}
                     {/*</Route>*/}
-                    {/*<Route exact path="/register">*/}
-                    {/*/!*    <Register />*!/*/}
+                    {/*<Route exact path="/newMember">*/}
+                    {/*/!*    <NewMember />*!/*/}
                     {/*</Route>*/}
                 </Switch>
             </div>

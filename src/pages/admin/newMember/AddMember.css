@@ -1,0 +1,20 @@
+.add-member-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.add-member-form {
+    border: 2px solid red;
+    min-width: 500px;
+    border-radius: 5px;
+    background-color: lightgray;
+
+}
+
+.form-group {
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+}

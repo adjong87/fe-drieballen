@@ -45,7 +45,7 @@ const vpassword = (value) => {
 };
 
 
-const Register = () => {
+const NewMember = () => {
     const form = useRef();
     const checkBtn = useRef();
 
@@ -89,7 +89,7 @@ const Register = () => {
                         {!successful && (
                             <div>
                                 <div className="form-group">
-                                    <label htmlFor="username">Username</label>
+                                    <label htmlFor="username">Gebruikersnaam</label></br>
                                     <Input
                                         type="text"
                                         className="form-control"
@@ -100,7 +100,7 @@ const Register = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="email">Email</label>
+                                    <label htmlFor="email">Email</label></br>
                                     <Input
                                         type="text"
                                         className="form-control"
@@ -112,7 +112,7 @@ const Register = () => {
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="password">Password</label>
+                                    <label htmlFor="password">Password</label></br>
                                     <Input
                                         type="password"
                                         className="form-control"
@@ -122,7 +122,29 @@ const Register = () => {
                                         validations={[required, vpassword]}
                                     />
                                 </div>
+                                <div className="form-group">
+                                    <label htmlFor="firstName">Voornaam:</label></br>
+                                    <Input
+                                        type="text"
+                                        className="form-control"
+                                        name="firstName"
+                                        value={firstName}
+                                        onChange={onChangeFirstName}
+                                        validations={[required]}
+                                    />
+                                </div>
 
+                                <div className="form-group">
+                                    <label htmlFor="lastName">Achternaam:</label>
+                                    <Input
+                                        type="text"
+                                        className="form-control"
+                                        name="lastName"
+                                        value={lastName}
+                                        onChange={onChangelastName}
+                                        validations={[required]}
+                                    />
+                                </div>
                                 <div className="form-group">
                                     <button className="btn btn-primary btn-block">Sign Up</button>
                                 </div>
@@ -149,4 +171,4 @@ const Register = () => {
     );
 }
 
-export default Register;
+export default NewMember;
