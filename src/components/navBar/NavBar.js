@@ -6,14 +6,6 @@ function NavBar() {
 
     return (
         <nav>
-            <Link to="/">
-          <span>
-            <h3>
-              Banana Security
-            </h3>
-          </span>
-            </Link>
-
                 <button
                     type="button"
                 >

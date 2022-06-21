@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-function SignIn() {
+function Login() {
     return (
         <div> Dit wordt de login pagina</div>
     );
 }
 
-export default SignIn;
+export default Login;
