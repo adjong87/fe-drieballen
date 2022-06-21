@@ -14,13 +14,17 @@ function NavBar() {
                             <button
                                 type="button"
                                 onClick={() => history.push('/newMember')}>
-                            Maak gebruiker aan
+                                Maak gebruiker aan
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                onClick={() => history.push('/overview')}>
+                                Overview
                             </button>
                         </li>
                     </ul>}
-                <button type="button">
-                    Log uit
-                </button>
             </div>
 
         </nav>

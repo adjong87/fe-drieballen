@@ -83,7 +83,7 @@ const Register = () => {
 
     return (
         <>
-            <div className="col-md-12">
+            <div>
                 <div className="card card-container">
                     <Form onSubmit={handleRegister} ref={form}>
                         {!successful && (
@@ -144,7 +144,8 @@ const Register = () => {
                         <CheckButton style={{ display: "none" }} ref={checkBtn} />
                     </Form>
                 </div>
-            </div>        </>
+            </div>
+        </>
     );
 }
 
