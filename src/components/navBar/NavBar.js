@@ -1,31 +1,27 @@
 import {Link, useHistory} from "react-router-dom";
 import './NavBar.css'
+import {useState} from "react";
 
 function NavBar() {
     const history = useHistory();
-
+    const [role, setRole] = useState('ADMIN')
     return (
         <nav>
-                <button
-                    type="button"
-                >
+            <div>
+                {role == "ADMIN" &&
+                    <ul>
+                        <li>
+                            <button
+                                type="button"
+                                onClick={() => history.push('/newMember')}>
+                            Maak gebruiker aan
+                            </button>
+                        </li>
+                    </ul>}
+                <button type="button">
                     Log uit
                 </button>
-
-                <div>
-                    <button
-                        type="button"
-                        onClick={() => history.push('/signin')}
-                    >
-                        Log in
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => history.push('/signup')}
-                    >
-                        Registreren
-                    </button>
-                </div>
+            </div>
 
         </nav>
     );
