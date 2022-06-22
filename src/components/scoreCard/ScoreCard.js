@@ -55,18 +55,21 @@ function ScoreCard() {
     return (
         <>
             <div className="scorecard-container">
+                <div className="scorecard-fill-container">
+
+                </div>
                 {scoreCardData.playerOneScore &&
                     <div className="scorecard-player-container">
-                        <div className="scorecard-player-info">
+                        <div className="scorecard-player-info-container">
                             <div className="scorecard-player-winner">
                                 {CheckWinner(scoreCardData.aimScoreP1, CheckSum(scoreCardData.playerOneScore)) &&
                                     <img className="winner" src={Winner} alt="winner"/>}
                             </div>
                             <div className="scorecard-player-info">
 
-                            <h1>{scoreCardData.playerOneName} ({scoreCardData.aimScoreP1})</h1>
-                            <h3>Hoogste serie: {CheckHighest(scoreCardData.playerOneScore)} </h3>
-                            <h3>Gemiddelde: {CheckAverage(scoreCardData.playerOneScore)}</h3>
+                                <h1>{scoreCardData.playerOneName} ({scoreCardData.aimScoreP1})</h1>
+                                <h3>Hoogste serie: {CheckHighest(scoreCardData.playerOneScore)} </h3>
+                                <h3>Gemiddelde: {CheckAverage(scoreCardData.playerOneScore)}</h3>
                             </div>
                         </div>
                         <div className="scorecard-player-scores">
@@ -82,6 +85,7 @@ function ScoreCard() {
                 {scoreCardData &&
                     <div className="scorecard-game-info-container">
                         <div className="scorecard-game-info-top">
+                            <h1>VS</h1>
                             <img className="squiggle" src={Squiggle} alt="squiggle"/>
                         </div>
                         <div className="scorecard-game-info-bottom">
@@ -98,9 +102,9 @@ function ScoreCard() {
                                     <img className="winner" src={Winner} alt="winner"/>}
                             </div>
                             <div className="scorecard-player-info">
-                            <h1> {scoreCardData.playerTwoName} ({scoreCardData.aimScoreP2})</h1>
-                            <h3>Hoogste serie: {CheckHighest(scoreCardData.playerTwoScore)}</h3>
-                            <h3>Gemiddelde: {CheckAverage(scoreCardData.playerTwoScore)}</h3>
+                                <h1> {scoreCardData.playerTwoName} ({scoreCardData.aimScoreP2})</h1>
+                                <h3>Hoogste serie: {CheckHighest(scoreCardData.playerTwoScore)}</h3>
+                                <h3>Gemiddelde: {CheckAverage(scoreCardData.playerTwoScore)}</h3>
                             </div>
                         </div>
                         <div className="scorecard-player-scores">
@@ -112,6 +116,8 @@ function ScoreCard() {
                             </ol>
                         </div>
                     </div>}
+                <div className="scorecard-fill-container">
+                </div>
             </div>
         </>
     )
