@@ -16,7 +16,6 @@ function App() {
     return (
         <>
             <NavBar/>
-            <div className="content">
                 <Switch>
                     <Route exact path="/">
                         <Login/>
@@ -43,7 +42,6 @@ function App() {
                     {/*/!*    <NewMember />*!/*/}
                     {/*</Route>*/}
                 </Switch>
-            </div>
         </>
     );
 }
