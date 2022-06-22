@@ -1,0 +1,27 @@
+.create-game-container {
+    display: flex;
+    width: 1000px;
+    height: 1000px;
+    justify-content: space-between;
+}
+
+.player-containers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.game-info-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+
+}
+.player-forms {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
