@@ -38,6 +38,13 @@ function NavBar() {
                                 Create Game
                             </button>
                         </li>
+                        <li>
+                            <button
+                                type="button"
+                                onClick={() => history.push('/scorecard')}>
+                                Scorecard
+                            </button>
+                        </li>
                     </ul>}
             </div>
         </nav>

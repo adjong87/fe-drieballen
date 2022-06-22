@@ -8,6 +8,7 @@ import Login from "./pages/login/Login";
 import Overview from "./pages/admin/overview/Overview";
 import CreateGame from "./pages/admin/createGame/CreateGame";
 import AddMember from "./pages/admin/addMember/AddMember";
+import ScoreCard from "./components/scoreCard/ScoreCard";
 
 function App() {
     const {isAuth} = useContext(AuthContext);
@@ -31,6 +32,9 @@ function App() {
                     </Route>
                     <Route path="/profile">
                         <Profile/>
+                    </Route>
+                    <Route path="/scorecard">
+                        <ScoreCard/>
                     </Route>
                     {/*<Route exact path="/login">*/}
                     {/*    <Login />*/}
