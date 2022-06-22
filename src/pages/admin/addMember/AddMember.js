@@ -20,7 +20,6 @@ export default function AddMember() {
     return (
         <>
             {!successful ?
-
                 <div className="add-member-container">
                     <div className="add-member-form">
                         <form onSubmit={handleSubmit(onSubmit)}>
