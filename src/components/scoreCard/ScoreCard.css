@@ -1,8 +1,19 @@
+* {
+    border: 0;
+    margin: 0;
+}
+
 .scorecard-container {
     display: flex;
     width: 1000px;
     height: 1000px;
     justify-content: space-between;
+}
+
+.scorecard-fill-container{
+    width: 100px;
+    display: flex;
+    flex-shrink: 3;
 }
 
 .scorecard-player-container {
@@ -30,16 +41,17 @@
     height: 50px;
     border: 2px solid red;
 }
+
+.winner {
+    width: 50px;
+    height: 50px;
+}
+
 .scorecard-player-info {
     flex-direction: column;
     display: flex;
     justify-content: center;
     border: 2px solid red;
-}
-
-.winner {
-    width: 50px;
-    height: 50px;
 }
 
 .scorecard-player-scores {
@@ -58,7 +70,10 @@
 .scorecard-game-info-top {
     margin-top: 50px;
     border: 2px solid red;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .scorecard-game-info-bottom{
