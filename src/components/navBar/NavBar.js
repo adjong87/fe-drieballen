@@ -20,7 +20,7 @@ function NavBar() {
                         <li>
                             <button
                                 type="button"
-                                onClick={() => history.push('/newMember')}>
+                                onClick={() => history.push('/addMember')}>
                                 Add new member
                             </button>
                         </li>

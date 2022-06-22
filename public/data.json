@@ -1,0 +1,98 @@
+[
+  {
+    "username": "GBies",
+    "doB": 18021958,
+    "firstName": "Geeske",
+    "lastName": "Bies",
+    "aimScore": 44,
+    "playedGames": []
+  },
+  {
+    "username": "adjong87",
+    "doB": 21031987,
+    "firstName": "Arjen",
+    "lastName": "de Jong",
+    "aimScore": 27,
+    "playedGames": []
+  },
+  {
+    "username": "kslabikova",
+    "doB": 27101993,
+    "firstName": "Kristina",
+    "lastName": "Slabikova",
+    "aimScore": 15,
+    "playedGames": []
+  },
+  {
+    "username": "HermanD",
+    "doB": 12121940,
+    "firstName": "Herman",
+    "lastName": "Driessen",
+    "aimScore": 18,
+    "playedGames": []
+  },
+  {
+    "username": "Piet",
+    "doB": 18021958,
+    "firstName": "Piet",
+    "lastName": "nvt",
+    "aimScore": 29,
+    "playedGames": []
+  },
+  {
+    "username": "HermanS",
+    "doB": 21031987,
+    "firstName": "Herman",
+    "lastName": "Schaapherder",
+    "aimScore": 34,
+    "playedGames": []
+  },
+  {
+    "username": "Ed",
+    "doB": 27101993,
+    "firstName": "Ed",
+    "lastName": "Zeinstra",
+    "aimScore": 38,
+    "playedGames": []
+  },
+  {
+    "username": "Janno",
+    "doB": 12121940,
+    "firstName": "Janno",
+    "lastName": "nvt",
+    "aimScore": 41,
+    "playedGames": []
+  },
+  {
+    "username": "Jan",
+    "doB": 18021958,
+    "firstName": "Jan",
+    "lastName": "nvt",
+    "aimScore": 44,
+    "playedGames": []
+  },
+  {
+    "username": "Greet",
+    "doB": 21031987,
+    "firstName": "Greet",
+    "lastName": "Schaapherder",
+    "aimScore": 27,
+    "playedGames": []
+  },
+  {
+    "username": "Ad",
+    "doB": 27101993,
+    "firstName": "Ad",
+    "lastName": "nvt",
+    "aimScore": 16,
+    "playedGames": []
+  },
+  {
+    "username": "John",
+    "doB": 12121940,
+    "firstName": "John",
+    "lastName": "nvt",
+    "aimScore": 39,
+    "playedGames": []
+  }
+]

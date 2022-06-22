@@ -7,7 +7,7 @@ import './App.css';
 import Login from "./pages/login/Login";
 import Overview from "./pages/admin/overview/Overview";
 import CreateGame from "./pages/admin/createGame/CreateGame";
-import AddMember from "./pages/admin/newMember/AddMember";
+import AddMember from "./pages/admin/addMember/AddMember";
 
 function App() {
     const {isAuth} = useContext(AuthContext);
@@ -35,7 +35,7 @@ function App() {
                     {/*<Route exact path="/login">*/}
                     {/*    <Login />*/}
                     {/*</Route>*/}
-                    {/*<Route exact path="/newMember">*/}
+                    {/*<Route exact path="/addMember">*/}
                     {/*/!*    <NewMember />*!/*/}
                     {/*</Route>*/}
                 </Switch>

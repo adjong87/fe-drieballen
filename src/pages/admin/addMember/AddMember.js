@@ -122,7 +122,7 @@ export default function AddMember() {
                                         pattern: {
                                             value:
                                                 /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                                            message: 'Invalid email address',
+                                            message: 'Dit is geen juist email adres',
                                         },
                                     })}
                                 />
@@ -179,6 +179,7 @@ export default function AddMember() {
                                         name="role"
                                         type="checkbox"
                                         value="USER"
+                                        checked="true"
                                         {...register('roles', {
                                             required: 'Dit veld is verplicht'
 

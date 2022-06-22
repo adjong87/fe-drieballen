@@ -1,0 +1,21 @@
+.player-profile-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.player-profile-card{
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    height: 150px;
+    border: 2px solid red;
+    justify-content: space-evenly;
+    margin: 5px;
+    padding: 5px;
+}
+
+.aimScore{
+    display: flex;
+    justify-content: flex-end;
+}
