@@ -2,6 +2,8 @@ import React from 'react';
 import {useEffect, useState} from 'react';
 import axios from "axios";
 import './Overview.css'
+import plus from '../../../assets/plus.png'
+import noPicture from '../../../assets/nopicture.png'
 
 function Overview() {
     // const [playersData, setPlayersData] = useState([{}]);
@@ -51,16 +53,21 @@ function Overview() {
         <>
             <div className="player-profile-container">
                 {data ? data.map((player) => {
-                        return <div className="player-profile-card">
+                        return <div className="player-profile-card" key={player.username}>
+
                             <span className="aimScore"><h3>{player.aimScore}</h3></span>
+                            <img src={noPicture} alt="no picture"/>
                             <span><strong>{player.firstName} {player.lastName}</strong></span>
                             <span>Aantal gespeelde wedstrijden:</span>
                             <span> {player.playedGames.length}</span>
                         </div>
                     })
                     :
-                    <div>en anders dit</div>
-                }
+                    <div>en anders dit</div>}
+                    <div className="player-profile-card" key="newPlayer">
+                    <img src={plus} alt="addMember"/>
+                    </div>
+
             </div>
         </>
     );

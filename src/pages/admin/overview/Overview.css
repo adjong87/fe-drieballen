@@ -4,18 +4,33 @@
     flex-wrap: wrap;
 }
 
-.player-profile-card{
+.player-profile-card {
     display: flex;
     flex-direction: column;
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border: 2px solid red;
     justify-content: space-evenly;
     margin: 5px;
     padding: 5px;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
-.aimScore{
+.player-profile-card img {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+.player-profile-card img:hover{
+    width:75px;
+    height: 75px;
+}
+
+.aimScore {
     display: flex;
     justify-content: flex-end;
 }
