@@ -2,15 +2,18 @@ import React from 'react';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import './Profile.css';
+import {useParams} from "react-router-dom";
 
 
 function Profile() {
     const [data, setData] = useState([]);
     const [playedGames, setPlayedGames] = useState([])
 
-    async function fetchData() {
+    const {username} = useParams();
+
+    async function getUserProfile() {
         try {
-            const result = await axios.get(`http://localhost:8082/members/profile?username=HermanD`)
+            const result = await axios.get(`http://localhost:8082/members/profile?username=${username}`)
             setData(result.data);
             setPlayedGames(result.data.playedGames)
             console.log(data)
@@ -21,7 +24,7 @@ function Profile() {
     }
 
     useEffect(() => {
-        fetchData()
+        getUserProfile()
     }, []);
 
     return (
