@@ -1,21 +1,15 @@
-import React, {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import './Login.css'
+import './LoginPage.css'
 import balls from '../../assets/balls.png'
+import axios from "axios";
+import {AuthContext} from "../../components/context/AuthContext";
 
-const required = (value) => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This field is required!
-            </div>
-        );
-    }
-};
+const {login} = useContext(AuthContext);
 
-const Login = () => {
+const LoginPage = () => {
 
     const form = useRef();
     const checkBtn = useRef();
@@ -24,6 +18,17 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+
+
+    const required = (value) => {
+        if (!value) {
+            return (
+                <div className="alert alert-danger" role="alert">
+                    This field is required!
+                </div>
+            );
+        }
+    };
 
     const onChangeUsername = (e) => {
         const username = e.target.value;
@@ -38,9 +43,24 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         setMessage("");
-        setLoading(true);
+        setLoading(true)
+        MakeLoginRequest();
+    }
 
-    };
+
+    async function MakeLoginRequest() {
+        try {
+            const response = await axios.post('http://localhost:8082/api/auth', {
+                username: {username},
+                password: {password},
+            });
+            console.log(response.data.accesToken);
+            login(response.data.accesToken)
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     return (
         <>
             <div className="login-outer-container">
@@ -101,7 +121,7 @@ const Login = () => {
             </div>
         </>
     )
-        ;
-};
 
-export default Login;
+}
+
+export default LoginPage;

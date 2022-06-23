@@ -1,26 +1,39 @@
-import React, { createContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, {createContext, useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import jwtDecode from "jwt-decode";
 
 export const AuthContext = createContext({});
 
-function AuthContextProvider({ children }) {
-    const [isAuth, toggleIsAuth] = useState(false);
+function AuthContextProvider({children}) {
     const history = useHistory();
+    const [user, setUser] = useState({
+        email: '',
+        username: '',
+        role: {}
+    })
 
-    function login() {
-        console.log('Gebruiker is ingelogd!');
-        toggleIsAuth(true);
+
+    function login(token) {
+        console.log(token)
+        const decodedToken = jwtDecode(token)
+        console.log(decodedToken)
+        localStorage.setItem('token', token)
+        // setUser({
+        //     email: decodedToken.email,
+        //     username: decodedToken.username,
+        //     role: decodedToken.role
+        // })
         history.push('/profile');
     }
 
     function logout() {
         console.log('Gebruiker is uitgelogd!');
-        toggleIsAuth(false);
+        toggleAuth(false);
         history.push('/');
     }
 
     const contextData = {
-        isAuth: isAuth,
+        isAuth: Auth,
         login: login,
         logout: logout,
     };

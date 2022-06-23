@@ -4,7 +4,7 @@ import NavBar from './components//navBar/NavBar';
 import Profile from './pages//profile/Profile';
 import {AuthContext} from './components/context/AuthContext';
 import './App.css';
-import Login from "./pages/login/Login";
+import LoginPage from "./pages/loginPage/LoginPage";
 import Overview from "./pages/admin/overview/Overview";
 import CreateGame from "./pages/admin/createGame/CreateGame";
 import AddMember from "./pages/admin/addMember/AddMember";
@@ -18,7 +18,7 @@ function App() {
             <NavBar/>
                 <Switch>
                     <Route exact path="/">
-                        <Login/>
+                        <LoginPage/>
                     </Route>
                     <Route exact path="/addMember">
                         <AddMember/>
@@ -35,7 +35,7 @@ function App() {
                     <Route path="/scorecard">
                         <ScoreCard/>
                     </Route>
-                    {/*<Route exact path="/login">*/}
+                    {/*<Route exact path="/loginPage">*/}
                     {/*    <Login />*/}
                     {/*</Route>*/}
                     {/*<Route exact path="/addMember">*/}
