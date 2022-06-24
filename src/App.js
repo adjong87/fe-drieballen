@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import NavBar from './components//navBar/NavBar';
-import Profile from './pages//profile/Profile';
+import Profile from './pages//profilePage/Profile';
 import {AuthContext} from './components/context/AuthContext';
 import './App.css';
 import LoginPage from "./pages/loginPage/LoginPage";
@@ -30,7 +30,7 @@ function App() {
                     <Route exact path="/">
                         <LoginPage/>
                     </Route>
-                    <Route exact path="/addMember">
+                    <Route exact path="/AddMember">
                         <AddMember/>
                     </Route>
                     <Route exact path="/overview">
@@ -40,6 +40,9 @@ function App() {
                         <CreateGamePage />
                     </Route>
                     <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
+                        <Profile />
+                    </PrivateRoute>
+                    <PrivateRoute exact path="/profile" isAuth={isAuth}>
                         <Profile />
                     </PrivateRoute>
                     <PrivateRoute exact path="/scorecards/:id" isAuth={isAuth}>

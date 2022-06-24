@@ -9,7 +9,7 @@ function NavBarAdmin() {
                     <li>
                         <button
                             type="button"
-                            onClick={() => history.push('/profile')}>
+                            onClick={() => history.push('/profilePage')}>
                             My profile
                         </button>
                     </li>

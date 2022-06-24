@@ -25,22 +25,7 @@ function LoginPage() {
             console.error(e.message)
         }
 
-
     };
-    // async function logIn(e) {
-    //     setUsername(e.username)
-    //     setPassword(e.password)
-    //     try {
-    //         const response = await axios.post('http://localhost:8082/api/auth/signIn', {
-    //             username: username,
-    //             password: password,
-    //         });
-    //         console.log(response.data.accesToken);
-    //         login(response.data.accesToken)
-    //     } catch (e) {
-    //         console.error("er ging wat fout" + e);
-    //     }
-    // }
 
     return (
         <>
@@ -72,7 +57,7 @@ function LoginPage() {
                                     <label htmlFor="password">
                                         Wachtwoord:
                                         <input
-                                            type="text"
+                                            type="password"
                                             id="password"
                                             {...register("password")}
                                             placeholder="wachtwoord"

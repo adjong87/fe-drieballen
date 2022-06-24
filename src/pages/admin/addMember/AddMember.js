@@ -2,6 +2,7 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import './AddMember.css'
 import {useState} from 'react';
+import axios from "axios";
 
 export default function AddMember() {
 
@@ -12,9 +13,25 @@ export default function AddMember() {
         formState: {errors},
         handleSubmit,
     } = useForm();
-    const onSubmit = (data) => {
-        setSuccessful(!successful)
+
+    const onSubmit = data => {
         console.log(data)
+
+        try {
+            axios.post(
+                "http://localhost:8082/member/add",
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
+                }
+            )
+        } catch (e) {
+            console.error(e.message)
+        }
+        setSuccessful(!successful)
     };
 
     return (

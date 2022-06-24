@@ -8,12 +8,11 @@ function Profile() {
 
     const { user } = useContext(AuthContext);
     const [userData, setUserData] = useState({})
-    const {username} = useParams()
+    const username = user.username
 
     async function fetchData() {
-        console.log(user.username)
         try {
-            const result = await axios.get(`http://localhost:8082/members/profile?username=${username}`,
+            const result = await axios.get("http://localhost:8082/members/profile?username=" + username,
                 {
                     headers: {
                         "Content-Type": "application/json",
