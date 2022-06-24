@@ -1,59 +1,41 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import React from 'react';
 import './ScoreCard.css'
-import CheckAverage from '../helpers/CheckAverage'
-import CheckHighest from "../helpers/CheckHighest";
-import CheckSum from "../helpers/CheckSum";
+import CheckAverage from '../helpers/checkAverage'
+import CheckHighest from "../helpers/checkHighest";
+import CheckSum from "../helpers/checkSum";
 import Winner from '../../assets/winner.svg'
-import CheckWinner from "../helpers/CheckWinner";
+import CheckWinner from "../helpers/checkWinner";
 import Squiggle from '../../assets/squiggle.svg'
+import {Link, useParams} from "react-router-dom";
 
 function ScoreCard() {
+    const [scoreCardData, setScoreCardData] = useState({})
+    const { id } = useParams();
 
-    // const [scoreCard, setScoreCard] = useState({});
-    //
-    // async function fetchScoreCard() {
-    //     try {
-    //         const result = await axios.get(`http://localhost:8082/scorecards/card?id=1`)
-    //         setScoreCard(result.data);
-    //         console.log(scoreCard)
-    //     } catch (e) {
-    //         console.error(e);
-    //         console.log(e.response.data)
-    //     }
-    // }
-    // useEffect(() => {
-    //     fetchScoreCard()
-    // }, []);
-
-
-    const [scoreCardData, setScoreCardData] = useState([]);
-
-    const getData = () => {
-        fetch('data2.json'
-            , {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            }
-        )
-            .then(function (response) {
-                console.log(response)
-                return response.json();
-            })
-            .then(function (myJson) {
-                console.log(myJson);
-                setScoreCardData(myJson)
-            });
+    async function fetchScoreCard() {
+        try {
+            const result = await axios.get(`http://localhost:8082/scorecards/card?id=${id}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+            setScoreCardData(result.data);
+            console.log(scoreCardData);
+        } catch (e) {
+            console.error(e);
+            console.log(e.response.data)
+        }
     }
+
     useEffect(() => {
-        getData()
-    }, [])
+        fetchScoreCard()
+    }, []);
 
     return (
-        <>
+        <>{scoreCardData &&
             <div className="scorecard-container">
                 <div className="scorecard-fill-container">
 
@@ -75,8 +57,8 @@ function ScoreCard() {
                         <div className="scorecard-player-scores">
                             <ol>
                                 <h2>Score: {CheckSum(scoreCardData.playerOneScore)}</h2>
-                                {scoreCardData.playerOneScore.map((turn) => {
-                                    return <li>{turn}</li>
+                                {scoreCardData.playerOneScore.map((turn, index) => {
+                                    return <li>Beurt {index} : {turn}</li>
                                 })}
                             </ol>
                         </div>
@@ -110,15 +92,15 @@ function ScoreCard() {
                         <div className="scorecard-player-scores">
                             <ol>
                                 <h2>Score: {CheckSum(scoreCardData.playerTwoScore)}</h2>
-                                {scoreCardData.playerTwoScore && scoreCardData.playerTwoScore.map((turn) => {
-                                    return <li>{turn}</li>
+                                {scoreCardData.playerTwoScore && scoreCardData.playerTwoScore.map((turn, index) => {
+                                    return <li>Beurt {index} : {turn}</li>;
                                 })}
                             </ol>
                         </div>
                     </div>}
                 <div className="scorecard-fill-container">
                 </div>
-            </div>
+            </div>}
         </>
     )
 }

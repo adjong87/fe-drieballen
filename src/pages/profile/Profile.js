@@ -1,42 +1,37 @@
-import React, {useContext} from 'react';
-import {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import './Profile.css';
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {AuthContext} from "../../components/context/AuthContext";
 
 function Profile() {
 
-    const {data, contextData} = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
     const [userData, setUserData] = useState({})
-    const [playedGames, setPlayedGames] = useState({})
+    const {username} = useParams()
 
-    const {username} = useParams();
-
-    useEffect(() => {
-        async function getProfile() {
-            try {
-                const result = await axios({
-                    method: "get",
-                    url: `http://localhost:8082/members/profile?username=${username}`,
+    async function fetchData() {
+        console.log(user.username)
+        try {
+            const result = await axios.get(`http://localhost:8082/members/profile?username=${username}`,
+                {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 })
-                console.log(result)
-                setUserData(result)
-                setPlayedGames(result.playedGames)
-                console.log("dit is de data uit de authcontext" + data)
-                console.log("dit is de authcontext" + contextData)
-            } catch (e) {
-                console.error(e.message)
-            }
+
+            setUserData(result.data);
+            console.log(userData);
+        } catch (e) {
+            console.error(e);
+            console.log(e.response.data)
         }
+    }
 
-        getProfile()
-
-    }, [])
+    useEffect(() => {
+        fetchData()
+    }, []);
 
     return (
         <>
@@ -46,8 +41,8 @@ function Profile() {
                     <span>Naam: {userData.firstName} {userData.lastName}</span>
                     <span>Te behalen score: {userData.aimScore}</span>
                 </div>}
-            {playedGames && playedGames.map((game) => {
-                return <table className="playedGames">
+            {userData.playedGames &&
+                <table className="playedGames">
                     <tr>
                         <th>Wedstrijdnummer</th>
                         <th>Speler 1</th>
@@ -55,19 +50,21 @@ function Profile() {
                         <th>Gespeeld op:</th>
                         <th>Aantal gespeelde beurten</th>
                     </tr>
-                    <tr>
-                        <td>{game.id.id}</td>
-                        <td>{game.scoreCard.playerOneName}</td>
-                        <td>{game.scoreCard.playerTwoName}</td>
-                        <td>{game.scoreCard.gespeeldOp}</td>
-                        <td>{game.scoreCard.nrOfTurns}</td>
-                    </tr>
-                </table>
-            })}
+                    {userData.playedGames.map((game, index) => {
+                        return <tr key={index}>
+                            <Link to={`/scorecards/${game.id.id}`}>
+                                <td>{game.id.id}</td>
+                            </Link>
+                            <td>{game.scoreCard.playerOneName}</td>
+                            <td>{game.scoreCard.playerTwoName}</td>
+                            <td>{game.scoreCard.gespeeldOp}</td>
+                            <td>{game.scoreCard.nrOfTurns}</td>
 
-            {/*{playedGames ?  <div> gespeeld </div> : <div>niet gespeeld</div>}*/}
+                        </tr>
+                    })}
+                </table>}
         </>
-    );
+    )
 }
 
 export default Profile

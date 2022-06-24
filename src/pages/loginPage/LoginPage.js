@@ -85,7 +85,7 @@ function LoginPage() {
                                         <span>Login</span>
                                     </button>
                                 </div>
-                                )}
+
                             </form>
                         </div>
                     </div>

@@ -6,9 +6,19 @@ import {AuthContext} from './components/context/AuthContext';
 import './App.css';
 import LoginPage from "./pages/loginPage/LoginPage";
 import Overview from "./pages/admin/overview/Overview";
-import CreateGame from "./pages/admin/createGame/CreateGame";
+import CreateGamePage from "./pages/admin/createGamePage/CreateGamePage";
 import AddMember from "./pages/admin/addMember/AddMember";
 import ScoreCard from "./components/scoreCard/ScoreCard";
+
+function PrivateRoute({ children, isAuth, ...rest}) {
+    // omdat we nog steeds alle mogelijke properties zoals exact etc. op Route willen zetten, kunnen we met de ...rest operator zeggen:
+    // al die andere props die je verder nog ontvangt, zet die ook allemaal maar op <Route>
+    return (
+        <Route {...rest}>
+            {isAuth ? children : <Redirect to="/login" />}
+        </Route>
+    )
+}
 
 function App() {
     const {isAuth} = useContext(AuthContext);
@@ -27,11 +37,14 @@ function App() {
                         <Overview/>
                     </Route>
                     <Route exact path="/create">
-                        <CreateGame/>
+                        <CreateGamePage />
                     </Route>
-                    <Route path="/profile/:username">
-                        <Profile/>
-                    </Route>
+                    <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
+                        <Profile />
+                    </PrivateRoute>
+                    <PrivateRoute exact path="/scorecards/:id" isAuth={isAuth}>
+                        <ScoreCard />
+                    </PrivateRoute>
                     <Route path="/scorecard">
                         <ScoreCard/>
                     </Route>
