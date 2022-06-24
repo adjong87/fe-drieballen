@@ -1,39 +1,50 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import './Profile.css';
 import {useParams} from "react-router-dom";
-
+import {AuthContext} from "../../components/context/AuthContext";
 
 function Profile() {
-    const [data, setData] = useState([]);
-    const [playedGames, setPlayedGames] = useState([])
+
+    const {data, contextData} = useContext(AuthContext)
+    const [userData, setUserData] = useState({})
+    const [playedGames, setPlayedGames] = useState({})
 
     const {username} = useParams();
 
-    async function getUserProfile() {
-        try {
-            const result = await axios.get(`http://localhost:8082/members/profile?username=${username}`)
-            setData(result.data);
-            setPlayedGames(result.data.playedGames)
-            console.log(data)
-        } catch (e) {
-            console.error(e);
-            console.log(e.response.data)
-        }
-    }
-
     useEffect(() => {
-        getUserProfile()
-    }, []);
+        async function getProfile() {
+            try {
+                const result = await axios({
+                    method: "get",
+                    url: `http://localhost:8082/members/profile?username=${username}`,
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    }
+                })
+                console.log(result)
+                setUserData(result)
+                setPlayedGames(result.playedGames)
+                console.log("dit is de data uit de authcontext" + data)
+                console.log("dit is de authcontext" + contextData)
+            } catch (e) {
+                console.error(e.message)
+            }
+        }
+
+        getProfile()
+
+    }, [])
 
     return (
         <>
-            {data &&
+            {userData &&
                 <div className="profile-container">
                     <h1>Welkom op je profiel pagina</h1>
-                    <span>Naam: {data.firstName} {data.lastName}</span>
-                    <span>Te behalen score: {data.aimScore}</span>
+                    <span>Naam: {userData.firstName} {userData.lastName}</span>
+                    <span>Te behalen score: {userData.aimScore}</span>
                 </div>}
             {playedGames && playedGames.map((game) => {
                 return <table className="playedGames">
@@ -59,4 +70,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default Profile

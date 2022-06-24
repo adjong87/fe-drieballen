@@ -1,65 +1,46 @@
-import React, {useContext, useRef, useState} from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import React, {useContext} from "react";
 import './LoginPage.css'
 import balls from '../../assets/balls.png'
 import axios from "axios";
 import {AuthContext} from "../../components/context/AuthContext";
-
-const {login} = useContext(AuthContext);
-
-const LoginPage = () => {
-
-    const form = useRef();
-    const checkBtn = useRef();
-
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
+import {useForm} from 'react-hook-form';
 
 
-    const required = (value) => {
-        if (!value) {
-            return (
-                <div className="alert alert-danger" role="alert">
-                    This field is required!
-                </div>
-            );
-        }
-    };
+function LoginPage() {
+    const {login} = useContext(AuthContext);
+    const {register, handleSubmit, formState: {errors}} = useForm()
 
-    const onChangeUsername = (e) => {
-        const username = e.target.value;
-        setUsername(username);
-    };
-
-    const onChangePassword = (e) => {
-        const password = e.target.value;
-        setPassword(password);
-    };
-
-    const handleLogin = (e) => {
-        e.preventDefault();
-        setMessage("");
-        setLoading(true)
-        MakeLoginRequest();
-    }
-
-
-    async function MakeLoginRequest() {
+    const onFormSubmit = data => {
+        console.log(data)
         try {
-            const response = await axios.post('http://localhost:8082/api/auth', {
-                username: {username},
-                password: {password},
-            });
-            console.log(response.data.accesToken);
-            login(response.data.accesToken)
+            axios.post(
+                "http://localhost:8082/api/auth/signIn",
+                data,
+                {headers: {'Content-Type': 'application/json'}}
+            ).then(response => {
+                console.log("dit is de accessToken" + response.data.accessToken)
+                login(response.data.accessToken)
+            })
         } catch (e) {
-            console.error(e);
+            console.error(e.message)
         }
-    }
+
+
+    };
+    // async function logIn(e) {
+    //     setUsername(e.username)
+    //     setPassword(e.password)
+    //     try {
+    //         const response = await axios.post('http://localhost:8082/api/auth/signIn', {
+    //             username: username,
+    //             password: password,
+    //         });
+    //         console.log(response.data.accesToken);
+    //         login(response.data.accesToken)
+    //     } catch (e) {
+    //         console.error("er ging wat fout" + e);
+    //     }
+    // }
 
     return (
         <>
@@ -73,46 +54,39 @@ const LoginPage = () => {
                             <h1>Inloggen bij de Drie Ballen</h1>
                         </div>
                         <div className="login-center-container-bottom">
-                            <Form onSubmit={handleLogin} ref={form}>
+                            <form onSubmit={handleSubmit(onFormSubmit)}>
                                 <div className="login-form-group">
-                                    <label htmlFor="username">Username</label>
-                                    <Input
-                                        type="text"
-                                        className="form-control"
-                                        name="username"
-                                        value={username}
-                                        onChange={onChangeUsername}
-                                        validations={[required]}/>
+                                    <label htmlFor="username">
+                                        Gebruikersnaam
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            {...register("username", {
+                                                required: "Username mag niet leeg zijn.",
+                                            })}
+                                            placeholder="username"/>
+                                    </label>
+                                    {errors.username && <p>{errors.username.message}</p>}
                                 </div>
                                 <div className="login-form-group">
-                                    <label htmlFor="password">Password</label>
-                                    <Input
-                                        type="password"
-                                        className="form-control"
-                                        name="password"
-                                        value={password}
-                                        onChange={onChangePassword}
-                                        validations={[required]}
-                                    />
+                                    <label htmlFor="password">
+                                        Wachtwoord:
+                                        <input
+                                            type="text"
+                                            id="password"
+                                            {...register("password")}
+                                            placeholder="wachtwoord"
+                                        />
+                                    </label>
+                                    {errors.password && <p>{errors.password.message}</p>}
                                 </div>
                                 <div className="login-form-group">
-                                    <button className="btn btn-primary btn-block" disabled={loading}>
-                                        {loading && (
-                                            <span className="spinner-border spinner-border-sm"></span>
-                                        )}
+                                    <button className="btn btn-primary btn-block">
                                         <span>Login</span>
                                     </button>
                                 </div>
-
-                                {message && (
-                                    <div className="login-form-group">
-                                        <div className="alert alert-danger" role="alert">
-                                            {message}
-                                        </div>
-                                    </div>
                                 )}
-                                <CheckButton style={{display: "none"}} ref={checkBtn}/>
-                            </Form>
+                            </form>
                         </div>
                     </div>
                 </div>

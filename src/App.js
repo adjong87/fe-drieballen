@@ -29,7 +29,7 @@ function App() {
                     <Route exact path="/create">
                         <CreateGame/>
                     </Route>
-                    <Route path="/profile">
+                    <Route path="/profile/:username">
                         <Profile/>
                     </Route>
                     <Route path="/scorecard">
