@@ -1,8 +1,8 @@
 import {useHistory} from "react-router-dom";
-import {useState} from "react";
 import NavBarAdmin from './admin/NavBarAdmin'
 import './NavBar.css'
 import NavBarReferee from "./referee/NavBarReferee";
+import {useState} from "react";
 
 function NavBar() {
     const history = useHistory();

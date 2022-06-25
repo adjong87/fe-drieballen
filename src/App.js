@@ -51,9 +51,9 @@ function App() {
                     <PrivateRoute exact path="/fill/:id" isAuth={isAuth}>
                         <FillPage />
                     </PrivateRoute>
-                    <Route path="/scorecard">
+                    <PrivateRoute exact path="/scorecard" isAuth={isAuth}>
                         <ScoreCard/>
-                    </Route>
+                    </PrivateRoute>
                     {/*<Route exact path="/loginPage">*/}
                     {/*    <Login />*/}
                     {/*</Route>*/}

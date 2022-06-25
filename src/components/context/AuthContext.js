@@ -23,7 +23,6 @@ function AuthContextProvider({ children }) {
         if (token && isTokenValid(token)) {
             const decoded = jwt_decode(token);
             fetchUserData(decoded.sub, token);
-            let decodedHeader = jwt_decode(token, { header: true });
         } else {
             // als er GEEN token is doen we niks, en zetten we de status op 'done'
             toggleIsAuth({
@@ -37,6 +36,7 @@ function AuthContextProvider({ children }) {
     function login(JWT, roles) {
         // zet de token in de Local Storage
         localStorage.setItem('token', JWT);
+        localStorage.setItem('roles', roles)
         // decode de token zodat we de ID van de gebruiker hebben en data kunnen ophalen voor de context
         const decoded = jwt_decode(JWT);
         console.log(decoded)
