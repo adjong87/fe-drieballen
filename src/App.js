@@ -1,14 +1,24 @@
 import React, {useContext} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import NavBar from './components//navBar/NavBar';
-import Profile from './pages//profile/Profile';
+import Profile from './pages//profilePage/Profile';
 import {AuthContext} from './components/context/AuthContext';
 import './App.css';
-import Login from "./pages/login/Login";
+import LoginPage from "./pages/loginPage/LoginPage";
 import Overview from "./pages/admin/overview/Overview";
-import CreateGame from "./pages/admin/createGame/CreateGame";
+import CreateGamePage from "./pages/admin/createGamePage/CreateGamePage";
 import AddMember from "./pages/admin/addMember/AddMember";
 import ScoreCard from "./components/scoreCard/ScoreCard";
+
+function PrivateRoute({ children, isAuth, ...rest}) {
+    // omdat we nog steeds alle mogelijke properties zoals exact etc. op Route willen zetten, kunnen we met de ...rest operator zeggen:
+    // al die andere props die je verder nog ontvangt, zet die ook allemaal maar op <Route>
+    return (
+        <Route {...rest}>
+            {isAuth ? children : <Redirect to="/login" />}
+        </Route>
+    )
+}
 
 function App() {
     const {isAuth} = useContext(AuthContext);
@@ -18,24 +28,30 @@ function App() {
             <NavBar/>
                 <Switch>
                     <Route exact path="/">
-                        <Login/>
+                        <LoginPage/>
                     </Route>
-                    <Route exact path="/addMember">
+                    <Route exact path="/AddMember">
                         <AddMember/>
                     </Route>
                     <Route exact path="/overview">
                         <Overview/>
                     </Route>
                     <Route exact path="/create">
-                        <CreateGame/>
+                        <CreateGamePage />
                     </Route>
-                    <Route path="/profile">
-                        <Profile/>
-                    </Route>
+                    <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
+                        <Profile />
+                    </PrivateRoute>
+                    <PrivateRoute exact path="/profile" isAuth={isAuth}>
+                        <Profile />
+                    </PrivateRoute>
+                    <PrivateRoute exact path="/scorecards/:id" isAuth={isAuth}>
+                        <ScoreCard />
+                    </PrivateRoute>
                     <Route path="/scorecard">
                         <ScoreCard/>
                     </Route>
-                    {/*<Route exact path="/login">*/}
+                    {/*<Route exact path="/loginPage">*/}
                     {/*    <Login />*/}
                     {/*</Route>*/}
                     {/*<Route exact path="/addMember">*/}
