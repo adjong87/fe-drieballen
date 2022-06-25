@@ -43,7 +43,7 @@ function Overview() {
                     playedGames={player.playedGames.length}
                 />
             })}
-            <Link to="/AddMember" exact> ><div className="player-profile-card" key="newPlayer">
+            <Link to="/AddMember" exact><div className="player-profile-card" key="newPlayer">
                 <img src={plus} alt="addMember"/>
             </div></Link>
         </div>

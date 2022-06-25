@@ -1,0 +1,98 @@
+.scorecard-fill-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.scorecard-fill-container img {
+    width: 75px;
+    height: 75px;
+}
+
+.scorecard-container {
+    display: flex;
+    width: 1000px;
+    height: 1000px;
+    justify-content: space-between;
+}
+
+.scorecard-fill-container{
+    width: 100px;
+    display: flex;
+    flex-shrink: 3;
+}
+
+.scorecard-player-container {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 2px solid red;
+}
+
+.scorecard-player-info-container {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid red;
+}
+
+.scorecard-player-winner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: 2px solid red;
+}
+
+.winner {
+    width: 50px;
+    height: 50px;
+}
+
+.scorecard-player-info {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    border: 2px solid red;
+}
+
+.scorecard-player-scores {
+    display: flex;
+    border: 1px solid pink;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.scorecard-game-info-container {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    flex-direction: column;
+    border: 2px solid red;
+}
+
+.scorecard-game-info-top {
+    margin-top: 50px;
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.scorecard-game-info-bottom{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid red;
+    align-items: center;
+}
+
+.squiggle {
+    width: 300px;
+    height: 150px;
+}

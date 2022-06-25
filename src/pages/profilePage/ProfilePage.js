@@ -1,18 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import './Profile.css';
+import './ProfilePage.css';
 import {Link, useParams} from "react-router-dom";
-import {AuthContext} from "../../components/context/AuthContext";
 
-function Profile() {
+function ProfilePage() {
 
-    const { user } = useContext(AuthContext);
+    const { username } = useParams();
     const [userData, setUserData] = useState({})
-    const username = user.username
 
     async function fetchData() {
         try {
-            const result = await axios.get("http://localhost:8082/members/profile?username=" + username,
+            const result = await axios.get(`http://localhost:8082/members/profile?username=${username}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -66,4 +64,4 @@ function Profile() {
     )
 }
 
-export default Profile
+export default ProfilePage
