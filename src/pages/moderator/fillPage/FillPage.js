@@ -6,18 +6,18 @@ import CheckHighest from "../../../components/helpers/checkHighest";
 import {useParams} from "react-router-dom";
 import Plus from '../../../assets/plus.png';
 import Minus from '../../../assets/minus.png';
+import checkSum from "../../../components/helpers/checkSum";
+import checkWinner from "../../../components/helpers/checkWinner";
 
 function FillPage() {
 
     const [scoreCard, setScoreCard] = useState({})
     const [playerOneScore] = useState([])
     const [playerTwoScore] = useState([])
-    const [PPTP1, setPPTP1] = useState(0)
-    const [PPTP2, setPPTP2] = useState(0)
+    const [PPT, setPPT] = useState(0)
     const [P1Active, setP1Active] = useState(true)
-    // const [playerTwoTurn, setPlayerTwoTurn] = useState(0)
-
-    const [numberOfTurns, setNumberOfTurns] = useState(0)
+    const [numberOfTurns, setNumberOfTurns] = useState(1)
+    const [finished, toggleFinished] = useState(false)
 
     const {id} = useParams();
 
@@ -41,28 +41,39 @@ function FillPage() {
 
     useEffect(() => {
         getScoreCard()
-    }, [id]);
+    }, []);
+
 
     function handlePlus() {
-        {
-            P1Active ? setPPTP1(PPTP1 + 1) : setPPTP2(PPTP2 + 1)
-        }
+        setPPT(PPT + 1)
     }
 
     function handleMinus() {
         {
-            P1Active ? setPPTP1(PPTP1 - 1) : setPPTP2(PPTP2 - 1)
+            setPPT(PPT - 1)
         }
     }
 
     function passTurn() {
         {
-            P1Active ? playerOneScore.push(PPTP1) : playerTwoScore.push(PPTP2)
+            !P1Active && setNumberOfTurns(numberOfTurns + 1)
         }
-        console.log(PPTP1 + PPTP2)
-        setPPTP1(0)
-        setPPTP2(0)
+        {
+            P1Active ? playerOneScore.push(PPT) : playerTwoScore.push(PPT)
+        }
+        checkWin()
+        setPPT(0)
         setP1Active(!P1Active)
+    }
+
+    function checkWin() {
+        if (playerOneScore.length === playerTwoScore.length) {
+            if (checkWinner(scoreCard.aimScoreP1, checkSum(playerOneScore)) || (checkWinner(scoreCard.aimScoreP2, checkSum(playerTwoScore)))) {
+                toggleFinished(true)
+            }
+            console.log(finished)
+
+        }
     }
 
     return (
@@ -79,10 +90,10 @@ function FillPage() {
                                 <input
                                     type="number"
                                     id="playerOne"
-                                    value={PPTP1}
-                                    placeholder="score"
+                                    value=''
+                                    placeholder={PPT}
                                     onChange={((e) => {
-                                        setPPTP1(e.target.value)
+                                        setPPT(e.target.value)
                                     })}/>
                                 <button onClick={handleMinus}>
                                     <img src={Minus} alt="minus"/>
@@ -90,13 +101,15 @@ function FillPage() {
                                 <button
                                     onClick={passTurn}>BEURT DOORGEVEN
                                 </button>
-                            </div>
-                        }
+                            </div>}
                     </div>
                     <div className="scorecard-player-container">
-                        <div>
+                        <div className="scorecard-current-score">
+                            <h1>{checkSum(playerOneScore)}</h1>
+                        </div>
+                        <div className="scorecard-current-turn">
                             <h2>Deze beurt: </h2>
-                            <h1> {PPTP1}</h1>
+                            <h1> {!P1Active ? "" : PPT}</h1>
                         </div>
                         <div className="scorecard-player-info-container">
                             <div className="scorecard-player-winner">
@@ -111,9 +124,10 @@ function FillPage() {
                             </div>
                         </div>
                         <div className="scorecard-player-scores">
-                            {!playerOneScore ? playerOneScore.map((turn, index) => {
-                                return <p>Beurt {index + 1}  {turn}</p>})
-                             : <p>Er is nog niet gespeeld</p>}
+                            {!playerOneScore.length < 1 ? playerOneScore.map((turn, index) => {
+                                    return <p><b>Beurt {index + 1} </b>  : {turn}</p>
+                                })
+                                : <p>Er is nog niet gespeeld</p>}
                         </div>
                     </div>
                     <div className="scorecard-game-info-container">
@@ -121,21 +135,26 @@ function FillPage() {
                             <h1>VS</h1>
                         </div>
                         <div className="scorecard-game-info-bottom">
-                            <h2>Aantal beurten:</h2>
-                            <h3>{numberOfTurns}</h3>
+                            <h2>Beurt</h2>
+                            <h3>#{numberOfTurns}</h3>
                         </div>
                     </div>
 
                     <div className="scorecard-player-container">
-                        <div>
+                        <div className="scorecard-current-score">
+                            <h1>{checkSum(playerTwoScore)}</h1>
+                        </div>
+                        <div className="scorecard-current-turn">
                             <h2>Deze beurt: </h2>
-                            <h1> {PPTP2}</h1>
+                            <h1> {P1Active ? "" : PPT}</h1>
                         </div>
                         <div className="scorecard-player-info-container">
                             <div className="scorecard-player-winner">
+
                             </div>
                             <div className="scorecard-player-info">
-                                <h1>{scoreCard.playerTwoName} ({scoreCard.aimScoreP1})</h1>
+
+                                <h1>{scoreCard.playerTwoName} ({scoreCard.aimScoreP2})</h1>
                                 <h3>Hoogste
                                     serie: {playerTwoScore.length < 1 ? "?" : CheckHighest(playerTwoScore)} </h3>
                                 <h3>Gemiddelde: {CheckAverage(playerTwoScore) <= 0 ? "?" : CheckAverage(playerTwoScore)}</h3>
@@ -143,7 +162,8 @@ function FillPage() {
                         </div>
                         <div className="scorecard-player-scores">
                             {!playerTwoScore.length < 1 ? playerTwoScore.map((turn, index) => {
-                                    return <p>Beurt {index + 1}  {turn}</p>})
+                                    return <p>Beurt {index + 1} {turn}</p>
+                                })
                                 : <p>Er is nog niet gespeeld</p>}
                         </div>
                     </div>
@@ -156,10 +176,10 @@ function FillPage() {
                                 <input
                                     type="number"
                                     id="playerTwo"
-                                    value={PPTP2}
+                                    value={PPT}
                                     placeholder="score"
                                     onChange={((e) => {
-                                        setPPTP2(e.target.value)
+                                        setPPT(e.target.value)
                                     })}/>
                                 <button onClick={handleMinus}>
                                     <img src={Minus} alt="minus"/>

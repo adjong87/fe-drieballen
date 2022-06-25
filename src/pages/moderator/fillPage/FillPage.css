@@ -31,6 +31,27 @@
     border: 2px solid red;
 }
 
+.scorecard-current-score{
+    font-size: xxx-large;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid red;
+    width: 150px;
+    height: 150px;
+}
+
+.scorecard-current-turn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid red;
+    width: 150px;
+    height: 150px;
+}
+
 .scorecard-player-info-container {
     flex-direction: column;
     display: flex;
