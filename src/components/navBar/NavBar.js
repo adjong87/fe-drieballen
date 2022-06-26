@@ -6,7 +6,7 @@ import {useState} from "react";
 
 function NavBar() {
     const history = useHistory();
-    const [role, setRole] = useState('MODERATOR')
+    const [role, setRole] = useState('ADMIN')
     return (
         <>
             {role === "ADMIN" &&

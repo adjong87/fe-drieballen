@@ -1,6 +1,7 @@
 import {useHistory} from "react-router-dom";
 import {useContext} from 'react';
 import {AuthContext} from "../../context/AuthContext";
+import './NavBarAdmin.css'
 
 function NavBarAdmin() {
     const { user } = useContext(AuthContext);

@@ -28,7 +28,7 @@ function ProfilePage() {
 
     useEffect(() => {
         fetchData()
-    }, []);
+    }, [username]);
 
     return (
         <>

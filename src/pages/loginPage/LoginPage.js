@@ -19,7 +19,6 @@ function LoginPage() {
                 {headers: {'Content-Type': 'application/json'}}
             ).then(response => {
                 console.log("dit is de user info" + response.data.roles)
-                console.log(isAuth)
                 login(response.data.accessToken, response.data.roles)
             })
         } catch (e) {
