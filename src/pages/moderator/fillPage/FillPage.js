@@ -20,8 +20,6 @@ function FillPage() {
     const [P1Active, setP1Active] = useState(true)
     const [finished, toggleFinished] = useState(false)
     const [successful, toggleSuccessful] = useState(false)
-    const [goalReachedP1, toggleGoalReachedP1] = useState(false)
-    const [goalReachedP2, toggleGoalReachedP2] = useState(false)
 
     const {id} = useParams();
 
@@ -74,39 +72,42 @@ function FillPage() {
     }
 
     function handleMinus() {
-        {
-            PPT > 1 ? setPPT(PPT - 1) : setPPT(0)
-        }
+        PPT > 1 ? setPPT(PPT - 1) : setPPT(0)
     }
 
-    function checkFinished() {
-        if ((goalReachedP1 || goalReachedP2)  {
-            toggleFinished(true)
-            console.log(finished)
-        }
-        console.log(finished)
+    function checkTurns() {
+        return p1Score.length === p2Score.length ? true : false;
+
     }
+
+    // function checkFinished() {
+    //     if(!P1Active && checkTurns && checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))){
+    //         toggleFinished(true)
+    //         console.log(finished)
+    //     }
+    //     else if(P1Active && checkTurns && !checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))){
+    //         setP1Active(!P1Active)
+    //     }
+    //     else if(checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))){
+    //         toggleFinished(true)
+    //     }
+    // }
+
+    //
+    //     if (!checkTurns && P1Active && !checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))) {
+    //         console.log("eerste gedeelte")
+    //     } else if (!P1Active && checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))) {
+    //         toggleFinished(true)
+    //         console.log("tweede gedeelte")
+    //     }
+    // }
 
     function passTurn() {
+        checkTurns()
         P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
-        if (P1Active) {
-            if (checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))) {
-                toggleGoalReachedP1(true)
-                checkFinished()
-            } else {
-                {
-                    P1Active && goalReachedP1 ? toggleFinished(true) : setP1Active(!P1Active)
-                }
-
-            }
-        } else {
-            if (checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))) {
-                toggleGoalReachedP2(true)
-                checkFinished()
-            }
-            else{
-                !P1Active && goalReachedP1 ? toggleFinished(true) : setP1Active(!P1Active)
-            }
+        (checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
+        {
+            (checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
         }
         setPPT(0)
     }
@@ -174,14 +175,14 @@ function FillPage() {
                         <div className="scorecard-game-info-top">
                             {successful && <h1>SCORES SUCCESVOL DOORGESTUURD</h1>}
                         </div>
-                        {!goalReachedP2 && !finished &&
+                        {!finished &&
                             <div className="scorecard-game-info-middle">
                                 {P1Active ? <h2>{scoreCard.playerOneName} aan de beurt</h2> :
                                     <h2> {scoreCard.playerTwoName} aan de beurt</h2>}
                             </div>}
                         <div className="scorecard-game-info-bottom"></div>
 
-                        {goalReachedP2 && !finished && !successful &&
+                        {finished && !successful &&
                             <div className="successfull">
                                 <button
                                     onClick={submitScore}>
@@ -192,14 +193,14 @@ function FillPage() {
 
                     <div className="scorecard-player-container">
                         <div className="scorecard-current-score">
-                            {goalReachedP2 &&
+                            {checkWinner(scoreCard.aimScoreP2, checkSum(p2Score)) &&
                                 <div className="scorecard-current-winner">
                                     <img src={Winner} alt="winner"/>
                                 </div>
                             }
                             <h1>{checkSum(p2Score)}</h1>
                         </div>
-                        {!goalReachedP2 && !P1Active ?
+                        {!checkWinner(scoreCard.aimScoreP2, p2Score) && !P1Active ?
                             <div className="scorecard-current-turn">
                                 <h2>BEURT {showTurn(p2Score)}</h2>
                                 <h1>{PPT}</h1>
@@ -224,7 +225,7 @@ function FillPage() {
                         </div>
                     </div>
                     <div className="scorecard-fill-container">
-                        {!P1Active && !goalReachedP2 &&
+                        {!P1Active && !checkWinner(scoreCard.aimscoreP2, checkSum(p2Score)) &&
                             <div className="score-module">
                                 <button onClick={handlePlus}>
                                     <img src={Plus} alt="plus"/>
