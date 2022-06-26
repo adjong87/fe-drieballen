@@ -1,6 +1,10 @@
 import {useHistory} from "react-router-dom";
+import {useContext} from 'react';
+import {AuthContext} from "../../context/AuthContext";
+import './NavBarAdmin.css'
 
 function NavBarAdmin() {
+    const { user } = useContext(AuthContext);
     const history = useHistory();
     return (
         <div>
@@ -9,7 +13,7 @@ function NavBarAdmin() {
                     <li>
                         <button
                             type="button"
-                            onClick={() => history.push('/profilePage')}>
+                            onClick={() => history.push(`/profile/${user.username}`)}>
                             My profile
                         </button>
                     </li>

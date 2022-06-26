@@ -11,6 +11,7 @@ function AuthContextProvider({ children }) {
         isAuth: false,
         user: null,
         status: 'pending',
+        roles: []
     });
     const history = useHistory();
 
@@ -33,14 +34,15 @@ function AuthContextProvider({ children }) {
         }
     }, []);
 
-    function login(JWT) {
+    function login(JWT, roles) {
         // zet de token in de Local Storage
         localStorage.setItem('token', JWT);
+        localStorage.setItem('roles', roles)
         // decode de token zodat we de ID van de gebruiker hebben en data kunnen ophalen voor de context
         const decoded = jwt_decode(JWT);
         console.log(decoded)
         // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
-        fetchUserData(decoded.sub, JWT, '/profilePage');
+        fetchUserData(decoded.sub, JWT, `/profile/${decoded.sub}`);
         // link de gebruiker door naar de profielpagina
         // history.push('/profilePage');
     }
@@ -51,6 +53,8 @@ function AuthContextProvider({ children }) {
             isAuth: false,
             user: null,
             status: 'done',
+            roles: [],
+
         });
 
         console.log('Gebruiker is uitgelogd!');
@@ -58,7 +62,7 @@ function AuthContextProvider({ children }) {
     }
 
     // Omdat we deze functie in login- en het mounting-effect gebruiken, staat hij hier gedeclareerd!
-    async function fetchUserData(id, token, redirectUrl) {
+    async function fetchUserData(id, token, roles, redirectUrl) {
         try {
             // haal gebruikersdata op met de token en id van de gebruiker
             const result = await axios.get(`http://localhost:8082/members/profile?username=${id}`, {
@@ -76,12 +80,11 @@ function AuthContextProvider({ children }) {
                     username: result.data.username,
                     email: result.data.email,
                     id: result.data.id,
+                    roles: roles,
                 },
                 status: 'done',
             });
 
-            // als er een redirect URL is meegegeven (bij het mount-effect doen we dit niet) linken we hier naartoe door
-            // als we de history.push in de login-functie zouden zetten, linken we al door voor de gebruiker is opgehaald!
             if (redirectUrl) {
                 history.push(redirectUrl);
             }
@@ -93,6 +96,7 @@ function AuthContextProvider({ children }) {
                 isAuth: false,
                 user: null,
                 status: 'done',
+                roles: [],
             });
         }
     }

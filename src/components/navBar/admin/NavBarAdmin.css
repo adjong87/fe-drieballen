@@ -1,0 +1,22 @@
+li {
+    list-style-type: none;
+    border: unset;
+    margin: unset;
+    display: inline-block;
+}
+
+.navbar-admin {
+    display: flex;
+    justify-content: space-around;
+    border: unset;
+    margin: unset;
+
+}
+
+li:hover{
+    background-color: yellow;
+}
+
+li:active{
+    background-color: blue;
+}

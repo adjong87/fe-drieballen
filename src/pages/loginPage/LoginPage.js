@@ -7,7 +7,7 @@ import {useForm} from 'react-hook-form';
 
 
 function LoginPage() {
-    const {login} = useContext(AuthContext);
+    const {login, isAuth } = useContext(AuthContext);
     const {register, handleSubmit, formState: {errors}} = useForm()
 
     const onFormSubmit = data => {
@@ -18,8 +18,8 @@ function LoginPage() {
                 data,
                 {headers: {'Content-Type': 'application/json'}}
             ).then(response => {
-                console.log("dit is de accessToken" + response.data.accessToken)
-                login(response.data.accessToken)
+                console.log("dit is de user info" + response.data.roles)
+                login(response.data.accessToken, response.data.roles)
             })
         } catch (e) {
             console.error(e.message)

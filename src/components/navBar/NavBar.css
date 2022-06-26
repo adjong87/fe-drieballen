@@ -1,20 +1,5 @@
-ul {
-    display: flex;
-    justify-content: space-around;
+body {
+    margin: unset;
+    border: unset;
 
-}
-
-li {
-    list-style-type: none;
-}
-
-.navbar-admin {
-}
-
-button:hover{
-    background-color: yellow;
-}
-
-button:active{
-    background-color: blue;
 }

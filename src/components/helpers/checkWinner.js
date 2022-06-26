@@ -1,5 +1,5 @@
 function CheckWinner(aimScore, sum){
-    if(sum >= aimScore){
+    if(aimScore <= sum){
         return true
     }
 }
