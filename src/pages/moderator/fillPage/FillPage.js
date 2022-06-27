@@ -10,6 +10,7 @@ import checkSum from "../../../components/helpers/checkSum";
 import showTurn from "../../../components/helpers/showTurn";
 import checkWinner from "../../../components/helpers/checkWinner";
 import Winner from '../../../assets/winner.svg'
+import Turn from "./components/Turn";
 
 function FillPage() {
 
@@ -20,6 +21,7 @@ function FillPage() {
     const [P1Active, setP1Active] = useState(true)
     const [finished, toggleFinished] = useState(false)
     const [successful, toggleSuccessful] = useState(false)
+
 
     const {id} = useParams();
 
@@ -80,35 +82,18 @@ function FillPage() {
 
     }
 
-    // function checkFinished() {
-    //     if(!P1Active && checkTurns && checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))){
-    //         toggleFinished(true)
-    //         console.log(finished)
-    //     }
-    //     else if(P1Active && checkTurns && !checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))){
-    //         setP1Active(!P1Active)
-    //     }
-    //     else if(checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))){
-    //         toggleFinished(true)
-    //     }
-    // }
-
-    //
-    //     if (!checkTurns && P1Active && !checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))) {
-    //         console.log("eerste gedeelte")
-    //     } else if (!P1Active && checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))) {
-    //         toggleFinished(true)
-    //         console.log("tweede gedeelte")
-    //     }
-    // }
-
     function passTurn() {
         checkTurns()
-        P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
-        (checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
+        {
+            P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
+        }
+        {
+            (checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
+        }
         {
             (checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
         }
+        console.log(finished)
         setPPT(0)
     }
 
@@ -166,7 +151,11 @@ function FillPage() {
                         </div>
                         <div className="scorecard-player-scores">
                             {!p1Score.length < 1 ? p1Score.map((turn, index) => {
-                                    return <p><b>Beurt {index + 1} </b> : {turn}</p>
+                                    return <Turn
+                                        key={index + turn}
+                                        index={index}
+                                        turn={turn}
+                                        score={p1Score}/>
                                 })
                                 : <p>Er is nog niet gespeeld</p>}
                         </div>
@@ -218,8 +207,12 @@ function FillPage() {
                             </div>
                         </div>
                         <div className="scorecard-player-scores">
-                            {!p2Score.length < 1 ? p2Score.map((turn, index) => {
-                                    return <p>Beurt {index + 1} {turn}</p>
+                            {!p1Score.length < 1 ? p2Score.map((turn, index) => {
+                                    return <Turn
+                                        key={index + turn}
+                                        index={index}
+                                        turn={turn}
+                                        score={p2Score}/>
                                 })
                                 : <p>Er is nog niet gespeeld</p>}
                         </div>

@@ -1,0 +1,63 @@
+.played-game-outer-container{
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    border-radius: 10px;
+    margin: 5px;
+    background-color: lightgray;
+    color: black;
+
+}
+
+.profile-page-inner-container{
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    align-content: space-between;
+
+}
+
+.played-game-outer-container:hover{
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    border-radius: 10px;
+    margin: 5px;
+    background-color: grey;
+    color: white;
+
+}
+
+.played-game-container-header {
+    display: flex;
+    align-self: center;
+    border: 2px solid red;
+}
+
+.played-game-container-header h3 {
+    color: darkgray;
+}
+
+.played-game-container-inner{
+    justify-content: space-between;
+    display: flex;
+    border: 2px solid orange;
+    align-items: center;
+}
+
+.played-game-player-winner{
+    border: 2px solid yellow;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+}
+
+.played-game-player-score{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    gap: 20px;
+}
+
+

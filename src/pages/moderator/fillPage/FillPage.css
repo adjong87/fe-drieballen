@@ -94,7 +94,7 @@
     display: flex;
     border: 1px solid pink;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .scorecard-game-info-container {

@@ -1,12 +1,22 @@
 import React, {useEffect, useState} from 'react';
+import {useParams} from "react-router-dom";
 import axios from "axios";
 import './ProfilePage.css';
-import {Link, useParams} from "react-router-dom";
+import Header from "../../components/header/Header";
+import PlayedGame from "./component/PlayedGame";
+import {AiFillCaretDown} from "react-icons/ai";
+import {AiFillCaretUp} from "react-icons/ai";
 
 function ProfilePage() {
 
-    const { username } = useParams();
+    const {username} = useParams();
     const [userData, setUserData] = useState({})
+    const [playedGames, setPlayedGames] = useState([])
+    const [isShown, toggleShown] = useState(true)
+
+    function handleClick() {
+        toggleShown(!isShown)
+    }
 
     async function fetchData() {
         try {
@@ -17,9 +27,11 @@ function ProfilePage() {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 })
-
             setUserData(result.data);
+            setPlayedGames(result.data.playedGames)
             console.log(userData);
+            console.log(playedGames);
+
         } catch (e) {
             console.error(e);
             console.log(e.response.data)
@@ -28,38 +40,43 @@ function ProfilePage() {
 
     useEffect(() => {
         fetchData()
+    }, []);
+
+
+    useEffect(() => {
+        fetchData()
     }, [username]);
+
 
     return (
         <>
-            {userData &&
-                <div className="profile-container">
-                    <h1>Welkom op je profiel pagina</h1>
-                    <span>Naam: {userData.firstName} {userData.lastName}</span>
-                    <span>Te behalen score: {userData.aimScore}</span>
-                </div>}
             {userData.playedGames &&
-                <table className="playedGames">
-                    <tr>
-                        <th>Wedstrijdnummer</th>
-                        <th>Speler 1</th>
-                        <th>Speler 2</th>
-                        <th>Gespeeld op:</th>
-                        <th>Aantal gespeelde beurten</th>
-                    </tr>
-                    {userData.playedGames.map((game, index) => {
-                        return <tr key={index}>
-                            <Link to={`/scorecards/${game.id.id}`}>
-                                <td>{game.id.id}</td>
-                            </Link>
-                            <td>{game.scoreCard.playerOneName}</td>
-                            <td>{game.scoreCard.playerTwoName}</td>
-                            <td>{game.scoreCard.gespeeldOp}</td>
-                            <td>{game.scoreCard.nrOfTurns}</td>
+                <Header
+                    title="Profiel van: "
+                    firstName={userData.firstName}
+                    lastName={userData.lastName}
+                    aimScore={userData.aimScore}
 
-                        </tr>
-                    })}
-                </table>}
+                />}
+            <div className="profile-page-outer-container">
+
+                <div className="profile-page-inner-container">
+
+
+                    {isShown && <div className="profile-page-playedgames-list">
+                        {playedGames && playedGames.map((game) => {
+                            return <PlayedGame
+                                id={game.id.id}
+                            />
+                        })}
+                    </div>}
+                </div>
+                {isShown ? <button className="toggle" onClick={handleClick}><h1><AiFillCaretUp/></h1></button> :
+                    <button className="toggle" onClick={handleClick}><h1><AiFillCaretDown/></h1></button>}
+
+
+
+            </div>
         </>
     )
 }

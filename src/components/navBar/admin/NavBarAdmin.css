@@ -1,4 +1,4 @@
-li {
+.navbar-admin li {
     list-style-type: none;
     border: unset;
     margin: unset;
@@ -17,6 +17,6 @@ li:hover{
     background-color: yellow;
 }
 
-li:active{
+button:active{
     background-color: blue;
 }

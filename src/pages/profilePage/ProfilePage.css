@@ -1,10 +1,26 @@
-.profile-container {
+.profile-page-outer-container {
     display: flex;
     flex-direction: column;
-    background-color: green;
+    border: 1px solid blue;
 }
 
-.player-profile-card:hover{
-    background-color: darkgray;
-    color: yellow;
+.profile-page-inner-container {
+
 }
+
+.profile-page-playedgames-list {
+    display: flex;
+    min-width: 500px;
+    width: 1025px;
+    flex-direction: column;
+}
+
+.toggle {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    border: 2px solid red;
+    align-self: center;
+
+}
+
