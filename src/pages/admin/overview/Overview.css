@@ -3,6 +3,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     border: 2px solid red;
+    min-width: 600px;
+    width: 1068px;
 
 }
 

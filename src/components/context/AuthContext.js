@@ -23,7 +23,7 @@ function AuthContextProvider({ children }) {
         // als er WEL een token is, haal dan opnieuw de gebruikersdata op
         if (token && isTokenValid(token)) {
             const decoded = jwt_decode(token);
-            fetchUserData(decoded.sub, token);
+            fetchUserData(decoded.sub, token,`/profile/${decoded.sub}`);
         } else {
             // als er GEEN token is doen we niks, en zetten we de status op 'done'
             toggleIsAuth({
@@ -43,6 +43,7 @@ function AuthContextProvider({ children }) {
         console.log(decoded)
         // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
         fetchUserData(decoded.sub, JWT, `/profile/${decoded.sub}`);
+        console.log(roles)
         // link de gebruiker door naar de profielpagina
         // history.push('/profilePage');
     }
@@ -62,10 +63,10 @@ function AuthContextProvider({ children }) {
     }
 
     // Omdat we deze functie in login- en het mounting-effect gebruiken, staat hij hier gedeclareerd!
-    async function fetchUserData(id, token, roles, redirectUrl) {
+    async function fetchUserData(id, token, redirectUrl) {
         try {
             // haal gebruikersdata op met de token en id van de gebruiker
-            const result = await axios.get(`http://localhost:8082/members/profile?username=${id}`, {
+            const result = await axios.get(`http://localhost:8082/profiles/profile?username=${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -79,8 +80,7 @@ function AuthContextProvider({ children }) {
                 user: {
                     username: result.data.username,
                     email: result.data.email,
-                    id: result.data.id,
-                    roles: roles,
+                    roles: result.data.roles,
                 },
                 status: 'done',
             });

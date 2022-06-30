@@ -20,7 +20,7 @@ function ProfilePage() {
 
     async function fetchData() {
         try {
-            const result = await axios.get(`http://localhost:8082/members/profile?username=${username}`,
+            const result = await axios.get(`http://localhost:8082/profiles/profile?username=${username}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -29,8 +29,6 @@ function ProfilePage() {
                 })
             setUserData(result.data);
             setPlayedGames(result.data.playedGames)
-            console.log(userData);
-            console.log(playedGames);
 
         } catch (e) {
             console.error(e);
@@ -53,29 +51,21 @@ function ProfilePage() {
             {userData.playedGames &&
                 <Header
                     title="Profiel van: "
-                    firstName={userData.firstName}
-                    lastName={userData.lastName}
-                    aimScore={userData.aimScore}
-
+                    data={userData}
+                    photo='none'
                 />}
             <div className="profile-page-outer-container">
-
                 <div className="profile-page-inner-container">
-
-
                     {isShown && <div className="profile-page-playedgames-list">
-                        {playedGames && playedGames.map((game) => {
+                        {playedGames && playedGames.map((game, index) => {
                             return <PlayedGame
                                 id={game.id.id}
-                            />
+                                key={index}/>
                         })}
                     </div>}
                 </div>
                 {isShown ? <button className="toggle" onClick={handleClick}><h1><AiFillCaretUp/></h1></button> :
                     <button className="toggle" onClick={handleClick}><h1><AiFillCaretDown/></h1></button>}
-
-
-
             </div>
         </>
     )

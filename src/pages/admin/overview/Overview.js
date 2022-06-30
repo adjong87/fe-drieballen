@@ -5,13 +5,14 @@ import './Overview.css'
 import plus from '../../../assets/plus.png'
 import PlayerCard from "./component/PlayerCard";
 import {Link} from "react-router-dom";
+import Header from "../../../components/header/Header";
 
 function Overview() {
     const [playersData, setPlayersData] = useState([]);
 
     async function fetchData() {
         try {
-            const result = await axios.get("http://localhost:8082/members/all",
+            const result = await axios.get("http://localhost:8082/profiles/all",
                 {
                     headers:
                         {
@@ -20,7 +21,6 @@ function Overview() {
                         }
                 })
             setPlayersData(result.data);
-            console.log(playersData)
         } catch (e) {
             console.error(e);
             console.log(e.response.data)
@@ -32,6 +32,9 @@ function Overview() {
     }, []);
 
     return (
+        <>
+        <Header
+            title="Het ledenoverzicht"/>
         <div className="player-profile-container">
             {playersData && playersData.map((player, index) => {
                 return <PlayerCard
@@ -43,11 +46,11 @@ function Overview() {
                     playedGames={player.playedGames.length}
                 />
             })}
-            <Link to="/AddMember" exact><div className="player-profile-card" key="newPlayer">
+            <Link to="/AddMember"><div className="player-profile-card" key="newPlayer">
                 <img src={plus} alt="addMember"/>
             </div></Link>
         </div>
-
+        </>
     )
 }
 export default Overview

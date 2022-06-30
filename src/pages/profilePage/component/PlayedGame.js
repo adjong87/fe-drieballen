@@ -25,7 +25,6 @@ function PlayedGame({id}) {
                     }
                 })
             setScoreData(result.data);
-            console.log(scoreData);
         } catch (e) {
             console.error(e);
             console.log(e.response.data)
