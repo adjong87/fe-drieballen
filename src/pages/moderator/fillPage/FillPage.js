@@ -152,7 +152,7 @@ function FillPage() {
                         <div className="scorecard-player-scores">
                             {!p1Score.length < 1 ? p1Score.map((turn, index) => {
                                     return <Turn
-                                        key={index + turn}
+                                        key={index + "p1"}
                                         index={index}
                                         turn={turn}
                                         score={p1Score}/>
@@ -209,7 +209,7 @@ function FillPage() {
                         <div className="scorecard-player-scores">
                             {!p1Score.length < 1 ? p2Score.map((turn, index) => {
                                     return <Turn
-                                        key={index + turn}
+                                        key={index + "p2"}
                                         index={index}
                                         turn={turn}
                                         score={p2Score}/>

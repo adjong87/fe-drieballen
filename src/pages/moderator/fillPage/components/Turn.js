@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {AiOutlineSave} from "react-icons/ai";
 import {ImWrench} from "react-icons/im";
 
-function Turn({key, index, turn, score}) {
+function Turn({index, turn, score}) {
 
     const [correct, toggleCorrect] = useState(true)
     const [correctScore, setCorrectScore] = useState(turn)
@@ -19,8 +19,7 @@ function Turn({key, index, turn, score}) {
         <>
             {correct ?
                 <div
-                    className="player-turn"
-                    key={key}>
+                    className="player-turn">
                     <span>Beurt{index + 1} : {correctScore}</span>
                     <button onClick={(() => {
                         toggleCorrect(false)

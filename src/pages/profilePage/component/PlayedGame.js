@@ -37,7 +37,7 @@ function PlayedGame({id}) {
 
     return <>
         {scoreData && !scoreData.nrOfTurns < 1 &&
-            <Link to={`/scorecards/${scoreData.id}`} style={linkStyle}>
+            <Link to={`/scorecards/donecard?id=${scoreData.id}`} style={linkStyle}>
                 <div className="played-game-outer-container" key={scoreData.id}>
                     <div className="played-game-container-header">
                         <h3>Gespeeld op {scoreData.gespeeldOp}</h3>

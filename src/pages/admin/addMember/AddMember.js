@@ -218,7 +218,6 @@ export default function AddMember() {
                                         name="role"
                                         type="checkbox"
                                         value="USER"
-                                        checked="true"
                                         {...register('role', {
                                             required: 'Dit veld is verplicht'
 

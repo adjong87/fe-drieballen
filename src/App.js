@@ -22,7 +22,7 @@ function PrivateRoute({ children, isAuth, ...rest}) {
 
 function App() {
     const {isAuth} = useContext(AuthContext);
-
+    console.log(isAuth)
     return (
         <>
             <NavBar/>

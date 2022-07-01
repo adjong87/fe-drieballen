@@ -7,11 +7,15 @@ import isTokenValid from '../helpers/isTokenValid';
 export const AuthContext = createContext({});
 
 function AuthContextProvider({ children }) {
+    const [userRoles, setUserRoles] = useState([])
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
-        user: null,
+        user: {
+            username: '',
+            email: '',
+            roles: []
+        },
         status: 'pending',
-        roles: []
     });
     const history = useHistory();
 
@@ -23,7 +27,11 @@ function AuthContextProvider({ children }) {
         // als er WEL een token is, haal dan opnieuw de gebruikersdata op
         if (token && isTokenValid(token)) {
             const decoded = jwt_decode(token);
-            fetchUserData(decoded.sub, token,`/profile/${decoded.sub}`);
+
+            console.log("bovenste log")
+            console.log(token);
+            fetchUserData(decoded.sub, token);
+
         } else {
             // als er GEEN token is doen we niks, en zetten we de status op 'done'
             toggleIsAuth({
@@ -37,15 +45,12 @@ function AuthContextProvider({ children }) {
     function login(JWT, roles) {
         // zet de token in de Local Storage
         localStorage.setItem('token', JWT);
-        localStorage.setItem('roles', roles)
         // decode de token zodat we de ID van de gebruiker hebben en data kunnen ophalen voor de context
         const decoded = jwt_decode(JWT);
-        console.log(decoded)
         // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
-        fetchUserData(decoded.sub, JWT, `/profile/${decoded.sub}`);
-        console.log(roles)
+        fetchUserData(decoded.sub, JWT, `/profile/${decoded.sub}`, roles);
         // link de gebruiker door naar de profielpagina
-        // history.push('/profilePage');
+        // history.push('/profile');
     }
 
     function logout() {
@@ -54,8 +59,6 @@ function AuthContextProvider({ children }) {
             isAuth: false,
             user: null,
             status: 'done',
-            roles: [],
-
         });
 
         console.log('Gebruiker is uitgelogd!');
@@ -63,16 +66,17 @@ function AuthContextProvider({ children }) {
     }
 
     // Omdat we deze functie in login- en het mounting-effect gebruiken, staat hij hier gedeclareerd!
-    async function fetchUserData(id, token, redirectUrl) {
+    async function fetchUserData(id, token, redirectUrl, roles) {
         try {
             // haal gebruikersdata op met de token en id van de gebruiker
-            const result = await axios.get(`http://localhost:8082/profiles/profile?username=${id}`, {
+            const result = await axios.get(`http://localhost:8082/profiles/getUserData/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             });
-
+            setUserRoles(roles)
+            console.log("fetchuserdata functie" + roles)
             // zet de gegevens in de state
             toggleIsAuth({
                 ...isAuth,
@@ -80,11 +84,14 @@ function AuthContextProvider({ children }) {
                 user: {
                     username: result.data.username,
                     email: result.data.email,
-                    roles: result.data.roles,
+                    roles: [...roles, userRoles],
                 },
                 status: 'done',
             });
+            console.log(isAuth)
 
+            // als er een redirect URL is meegegeven (bij het mount-effect doen we dit niet) linken we hiernnaartoe door
+            // als we de history.push in de login-functie zouden zetten, linken we al door voor de gebuiker is opgehaald!
             if (redirectUrl) {
                 history.push(redirectUrl);
             }
@@ -96,7 +103,6 @@ function AuthContextProvider({ children }) {
                 isAuth: false,
                 user: null,
                 status: 'done',
-                roles: [],
             });
         }
     }

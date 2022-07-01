@@ -11,14 +11,12 @@ function LoginPage() {
     const {register, handleSubmit, formState: {errors}} = useForm()
 
     const onFormSubmit = data => {
-        console.log(data)
         try {
             axios.post(
                 "http://localhost:8082/api/auth/signIn",
                 data,
                 {headers: {'Content-Type': 'application/json'}}
             ).then(response => {
-                console.log("dit is de user info" + response.data.roles)
                 login(response.data.accessToken, response.data.roles)
             })
         } catch (e) {

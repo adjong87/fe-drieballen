@@ -7,7 +7,7 @@ import CheckSum from "../helpers/checkSum";
 import Winner from '../../assets/winner.svg'
 import CheckWinner from "../helpers/checkWinner";
 import Squiggle from '../../assets/squiggle.svg'
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 function ScoreCard() {
     const [scoreCardData, setScoreCardData] = useState({})
@@ -15,7 +15,7 @@ function ScoreCard() {
 
     async function fetchScoreCard() {
         try {
-            const result = await axios.get(`http://localhost:8082/scorecards/card?id=${id}`,
+            const result = await axios.get(`http://localhost:8082/scorecards/donecard?id=${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
