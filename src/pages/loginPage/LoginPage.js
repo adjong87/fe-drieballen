@@ -7,17 +7,17 @@ import {useForm} from 'react-hook-form';
 
 
 function LoginPage() {
-    const {login, isAuth } = useContext(AuthContext);
+    const { isAuth, login } = useContext(AuthContext);
     const {register, handleSubmit, formState: {errors}} = useForm()
 
-    const onFormSubmit = data => {
+    const onFormSubmit = async data => {
         try {
-            axios.post(
+            await axios.post(
                 "http://localhost:8082/api/auth/signIn",
                 data,
                 {headers: {'Content-Type': 'application/json'}}
             ).then(response => {
-                login(response.data.accessToken, response.data.roles)
+                login(response.data.accessToken)
             })
         } catch (e) {
             console.error(e.message)

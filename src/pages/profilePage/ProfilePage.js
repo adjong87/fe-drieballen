@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import './ProfilePage.css';
+import {AuthContext} from "../../components/context/AuthContext";
 
 function ProfilePage() {
-
     const {username} = useParams();
     const [userData, setUserData] = useState({})
+    const { user } = useContext(AuthContext);
 
     async function fetchData() {
         try {
@@ -31,7 +32,7 @@ function ProfilePage() {
     if(userData){
     return (
         <>
-
+            {user.username}
             <div className="container">
                 <div className="player_info">
                     {userData.firstName} {userData.lastName}
