@@ -21,7 +21,7 @@ function PrivateRoute({ children, isAuth, ...rest}) {
 }
 
 function App() {
-    const {isAuth} = useContext(AuthContext);
+    const {user, isAuth} = useContext(AuthContext);
     console.log(isAuth)
 
     return (
@@ -31,15 +31,12 @@ function App() {
                     <Route exact path="/">
                         <LoginPage/>
                     </Route>
-                    <Route exact path="/AddMember">
-                        <AddMember/>
-                    </Route>
-                    <Route exact path="/overview">
-                        <Overview/>
-                    </Route>
-                    <Route exact path="/create">
-                        <CreateGamePage />
-                    </Route>
+                    <PrivateRoute exact path="/addmember" isAuth={isAuth}>
+                        <AddMember />
+                    </PrivateRoute>
+                    <PrivateRoute exact path="/profile" isAuth={isAuth}>
+                        <Profile />
+                    </PrivateRoute>
                     <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
                         <Profile />
                     </PrivateRoute>
@@ -54,6 +51,12 @@ function App() {
                     </PrivateRoute>
                     <PrivateRoute exact path="/scorecard" isAuth={isAuth}>
                         <ScoreCard/>
+                    </PrivateRoute>
+                    <PrivateRoute exact path="/overview" isAuth={isAuth}>
+                        <Overview />
+                    </PrivateRoute>
+                    <PrivateRoute exact path="/create" isAuth={isAuth}>
+                        <CreateGamePage />
                     </PrivateRoute>
                     {/*<Route exact path="/loginPage">*/}
                     {/*    <Login />*/}

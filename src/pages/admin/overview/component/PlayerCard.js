@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 function PlayerCard({username, firstName, lastName, aimScore}) {
 
     return (
-        <Link to={`/profile/${username}`}>
+        <Link exact to={`./profile/${username}`}>
             <div
                 className="player-profile-card">
                 <span className="aimScore"><h3>{aimScore}</h3></span>

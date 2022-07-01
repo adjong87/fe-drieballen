@@ -4,10 +4,11 @@ import axios from "axios";
 import './ProfilePage.css';
 import {AuthContext} from "../../components/context/AuthContext";
 
-function ProfilePage() {
-    const {username} = useParams();
+function ProfilePage({}) {
+    const {user} = useContext(AuthContext);
     const [userData, setUserData] = useState({})
-    const { user } = useContext(AuthContext);
+   const { username } = useParams()
+
 
     async function fetchData() {
         try {
@@ -21,18 +22,16 @@ function ProfilePage() {
             setUserData(result.data);
         } catch (e) {
             console.error(e);
-            console.log(e.response.data)
         }
     }
 
     useEffect(() => {
         fetchData()
-    }, [username]);
+    }, []);
 
     if(userData){
     return (
         <>
-            {user.username}
             <div className="container">
                 <div className="player_info">
                     {userData.firstName} {userData.lastName}

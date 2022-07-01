@@ -43,7 +43,7 @@ function AuthContextProvider({ children }) {
         const decoded = jwt_decode(JWT);
 
         // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
-        fetchUserData(decoded.sub, JWT, `/profile/${decoded.sub}`);
+        fetchUserData(decoded.sub, JWT, `./profile/${decoded.sub}`);
         // link de gebruiker door naar de profielpagina
         // history.push('/profile');
     }

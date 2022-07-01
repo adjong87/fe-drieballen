@@ -1,119 +1,51 @@
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import './NavBar.css'
 import {useState} from "react";
 import {useContext} from 'react';
 import {AuthContext} from "../context/AuthContext";
-
+import balls from '../../assets/balls.png'
+import {navItems} from "./component/navItems";
+import Button from './component/Button'
+import Dropdown from "./Dropdown";
 
 function NavBar() {
-    const {user, roles} = useContext(AuthContext)
+    const [dropdown, setDropdown] = useState(false);
+    const {isAuth, user, roles} = useContext(AuthContext)
     const [userRole, setUserRole] = useState(roles)
     const history = useHistory();
-
-    const rollen = userRole.map((role) => {
-        return role.name;
-    });
-
-    if (rollen.includes('ROLE_ADMIN')) {
-        return <>
-            <nav className="navBar">
-                <ul>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push(`/`)}>
-                            Home
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push(`/profile/${user.username}`)}>
-                            My profile
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push('/addMember')}>
-                            Add new member
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push('/overview')}>
-                            Overview
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push('/create')}>
-                            Create Game
-                        </button>
-                    </li>
+    return (
+        <>
+            <nav className="navbar">
+                <Link to="/" className="navbar-logo">
+                    DE DRIE BALLEN
+                    <img src={balls} alt="logo"/>
+                </Link>
+                <ul className="nav-items">
+                    {isAuth && navItems.map(item => {
+                        if (item.title === "Leden") {
+                            return (
+                                <li
+                                    key={item.id}
+                                    className={item.cName}
+                                    onMouseEnter={() => setDropdown(true)}
+                                    onMouseLeave={() => setDropdown(false)}
+                                >
+                                    <Link to={item.path}>{item.title}</Link>
+                                    {dropdown && <Dropdown />}
+                                </li>
+                            );
+                        }
+                        return (
+                            <li key={item.id} className={item.cName}>
+                                <Link to={item.path}>{item.title}</Link>
+                            </li>
+                        );
+                    })}
                 </ul>
+                <Button />
             </nav>
         </>
-    } else if (rollen.includes('ROLE_MODERATOR')) {
-        return <>
-            <nav className="navBar">
-                <ul>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push(`/`)}>
-                            Home
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push('/gamecheck')}>
-                            Games to judge
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push('/scorecard')}>
-                            Scorecard
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </>
-    } else {
-        return <>
-            <nav className="navBar">
-                <ul>
-                    <li>
-                            <button
-                                type="button"
-                                onClick={() => history.push(`/`)}>
-                                Home
-                            </button>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push('/gamecheck')}>
-                            Games to judge
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            type="button"
-                            onClick={() => history.push('/scorecard')}>
-                            Scorecard
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </>
-    }
-
+    )
 }
 
 export default NavBar;
