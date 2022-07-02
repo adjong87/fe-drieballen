@@ -1,83 +1,95 @@
-import React, {useContext} from "react";
+import React, {useEffect, useState} from 'react';
 import './LoginPage.css'
-import balls from '../../assets/balls.png'
 import axios from "axios";
-import {AuthContext} from "../../components/context/AuthContext";
-import {useForm} from 'react-hook-form';
+import {useHistory} from "react-router-dom";
 
 
 function LoginPage() {
-    const { isAuth, login } = useContext(AuthContext);
-    const {register, handleSubmit, formState: {errors}} = useForm()
+    // state voor het formulier
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    const onFormSubmit = async data => {
+    // state voor functionaliteit
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
+
+    // we maken een canceltoken aan voor ons netwerk-request
+    const source = axios.CancelToken.source();
+    const history = useHistory();
+
+    // mocht onze pagina ge-unmount worden voor we klaar zijn met data ophalen, aborten we het request
+    useEffect(() => {
+        return function cleanup() {
+            source.cancel();
+        }
+    }, []);
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        toggleError(false);
+        toggleLoading(true);
+
+
         try {
-            await axios.post(
-                "http://localhost:8082/api/auth/signIn",
-                data,
-                {headers: {'Content-Type': 'application/json'}}
-            ).then(response => {
-                login(response.data.accessToken)
-            })
+            await axios.post('http://localhost:8082/api/auth/signIn', {
+                username: username,
+                password: password
+            }, {
+                headers: {'Content-Type': 'application/json'},
+                cancelToken: source.token,
+            });
+
+            // als alles goed gegaan is, linken we dyoor naar de login-pagina
+            history.push('/signin');
         } catch (e) {
-            console.error(e.message)
+            console.error(e);
+            toggleError(true);
         }
 
-    };
+        toggleLoading(false);
+    }
 
     return (
         <>
-            <div className="login-outer-container">
-                <div className="login-fill-container">
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="gebruikersnaam">
+                        Gebruikersnaam:
+                        <input
+                            type="text"
+                            id="gebruikersnaam"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Vul hier je gebruikersnaam in"
+                        />
+                    </label>
                 </div>
-                <div className="login-center-container">
-                    <div className="login-center-inner-container">
-                        <div className="login-center-container-top">
-                            <img src={balls} alt="ballen"/>
-                            <h1>Inloggen bij de Drie Ballen</h1>
-                        </div>
-                        <div className="login-center-container-bottom">
-                            <form onSubmit={handleSubmit(onFormSubmit)}>
-                                <div className="login-form-group">
-                                    <label htmlFor="username">
-                                        Gebruikersnaam
-                                        <input
-                                            type="text"
-                                            id="username"
-                                            {...register("username", {
-                                                required: "Username mag niet leeg zijn.",
-                                            })}
-                                            placeholder="username"/>
-                                    </label>
-                                    {errors.username && <p>{errors.username.message}</p>}
-                                </div>
-                                <div className="login-form-group">
-                                    <label htmlFor="password">
-                                        Wachtwoord:
-                                        <input
-                                            type="password"
-                                            id="password"
-                                            {...register("password")}
-                                            placeholder="wachtwoord"
-                                        />
-                                    </label>
-                                    {errors.password && <p>{errors.password.message}</p>}
-                                </div>
-                                <div className="login-form-group">
-                                    <button className="btn btn-primary btn-block">
-                                        <span>Login</span>
-                                    </button>
-                                </div>
+                <div className="form-group">
 
-                            </form>
-                        </div>
-                    </div>
+                    <label htmlFor="wachtwoord">
+                        Wachtwoord:
+                        <input
+                            type="password"
+                            id="wachtwoord"
+                            name="password"
+                            value={password}
+                            placeholder="Vul hier je wachtwoord in"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </label>
                 </div>
-                <div className="login-fill-container">
-                </div>
-            </div>
+                {error && <p className="error">Er bestaat reeds een gebruiker op basis van deze gegevens.</p>}
+                <button
+                    type="submit"
+                    className="form-button"
+                    disabled={loading}
+                >
+                    Login
+                </button>
+            </form>
         </>
     )
+
 
 }
 

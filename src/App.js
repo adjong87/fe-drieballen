@@ -4,40 +4,43 @@ import NavBar from './components/navBar/NavBar';
 import Profile from './pages/profilePage/ProfilePage';
 import {AuthContext} from './components/context/AuthContext';
 import './App.css';
-import LoginPage from "./pages/loginPage/LoginPage";
 import Overview from "./pages/admin/overview/Overview";
 import CreateGamePage from "./pages/admin/createGamePage/CreateGamePage";
 import AddMember from "./pages/admin/addMember/AddMember";
 import ScoreCard from "./components/scoreCard/ScoreCard";
 import ScoreCardOverview from "./pages/moderator/scoreCardOverview/ScoreCardOverView";
 import FillPage from "./pages/moderator/fillPage/FillPage";
+import Home from "./pages/Home";
 
-function PrivateRoute({ children, isAuth, ...rest}) {
+function PrivateRoute({children, isAuth, ...rest}) {
     return (
         <Route {...rest}>
-            {isAuth ? children : <Redirect to="/" />}
+            {isAuth ? children : <Redirect to="/"/>}
         </Route>
     )
 }
 
 function App() {
-    const {user, isAuth} = useContext(AuthContext);
+    const {isAuth} = useContext(AuthContext);
     console.log(isAuth)
 
     return (
         <>
-            <NavBar/>
+                <NavBar/>
                 <Switch>
                     <Route exact path="/">
-                        <LoginPage/>
+                        <Home/>
                     </Route>
-                    <PrivateRoute exact path="/addmember" isAuth={isAuth}>
-                        <AddMember />
+                    <Route exact path="/AddMember">
+                        <AddMember/>
+                    </Route>
+                    <PrivateRoute exact path="/overview" isAuth={isAuth}>
+                        <Overview/>
                     </PrivateRoute>
-                    <PrivateRoute exact path="/profile" isAuth={isAuth}>
-                        <Profile />
+                    <PrivateRoute exact path="create" isAuth={isAuth}>
+                        <CreateGamePage />
                     </PrivateRoute>
-                    <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
+                    <PrivateRoute exact path="/profile/:username">
                         <Profile />
                     </PrivateRoute>
                     <PrivateRoute exact path="/scorecards/:id" isAuth={isAuth}>
@@ -52,12 +55,6 @@ function App() {
                     <PrivateRoute exact path="/scorecard" isAuth={isAuth}>
                         <ScoreCard/>
                     </PrivateRoute>
-                    <PrivateRoute exact path="/overview" isAuth={isAuth}>
-                        <Overview />
-                    </PrivateRoute>
-                    <PrivateRoute exact path="/create" isAuth={isAuth}>
-                        <CreateGamePage />
-                    </PrivateRoute>
                     {/*<Route exact path="/loginPage">*/}
                     {/*    <Login />*/}
                     {/*</Route>*/}
@@ -65,7 +62,7 @@ function App() {
                     {/*/!*    <NewMember />*!/*/}
                     {/*</Route>*/}
                 </Switch>
-        </>
+                   </>
     );
 }
 

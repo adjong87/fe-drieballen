@@ -11,7 +11,6 @@ function AuthContextProvider({ children }) {
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
         user: null,
-        roles: [],
         status: 'pending',
     });
     const history = useHistory();
@@ -30,7 +29,6 @@ function AuthContextProvider({ children }) {
             toggleIsAuth({
                 isAuth: false,
                 user: null,
-                roles: [],
                 status: 'done',
             });
         }
@@ -53,7 +51,6 @@ function AuthContextProvider({ children }) {
         toggleIsAuth({
             isAuth: false,
             user: null,
-            roles: [],
             status: 'done',
         });
 
@@ -71,7 +68,6 @@ function AuthContextProvider({ children }) {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log(result)
             setUserRoles(result.data.roles)
             // zet de gegevens in de state
             toggleIsAuth({
@@ -81,9 +77,9 @@ function AuthContextProvider({ children }) {
                     username: result.data.username,
                     email: result.data.email,
                 },
-                roles: [],
                 status: 'done',
             });
+
             // als er een redirect URL is meegegeven (bij het mount-effect doen we dit niet) linken we hiernnaartoe door
             // als we de history.push in de login-functie zouden zetten, linken we al door voor de gebuiker is opgehaald!
             if (redirectUrl) {
@@ -112,6 +108,9 @@ function AuthContextProvider({ children }) {
     return (
         <AuthContext.Provider value={contextData}>
             {isAuth.status === 'done' ? children : <p>Loading...</p>}
+            {isAuth.status === 'done' && children}
+            {isAuth.status === 'pending' && <p>Loading...</p>}
+            {isAuth.status === 'error' && <p>Error! Refresh de pagina!</p>}
         </AuthContext.Provider>
     );
 }

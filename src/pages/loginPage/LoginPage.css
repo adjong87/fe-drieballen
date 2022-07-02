@@ -3,61 +3,7 @@
     margin: 0;
 }
 
-.login-outer-container{
-    display: flex;
-    justify-content: space-evenly;
-    background-image: url(../../assets/laken.jpg);
-    height: 1000px;
-    width: 1000px;
-}
+.form-group{
+    align-self: center;
 
-.login-fill-container{
-    display: flex;
-    width: 100px;
-    flex-shrink: 4;
-    color: yellow;
-}
-
-.login-center-inner-container{
-    background-color: #33312F;
-    border-radius: 5px;
-}
-
-.login-center-container{
-    margin: 20px;
-
-}
-
-.login-center-container-top {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin: 10px;
-    background-color: #33312F;
-    color: #F4ECE5;
-
-}
-
-.login-center-container-bottom{
-    display: flex;
-    color: #F4ECE5;
-}
-
-.login-form-group{
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-    width: 400px;
-    padding: 10px;
-}
-
-.login-form-group input {
-    border-radius: 5px;
-}
-
-.login-form-group button {
-    border-radius: 5px;
-    width: 50px;
 }

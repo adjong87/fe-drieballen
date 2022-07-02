@@ -1,25 +1,20 @@
 export const navItems = [
+
     {
         id: 1,
-        title: "Home",
-        path: "/",
+        title: "Leden",
+        path: "/members",
         cName: "nav-item",
     },
     {
         id: 2,
-        title: "Mijn Profiel",
-        path: `/profile`,
-        cName: "nav-item",
-    },
-    {
-        id: 3,
-        title: "Leden",
-        path: "/members",
+        title: "Wedstrijden",
+        path: "",
         cName: "nav-item",
     }
 ];
 
-export const ledenDropdown = [
+export const AdminDropdown = [
     {
         id: 1,
         title: "Overzicht",
@@ -34,8 +29,23 @@ export const ledenDropdown = [
     },
     {
         id: 3,
-        title: "Zet eem wedstrijd op",
+        title: "Zet een wedstrijd op",
         path: "/create",
+        cName: "submenu-item",
+    }
+];
+
+export const RefereeDropdown = [
+    {
+        id: 1,
+        title: "Beschikbare wedstrijden",
+        path: "/gamecheck",
+        cName: "submenu-item",
+    },
+    {
+        id: 2,
+        title: "Score corrigeren",
+        path: "/addmember",
         cName: "submenu-item",
     }
 ];

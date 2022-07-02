@@ -2,7 +2,6 @@ import React from 'react';
 import './CreateGamePage.css'
 import {useEffect, useState} from 'react'
 import axios from "axios";
-import Header from "../../../components/header/Header";
 
 
 function CreateGamePage() {
@@ -31,7 +30,6 @@ function CreateGamePage() {
                         }
                 })
             setAllPlayers(result.data);
-            console.log(allPlayers)
         } catch (e) {
             console.error(e);
             console.log(e.response.data)
@@ -73,8 +71,6 @@ function CreateGamePage() {
 
     return (
         <>
-            <Header
-                title="WHO's READY TO RUMBLE!?"/>
             {allPlayers &&
                 <div className="create-game-container">
                     <div className="player-containers">

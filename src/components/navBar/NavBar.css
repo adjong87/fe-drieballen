@@ -26,7 +26,6 @@
 .nav-items {
     display: flex;
     list-style: none;
-    text-align: center;
     width: 70vw;
     justify-content: flex-end;
     margin-right: 2rem;

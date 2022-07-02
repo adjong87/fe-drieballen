@@ -1,14 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import './ProfilePage.css';
-import {AuthContext} from "../../components/context/AuthContext";
 
-function ProfilePage({}) {
-    const {user} = useContext(AuthContext);
+function ProfilePage() {
     const [userData, setUserData] = useState({})
-   const { username } = useParams()
-
+    const { username } = useParams()
 
     async function fetchData() {
         try {

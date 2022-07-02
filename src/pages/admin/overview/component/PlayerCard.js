@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 
 function PlayerCard({username, firstName, lastName, aimScore}) {
 
     return (
-        <Link exact to={`./profile/${username}`}>
+        <Link to={`/profile/${username}`}>
             <div
                 className="player-profile-card">
                 <span className="aimScore"><h3>{aimScore}</h3></span>

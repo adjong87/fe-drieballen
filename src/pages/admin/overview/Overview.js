@@ -5,7 +5,6 @@ import './Overview.css'
 import plus from '../../../assets/plus.png'
 import PlayerCard from "./component/PlayerCard";
 import {Link} from "react-router-dom";
-import Header from "../../../components/header/Header";
 
 function Overview() {
     const [playersData, setPlayersData] = useState([]);
@@ -34,8 +33,6 @@ function Overview() {
 
     return (
         <>
-            <Header
-                title="Het ledenoverzicht"/>
             <div className="player-profile-container">
                 {playersData && playersData.map((player, index) => {
                     return <PlayerCard

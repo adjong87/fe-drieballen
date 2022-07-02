@@ -3,7 +3,6 @@ import {useForm} from 'react-hook-form';
 import './AddMember.css'
 import {useState} from 'react';
 import axios from "axios";
-import Header from "../../../components/header/Header";
 
 export default function AddMember() {
 
@@ -37,8 +36,7 @@ export default function AddMember() {
 
     return (
                 <>
-            <Header
-                title="MAAK EEN NIEUWE GEBRUIKER AAN" />
+
             {!successful ?
                 <div className="add-member-container">
                     <div className="add-member-form">

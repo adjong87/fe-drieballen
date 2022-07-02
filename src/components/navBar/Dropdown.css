@@ -6,15 +6,15 @@
     text-align: start;
 }
 
-.leden-submenu li {
+.leden-submenu > li {
     background-color: rgb(0, 212, 212);
     cursor: pointer;
 }
 
-.leden-submenu li a:hover {
+.leden-submenu > li a:hover {
     background: rgb(0, 175, 175);
 }
-.leden-submenu.clicked {
+.leden-submenu.clicked > {
     display: none;
 }
 
@@ -27,3 +27,22 @@
     padding: 16px;
 }
 
+.referee-submenu {
+    width: 10rem;
+    position: absolute;
+    top: 67px;
+    list-style: none;
+    text-align: start;
+}
+
+.referee-submenu li {
+    background-color: rgb(0, 212, 212);
+    cursor: pointer;
+}
+
+.referee-submenu li a:hover {
+    background: rgb(0, 175, 175);
+}
+.referee-submenu.clicked {
+    display: none;
+}
