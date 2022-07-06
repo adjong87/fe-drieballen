@@ -2,8 +2,8 @@ import React from 'react';
 import './CreateGamePage.css'
 import {useEffect, useState} from 'react'
 import axios from "axios";
-import PlayerCard from './component/PlayerCard'
-import root from "react-dom";
+import PlayerCard from "../../../components/playerCard/PlayerCard";
+
 
 function CreateGamePage() {
 
@@ -75,13 +75,14 @@ function CreateGamePage() {
                 <div className="create-game-container">
                     <div className="create-game-inner-sides">
                         <div className="create-game-inner-side-player-selected">
-                            {playerEen}
+
                         </div>
 
                         <div className="create-game-inner-side-player-selection">
                             <div>
                                 <PlayerCard
-                                    firstName={}
+                                    username={playerOne}
+                                    key={playerOne}/>
                             </div>
                             <form>
                                 <label htmlFor="playerOne"></label>
@@ -103,12 +104,13 @@ function CreateGamePage() {
                     </div>
                     <div className="create-game-inner-sides">
 
-                        <div className="create-game-inner-side-player-selected">
-                            <PlayerCard
-                                username={playerTwo.username}
-                                page="create"/>
-                        </div>
+
                         <div className="create-game-inner-side-player-selection">
+                            <div>
+                                <PlayerCard
+                                    username={playerTwo}
+                                    key={playerTwo}/>
+                            </div>
                             <form>
                                 <label htmlFor="playerTwo"></label>
                                 <select name="playerTwoSelect" id="p2"
