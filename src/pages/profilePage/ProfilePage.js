@@ -1,66 +1,48 @@
 import React, {useEffect, useState} from 'react';
+import {useParams} from "react-router-dom";
 import axios from "axios";
 import './ProfilePage.css';
-import {Link, useParams} from "react-router-dom";
+import PlayerCard from "../../components/playerCard/PlayerCard";
+import PlayedGame from "./component/PlayedGame";
 
 function ProfilePage() {
-
-    const { username } = useParams();
-    const [userData, setUserData] = useState({})
-
-    async function fetchData() {
-        try {
-            const result = await axios.get(`http://localhost:8082/members/profile?username=${username}`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`
-                    }
-                })
-
-            setUserData(result.data);
-            console.log(userData);
-        } catch (e) {
-            console.error(e);
-            console.log(e.response.data)
-        }
-    }
+    const {username} = useParams();
+    const [profile, setProfile] = useState([])
 
     useEffect(() => {
-        fetchData()
-    }, [username]);
+        async function fetchProfile() {
+            try {
+                const response = await axios.get(`http://localhost:8082/playedgame/find?username=${username}`,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem("token")}`
+                        }
+                    })
+                setProfile(response.data);
+                console.log(response.data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
 
+        fetchProfile();
+    }, []);
     return (
         <>
-            {userData &&
-                <div className="profile-container">
-                    <h1>Welkom op je profiel pagina</h1>
-                    <span>Naam: {userData.firstName} {userData.lastName}</span>
-                    <span>Te behalen score: {userData.aimScore}</span>
-                </div>}
-            {userData.playedGames &&
-                <table className="playedGames">
-                    <tr>
-                        <th>Wedstrijdnummer</th>
-                        <th>Speler 1</th>
-                        <th>Speler 2</th>
-                        <th>Gespeeld op:</th>
-                        <th>Aantal gespeelde beurten</th>
-                    </tr>
-                    {userData.playedGames.map((game, index) => {
-                        return <tr key={index}>
-                            <Link to={`/scorecards/${game.id.id}`}>
-                                <td>{game.id.id}</td>
-                            </Link>
-                            <td>{game.scoreCard.playerOneName}</td>
-                            <td>{game.scoreCard.playerTwoName}</td>
-                            <td>{game.scoreCard.gespeeldOp}</td>
-                            <td>{game.scoreCard.nrOfTurns}</td>
+            <div className="profile-container">
+                <PlayerCard username={username}/>
 
-                        </tr>
+                <div className="playedGames-list-container">
+                    {profile && profile.map((scoreCard, index) => {
+                        return <PlayedGame
+                            id={scoreCard.scoreCard.id}
+                            key={index}/>
                     })}
-                </table>}
+                </div>
+            </div>
         </>
+
     )
 }
 

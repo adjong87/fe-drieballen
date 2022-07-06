@@ -7,11 +7,11 @@ import isTokenValid from '../helpers/isTokenValid';
 export const AuthContext = createContext({});
 
 function AuthContextProvider({ children }) {
+    const [userRoles, setUserRoles] = useState([])
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
         user: null,
         status: 'pending',
-        roles: []
     });
     const history = useHistory();
 
@@ -34,17 +34,16 @@ function AuthContextProvider({ children }) {
         }
     }, []);
 
-    function login(JWT, roles) {
+    function login(JWT) {
         // zet de token in de Local Storage
         localStorage.setItem('token', JWT);
-        localStorage.setItem('roles', roles)
         // decode de token zodat we de ID van de gebruiker hebben en data kunnen ophalen voor de context
         const decoded = jwt_decode(JWT);
-        console.log(decoded)
+
         // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
-        fetchUserData(decoded.sub, JWT, `/profile/${decoded.sub}`);
+        fetchUserData(decoded.sub, JWT, `./profile/${decoded.sub}`);
         // link de gebruiker door naar de profielpagina
-        // history.push('/profilePage');
+        // history.push('/profile');
     }
 
     function logout() {
@@ -53,8 +52,6 @@ function AuthContextProvider({ children }) {
             isAuth: false,
             user: null,
             status: 'done',
-            roles: [],
-
         });
 
         console.log('Gebruiker is uitgelogd!');
@@ -62,16 +59,15 @@ function AuthContextProvider({ children }) {
     }
 
     // Omdat we deze functie in login- en het mounting-effect gebruiken, staat hij hier gedeclareerd!
-    async function fetchUserData(id, token, roles, redirectUrl) {
+    async function fetchUserData(id, token, redirectUrl) {
         try {
             // haal gebruikersdata op met de token en id van de gebruiker
-            const result = await axios.get(`http://localhost:8082/members/profile?username=${id}`, {
+            const result = await axios.get(`http://localhost:8082/profiles/getUserData/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             });
-
             // zet de gegevens in de state
             toggleIsAuth({
                 ...isAuth,
@@ -79,12 +75,15 @@ function AuthContextProvider({ children }) {
                 user: {
                     username: result.data.username,
                     email: result.data.email,
-                    id: result.data.id,
-                    roles: roles,
+                    roles: result.data.roles.map((role) => {
+                        console.log(role.id)
+                        return role.id })
                 },
                 status: 'done',
-            });
+            })
 
+            // als er een redirect URL is meegegeven (bij het mount-effect doen we dit niet) linken we hiernnaartoe door
+            // als we de history.push in de login-functie zouden zetten, linken we al door voor de gebuiker is opgehaald!
             if (redirectUrl) {
                 history.push(redirectUrl);
             }
@@ -96,7 +95,6 @@ function AuthContextProvider({ children }) {
                 isAuth: false,
                 user: null,
                 status: 'done',
-                roles: [],
             });
         }
     }
@@ -111,6 +109,8 @@ function AuthContextProvider({ children }) {
     return (
         <AuthContext.Provider value={contextData}>
             {isAuth.status === 'done' ? children : <p>Loading...</p>}
+            {isAuth.status === 'pending' && <p>Loading...</p>}
+            {isAuth.status === 'error' && <p>Error! Refresh de pagina!</p>}
         </AuthContext.Provider>
     );
 }

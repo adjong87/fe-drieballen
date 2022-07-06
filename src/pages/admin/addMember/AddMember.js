@@ -19,7 +19,7 @@ export default function AddMember() {
 
         try {
             axios.post(
-                "http://localhost:8082/member/add",
+                "http://localhost:8082/api/auth/signUp",
                 data,
                 {
                     headers: {
@@ -35,7 +35,8 @@ export default function AddMember() {
     };
 
     return (
-        <>
+                <>
+
             {!successful ?
                 <div className="add-member-container">
                     <div className="add-member-form">
@@ -44,7 +45,7 @@ export default function AddMember() {
                                 <label htmlFor="username">Gebruikersnaam</label>
                                 <input
                                     type="text"
-                                    placeholder="voornaam"
+                                    placeholder="Kies een gebruikersnaam"
                                     {...register('username', {
                                         required: 'Dit veld is verplicht',
                                         minLength: {
@@ -65,12 +66,12 @@ export default function AddMember() {
                                 <label htmlFor="password">Wachtwoord</label>
                                 <input
                                     type="password"
-                                    placeholder="wachtwoord"
+                                    placeholder="Vul hier je wachtwoord in"
                                     {...register('password', {
                                         required: 'Dit veld is verplicht',
                                         minLength: {
-                                            value: 2,
-                                            message: 'Minstens 2 tekens invoeren'
+                                            value: 6,
+                                            message: 'Minstens 6 tekens invoeren'
                                         },
                                         maxLength: {
                                             value: 20,
@@ -87,7 +88,7 @@ export default function AddMember() {
                                 <label htmlFor="firstName">Voornaam</label>
                                 <input
                                     type="text"
-                                    placeholder="voornaam"
+                                    placeholder="Vul hier je voornaam in"
                                     {...register('firstName', {
                                         required: 'Dit veld is verplicht',
                                         minLength: {
@@ -110,7 +111,7 @@ export default function AddMember() {
                                 <label htmlFor="lastName">Achternaam</label>
                                 <input
                                     type="text"
-                                    placeholder="achternaam"
+                                    placeholder="Vul hier je achternaam in"
                                     {...register('lastName', {
                                         required: 'Dit veld is verplicht',
                                         minLength: {
@@ -128,11 +129,32 @@ export default function AddMember() {
                                 <br/>
                             </div>
                             <div className="form-group">
+                                <label htmlFor="age">Leeftijd</label>
+                                <input
+                                    type="number"
+                                    placeholder="Voer hier je leeftijd in"
+                                    {...register('age', {
+                                        required: 'Dit veld is verplicht',
+                                        min: {
+                                            value: 1,
+                                            message: 'Minimale invoer is 1'
+                                        },
+                                        max: {
+                                            value: 99,
+                                            message: 'Hoger dan 99 kan niet',
+                                        },
+                                    })}
+                                />
 
+                                {errors.age && errors.aimScore.age}
+                                <br/>
+                                <br/>
+                            </div>
+                            <div className="form-group">
                                 <label htmlFor="email">Email</label>
                                 <input
                                     placeholder="email@email.com"
-                                    type="email"
+                                    type="Vul hier je e-mailadres in"
                                     {...register('email', {
                                         required: 'Dit veld is verplicht',
                                         pattern: {
@@ -164,7 +186,6 @@ export default function AddMember() {
                                         },
                                     })}
                                 />
-
                                 {errors.aimScore && errors.aimScore.message}
                                 <br/>
                                 <br/>
@@ -175,7 +196,7 @@ export default function AddMember() {
                                         name="role"
                                         type="checkbox"
                                         value="ADMIN"
-                                        {...register('roles', {
+                                        {...register('role', {
                                             required: 'Dit veld is verplicht'
                                         })}/>{' '}
                                     Admin
@@ -185,7 +206,7 @@ export default function AddMember() {
                                         name="role"
                                         type="checkbox"
                                         value="MOD"
-                                        {...register('roles', {
+                                        {...register('role', {
                                             required: 'Dit veld is verplicht'
                                         })}/>{' '}
                                     Scheidsrechter
@@ -195,8 +216,7 @@ export default function AddMember() {
                                         name="role"
                                         type="checkbox"
                                         value="USER"
-                                        checked="true"
-                                        {...register('roles', {
+                                        {...register('role', {
                                             required: 'Dit veld is verplicht'
 
                                         })}/>{' '}

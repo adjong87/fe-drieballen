@@ -1,25 +1,24 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from 'react';
 import './LoginPage.css'
-import balls from '../../assets/balls.png'
 import axios from "axios";
-import {AuthContext} from "../../components/context/AuthContext";
+import {useHistory} from "react-router-dom";
+import balls from '../../assets/balls.png'
 import {useForm} from 'react-hook-form';
+import {AuthContext} from "../../components/context/AuthContext";
 
 
 function LoginPage() {
-    const {login, isAuth } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const {register, handleSubmit, formState: {errors}} = useForm()
 
-    const onFormSubmit = data => {
-        console.log(data)
+    const onFormSubmit = async data => {
         try {
-            axios.post(
+            await axios.post(
                 "http://localhost:8082/api/auth/signIn",
                 data,
                 {headers: {'Content-Type': 'application/json'}}
             ).then(response => {
-                console.log("dit is de user info" + response.data.roles)
-                login(response.data.accessToken, response.data.roles)
+                login(response.data.accessToken)
             })
         } catch (e) {
             console.error(e.message)
