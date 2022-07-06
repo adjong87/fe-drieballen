@@ -15,6 +15,7 @@ function PlayedGame({id}) {
         textDecoration: "none",
     };
 
+
     async function fetchScores() {
         try {
             const result = await axios.get(`http://localhost:8082/scorecards/card?id=${id}`,

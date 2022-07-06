@@ -78,8 +78,7 @@ function FillPage() {
     }
 
     function checkTurns() {
-        return p1Score.length === p2Score.length ? true : false;
-
+        return p1Score.length === p2Score.length;
     }
 
     function passTurn() {

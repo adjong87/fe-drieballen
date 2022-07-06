@@ -17,7 +17,7 @@ function Button() {
                 <button className="btn"
                         onClick={logout}>
                     Uitloggen
-                </button> : <Link to="/"><button className="btn">
+                </button> : <Link to="/Login"><button className="btn">
                     Inloggen
                 </button></Link>}
         </>
