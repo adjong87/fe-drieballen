@@ -3,22 +3,16 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import {useEffect} from 'react'
 import './PlayedGame.css'
-import checkSum from "../../../components/helpers/checkSum";
 import {GiPodiumWinner} from "react-icons/gi";
-import checkWinner from "../../../components/helpers/checkWinner";
 
 
 function PlayedGame({id}) {
     const [scoreData, setScoreData] = useState({})
 
-    const linkStyle = {
-        textDecoration: "none",
-    };
-
 
     async function fetchScores() {
         try {
-            const result = await axios.get(`http://localhost:8082/scorecards/card?id=${id}`,
+            const result = await axios.get(`http://localhost:8082/scorecards/donecard?id=${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -36,41 +30,31 @@ function PlayedGame({id}) {
         fetchScores()
     }, []);
 
-    return <>
-        {scoreData && !scoreData.nrOfTurns < 1 &&
-            <Link to={`/scorecards/donecard?id=${scoreData.id}`} style={linkStyle}>
-                <div className="played-game-outer-container" key={scoreData.id}>
-                    <div className="played-game-container-header">
-                        <h3>Gespeeld op {scoreData.gespeeldOp}</h3>
-                    </div>
-                    <div className="played-game-container-inner">
-                        {scoreData.playerOneScore &&
-                            <div className="played-game-player-score">
-                                <div className="played-game-player-winner">
-                                    {checkWinner(scoreData.aimScoreP1, checkSum(scoreData.playerOneScore)) &&
-                                        <h1><GiPodiumWinner/></h1>}
-                                </div>
-                                <h1>
-                                    {scoreData.playerOneName} {checkSum(scoreData.playerOneScore)}</h1>
-                            </div>
-                        }
-                        {scoreData.playerTwoScore &&
-                            <div className="played-game-player-score">
+    return (
+        <>
+            <div className="playedGame-container">
+                {scoreData &&
+                    <div className="playedGame-contents">
+                        <div className="playedGame-contents-sides">
+                            {scoreData.remainderP1 === 0 && <GiPodiumWinner/>}
+                            <span><h2>{scoreData.playerOneName}</h2></span>
+                            {scoreData && <div> {scoreData.aimScoreP1-scoreData.remainderP1} van de {scoreData.aimScoreP1} </div>}
+                        </div>
+                        <div className="playedGame-contents-middle">
+                            {scoreData.gespeeldOp}
+                        </div>
+                        <div className="playedGame-contents-sides">
+                            {scoreData.remainderP2 === 0 && <GiPodiumWinner/>}
+                            <span><h2>{scoreData.playerTwoName}</h2></span>
+                            {scoreData && <div>{scoreData.aimScoreP2-scoreData.remainderP2} van de {scoreData.aimScoreP2}</div>}
 
-                                <h1>{scoreData.playerTwoName} {checkSum(scoreData.playerTwoScore)}
-                                </h1>
-                                <div className="played-game-player-winner">
-                                    {checkWinner(scoreData.aimScoreP2, checkSum(scoreData.playerTwoScore)) &&
-                                        <h1><GiPodiumWinner/></h1>}
-                                </div>
-                            </div>}
-                    </div>
+                        </div>
 
-                </div>
 
-            </Link>}
-    </>
-        ;
+                    </div>}
+            </div>
+        </>
+    );
 }
 
 export default PlayedGame;

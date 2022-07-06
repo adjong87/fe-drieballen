@@ -1,26 +1,20 @@
-.create-game-container {
-    display: flex;
-    width: 1000px;
-    justify-content: space-between;
+.create-game-container{
+    display:flex;
+    flex-direction: row;
+    border: 2px solid red;
+    flex-basis: 100%;
 }
 
-.player-containers {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-}
-
-.game-info-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-
-}
-.player-forms {
+.create-game-inner-sides{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-basis: 35%;
+    border: 2px solid yellow;
+}
+
+.create-game-inner-middle{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 30%;
+    border: 2px solid blue;
 }

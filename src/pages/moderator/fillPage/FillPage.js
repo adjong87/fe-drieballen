@@ -21,7 +21,8 @@ function FillPage() {
     const [P1Active, setP1Active] = useState(true)
     const [finished, toggleFinished] = useState(false)
     const [successful, toggleSuccessful] = useState(false)
-
+    const [restP1, setRestP1] = useState(null)
+    const [restP2, setRestP2] = useState(null)
 
     const {id} = useParams();
 
@@ -51,9 +52,11 @@ function FillPage() {
     function submitScore() {
         try {
             axios.put(
-                `http://localhost:8082/scorecards/fill?scoreCardNumber=${id}`, {
+                `http://localhost:8082/scorecards/fill?id=${id}`, {
                     playerOneScore: p1Score,
-                    playerTwoScore: p2Score
+                    playerTwoScore: p2Score,
+                    remainderP1: restP1,
+                    remainderP2: restP2
                 },
                 {
                     headers: {
@@ -68,6 +71,11 @@ function FillPage() {
         toggleSuccessful(!successful)
     };
 
+    function checkRemainder(aimScore, sum){
+        if(aimScore - sum > 0){
+            return aimScore - sum;
+        } else { return 0}
+    }
 
     function handlePlus() {
         setPPT(PPT + 1)
@@ -82,6 +90,7 @@ function FillPage() {
     }
 
     function passTurn() {
+
         checkTurns()
         {
             P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
@@ -92,6 +101,9 @@ function FillPage() {
         {
             (checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
         }
+
+        setRestP1(checkRemainder(scoreCard.aimScoreP1, checkSum(p1Score)))
+        setRestP2(checkRemainder(scoreCard.aimScoreP2, checkSum(p2Score)))
         console.log(finished)
         setPPT(0)
     }

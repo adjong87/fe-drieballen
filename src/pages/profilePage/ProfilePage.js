@@ -2,19 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import './ProfilePage.css';
-import {useContext} from 'react'
-import {AuthContext} from "../../components/context/AuthContext";
 import PlayerCard from "../../components/playerCard/PlayerCard";
+import PlayedGame from "./component/PlayedGame";
 
 function ProfilePage() {
     const {username} = useParams();
-    const [profile, setProfile] = useState()
-
+    const [profile, setProfile] = useState([])
 
     useEffect(() => {
         async function fetchProfile() {
             try {
-                const response = await axios.get(`http://localhost:8082/profiles/profile?username=${username}`,
+                const response = await axios.get(`http://localhost:8082/playedgame/find?username=${username}`,
                     {
                         headers: {
                             "Content-Type": "application/json",
@@ -32,17 +30,19 @@ function ProfilePage() {
     }, []);
     return (
         <>
-
-
             <div className="profile-container">
                 <PlayerCard username={username}/>
 
-                <div className="playedGame-container">
-                    hier komen de score
+                <div className="playedGames-list-container">
+                    {profile && profile.map((scoreCard, index) => {
+                        return <PlayedGame
+                            id={scoreCard.scoreCard.id}
+                            key={index}/>
+                    })}
                 </div>
             </div>
-
         </>
+
     )
 }
 

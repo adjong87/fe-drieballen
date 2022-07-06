@@ -2,8 +2,7 @@ import React from 'react';
 import {useEffect, useState} from 'react';
 import axios from "axios";
 import './Overview.css'
-import plus from '../../../assets/plus.png'
-import PlayerCard from "./component/PlayerCard";
+import PlayerCard from "../../../components/playerCard/PlayerCard";
 import {Link} from "react-router-dom";
 
 function Overview() {
@@ -33,21 +32,13 @@ function Overview() {
 
     return (
         <>
-            <div className="player-profile-container">
+            <div className="playerCard-overview">
                 {playersData && playersData.map((player, index) => {
                     return <PlayerCard
                         username={player.username}
-                        firstName={player.firstName}
-                        lastName={player.lastName}
-                        aimScore={player.aimScore}
-                        key={index}
+                        page="admin"
                     />
                 })}
-                <Link to="/AddMember">
-                    <div className="player-profile-card" key="newPlayer">
-                        <img src={plus} alt="addMember"/>
-                    </div>
-                </Link>
             </div>
         </>
     )
