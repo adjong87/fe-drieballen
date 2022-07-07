@@ -42,6 +42,7 @@ function CreateGamePage() {
     }, []);
 
     function createGame() {
+
         if (!double) {
             try {
                 axios.post(

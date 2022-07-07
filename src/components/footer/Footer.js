@@ -1,10 +1,9 @@
 import React from 'react';
-import './Footer.css'
 
 function Footer() {
     return (
         <div className="test">
-            dit wordt de footer
+            Deze applicatie is gemaakt door A.P. de Jong
         </div>
     );
 }

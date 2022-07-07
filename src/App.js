@@ -65,7 +65,9 @@ function App() {
                 {/*/!*    <NewMember />*!/*/}
                 {/*</Route>*/}
             </Switch>
+              <footer>
                 <Footer/>
+              </footer>
             </div>
         </>
     );

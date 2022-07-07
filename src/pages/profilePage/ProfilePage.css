@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     border: 2px solid yellow;
-    flex-basis: 22%
+    flex-basis: 22%;
 }
 
 .playedGames-list-container{

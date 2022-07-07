@@ -16,10 +16,19 @@
 .playedGame-contents-sides{
     display: flex;
     border: 2px solid yellow;
-    margin: 5px;
     justify-content: space-between;
     align-items: center;
+    flex-direction: row;
+    padding: 10px;
+width: 30%;
+}
+
+.playedGame-contents-sides #player-name {
+    display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
 
 }
 
@@ -29,4 +38,6 @@
     margin: 5px;
     align-items: center;
     align-self: flex-start;
+    width: fit-content;
+
 }

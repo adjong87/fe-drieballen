@@ -27,7 +27,7 @@ function ProfilePage() {
         }
 
         fetchProfile();
-    }, []);
+    }, [username]);
     return (
         <>
             <div className="profile-container">
@@ -35,9 +35,11 @@ function ProfilePage() {
 
                 <div className="playedGames-list-container">
                     {profile && profile.map((scoreCard, index) => {
-                        return <PlayedGame
-                            id={scoreCard.scoreCard.id}
-                            key={index}/>
+                        if(scoreCard.scoreCard.nrOfTurns < 1) {
+                            return <PlayedGame
+                                id={scoreCard.scoreCard.id}
+                                key={index}/>
+                        } else { return "" }
                     })}
                 </div>
             </div>

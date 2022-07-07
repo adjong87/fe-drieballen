@@ -6,7 +6,8 @@ import {useContext, useEffect, useState} from 'react'
 import axios from "axios";
 import {AuthContext} from "../context/AuthContext";
 import './PlayerCard.css'
-import {Link} from "react-router-dom";
+import {Link, useHistory} from 'react-router-dom';
+import { RiDeleteBinLine } from "react-icons/ri";
 
 function PlayerCard({username, page}) {
 
@@ -15,6 +16,7 @@ function PlayerCard({username, page}) {
     const [edit, toggleEdit] = useState(false)
     const [file, setFile] = useState([]);
     const [previewUrl, setPreviewUrl] = useState('');
+    const history = useHistory();
 
     useEffect(() => {
         async function fetchPlayer() {
@@ -35,6 +37,29 @@ function PlayerCard({username, page}) {
 
         fetchPlayer();
     }, [edit]);
+
+    async function handleClick(e) {
+        // Voorkom een refresh op submit
+        e.preventDefault();
+        // maak een nieuw FormData object (ingebouwd type van JavaScript)
+        const formData = new FormData();
+        // Voeg daar ons bestand uit de state aan toe onder de key "file"
+        formData.append("file", file);
+
+        try {
+            // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
+            // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
+            const result = await axios.delete(`http://localhost:8082/profiles/delete/${playerData.username}`,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    },
+                })
+        } catch (e) {
+            console.error(e)
+        }
+        history.push("/overview");    }
 
     function handleImageChange(e) {
         // Sla het gekozen bestand op
@@ -142,6 +167,7 @@ function PlayerCard({username, page}) {
                             </div>
 
                             <div className="playerCard-content-button">
+                                <button onClick={handleClick}><RiDeleteBinLine size={20}/></button>
                                 {edit && <button onClick={() => toggleEdit(!edit)}><AiOutlineSave size={20}/></button>}
                             </div>
                         </div>

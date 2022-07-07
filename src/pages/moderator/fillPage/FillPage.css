@@ -1,131 +1,95 @@
-.scorecard-fill-container {
+.FillPage-container {
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    border: 2px solid red;
+    height: 100%;
+    position: relative;
+    left: 0;
+    overflow: hidden;
+
+}
+
+.FillPage-sides-container {
+    display: flex;
+    flex-basis: 300px;
+    flex-grow: 1;
+    border: 2px solid yellow;
     justify-content: center;
+    flex-direction: column;
 }
 
-.scorecard-fill-container img {
-    width: 75px;
-    height: 75px;
-}
-
-.scorecard-container {
+.FillPage-sides-content-top {
     display: flex;
-    width: 1000px;
-    height: 1000px;
+    justify-content: center;
+    border: 2px solid red;
+}
+
+
+.FillPage-sides-content-bottom {
+    display: flex;
+    justify-content: space-evenly;
+    border: 2px solid red;
+}
+
+.FillPage-middle-column {
+    display: flex;
+    width: 33%;
+    border: 2px solid red;
+    flex-direction: column;
     justify-content: space-between;
 }
 
-.scorecard-fill-container{
-    width: 100px;
+.FIllPage-middle-score-display {
     display: flex;
-    flex-shrink: 3;
-}
-
-.scorecard-player-container {
-    display: flex;
-    align-items: center;
-    margin: 10px;
-    flex-direction: column;
-    justify-content: space-around;
+    flex-direction: row;
     border: 2px solid red;
+
 }
 
-.scorecard-current-winner img {
+.FIllPage-middle-score-display-column {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border: 2px solid red;
-}
-
-.scorecard-current-score{
-    font-size: xxx-large;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid red;
-    width: 150px;
-    height: 150px;
-}
-
-.scorecard-current-turn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid red;
-    width: 150px;
-    height: 150px;
-}
-
-.scorecard-player-info-container {
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid red;
-}
-
-.scorecard-player-winner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border: 2px solid red;
-}
-
-.winner {
-    width: 50px;
-    height: 50px;
-}
-
-.scorecard-player-info {
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    border: 2px solid red;
-}
-
-.scorecard-player-scores {
-    display: flex;
-    border: 1px solid pink;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
+    border: 2px solid red;
+    width: 50%;
+
 }
 
-.scorecard-game-info-container {
+.FillPage-middle-score-input {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+    align-items: center;
+}
+
+
+.FillPage-middle-score-input #score-buttons{
+    background-color: red;
+   display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+}
+
+.FillPage-middle-score-input #score-edit-button{
+    border: 1px solid black;
+    display: block;
+    align-items: center;
+}
+
+.player-turn button {
+    padding: 0;
+}
+
+.player-turn {
+    gap: 15px;
+    display: flex;
     justify-content: space-between;
-    display: flex;
-    align-items: center;
-    margin: 10px;
-    flex-direction: column;
-    border: 2px solid red;
 }
 
-.scorecard-game-info-top {
-    margin-top: 50px;
-    border: 2px solid red;
+.player-turn-correct {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.scorecard-game-info-middle {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid red;
-
-}
-
-.scorecard-game-info-bottom{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    border: 2px solid red;
-    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
 }

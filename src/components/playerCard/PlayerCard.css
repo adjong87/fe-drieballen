@@ -1,7 +1,7 @@
 .playerCard-container {
     display: flex;
     border: 2px solid blue;
-    flex-basis: 275px;
+    flex-basis: 300px;
     flex-grow: 0;
     margin-left: 1vw;
     margin-top: 1vw;
