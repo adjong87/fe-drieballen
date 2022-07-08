@@ -35,7 +35,7 @@ function ScoreCardOverview() {
             <div className="scorecard-overview-inner-container">
                 {scoreCardData && scoreCardData.map((scoreCard, index) => {
                     return (
-                        <Link to={`/fill/${scoreCard.id}`}>
+                        <Link to={`/fill/${scoreCard.id}`} key={scoreCard.id + index}>
                         <div className="scorecard-overview-card" key={scoreCard.id + index}>
                             <span><h4>Speeldatum: {scoreCard.gespeeldOp}</h4></span>
                             <span><h2>{scoreCard.playerOneName} ({scoreCard.aimScoreP1}) versus {scoreCard.playerTwoName} ({scoreCard.aimScoreP2})</h2></span>

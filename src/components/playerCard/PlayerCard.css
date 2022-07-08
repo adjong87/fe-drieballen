@@ -59,25 +59,14 @@
     width: 30%;
 }
 
-.playerCard-content-edit-photo img {
+.playerCard-content-photo img {
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
 
-
-.playerCard-content-edit-photo {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    color: white;
-    margin: 20px;
-    border-radius: 10px;
-    height: 135px;
-    width: 135px;
-    flex-direction: column;
-    border: 2px solid green;
+.image-preview{
+    height: 100px;
 }
 
 .playerCard-upload-form {

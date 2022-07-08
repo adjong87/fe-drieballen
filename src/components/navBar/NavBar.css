@@ -45,6 +45,7 @@
     margin-right: 2rem;
     padding: 6px 16px;
     border: 5px;
+    border-radius: 5px;
 }
 
 .nav-item a:hover{

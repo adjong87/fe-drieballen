@@ -11,12 +11,13 @@ import Dropdown from "./Dropdown";
 function NavBar() {
     const [adminDropDown, setAdminDropdown] = useState(false);
     const [refereeDropDown, setRefereeDropdown] = useState(false);
-    const {isAuth, user} = useContext(AuthContext)
+    const {isAuth, user}= useContext(AuthContext)
     const history = useHistory();
+    const roles = sessionStorage.getItem("roles");
 
     if (!isAuth) {
         return (
-            <div>niet ingelogd
+            <div>
                 <Button/>
             </div>
 
@@ -36,7 +37,7 @@ function NavBar() {
                         {isAuth && <li key="2" className="nav-item">
                             <Link to={`/profile/${user.username}`}>Mijn profiel</Link>
                         </li>}
-                        {isAuth && navItems.map(item => {
+                        {isAuth && roles.includes('ROLE_ADMIN') && navItems.map(item => {
                             if (item.title === "Leden") {
                                 return (
                                     <li
@@ -46,14 +47,15 @@ function NavBar() {
                                         onMouseLeave={() => setAdminDropdown(false)}
                                     >
                                         <Link to={item.path}>{item.title}</Link>
-                                        {adminDropDown && <Dropdown
+                                        {adminDropDown &&
+                                            <Dropdown
                                             role='admin'/>}
                                     </li>
                                 );
                             }
                         })}
 
-                        {isAuth && navItems.map(item => {
+                        {isAuth && roles.includes('ROLE_MODERATOR') && navItems.map(item => {
                             if (item.title === "Wedstrijden") {
                                 return (
                                     <li

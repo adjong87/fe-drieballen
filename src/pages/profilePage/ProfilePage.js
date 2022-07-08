@@ -20,26 +20,31 @@ function ProfilePage() {
                         }
                     })
                 setProfile(response.data);
-                console.log(response.data);
             } catch (e) {
                 console.error(e);
             }
         }
 
         fetchProfile();
-    }, [username]);
+    }, []);
     return (
         <>
-            <div className="profile-container">
-                <PlayerCard username={username}/>
+            <div className="profile-page-container">
+                <PlayerCard
+                    username={username}/>
 
                 <div className="playedGames-list-container">
-                    {profile && profile.map((scoreCard, index) => {
+                    {profile &&
+                        profile.map((scoreCard, index) => {
                         if(scoreCard.scoreCard.nrOfTurns < 1) {
                             return <PlayedGame
                                 id={scoreCard.scoreCard.id}
                                 key={index}/>
-                        } else { return "" }
+                        }
+                        else
+                        {
+                            return ""
+                        }
                     })}
                 </div>
             </div>

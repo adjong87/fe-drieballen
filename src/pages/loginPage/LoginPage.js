@@ -8,7 +8,7 @@ import {AuthContext} from "../../components/context/AuthContext";
 
 
 function LoginPage() {
-    const { login } = useContext(AuthContext);
+    const {login, isAuth, toggleIsAuth} = useContext(AuthContext);
     const {register, handleSubmit, formState: {errors}} = useForm()
 
     const onFormSubmit = async data => {
@@ -18,7 +18,9 @@ function LoginPage() {
                 data,
                 {headers: {'Content-Type': 'application/json'}}
             ).then(response => {
-                login(response.data.accessToken)
+                login(response)
+                console.log(response)
+
             })
         } catch (e) {
             console.error(e.message)

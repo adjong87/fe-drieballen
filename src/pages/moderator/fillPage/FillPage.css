@@ -14,21 +14,28 @@
     flex-basis: 300px;
     flex-grow: 1;
     border: 2px solid yellow;
-    justify-content: center;
     flex-direction: column;
+    justify-content: space-around;
+
 }
 
-.FillPage-sides-content-top {
+.FillPage-sides-game-content {
     display: flex;
     justify-content: center;
     border: 2px solid red;
+    font-size: xxx-large;
 }
 
+.FillPage-sides-game-content #game-winner {
+    align-self: center;
+}
 
-.FillPage-sides-content-bottom {
+.FillPage-sides-player-content {
     display: flex;
     justify-content: space-evenly;
     border: 2px solid red;
+    cursor: pointer;
+
 }
 
 .FillPage-middle-column {
@@ -42,17 +49,32 @@
 .FIllPage-middle-score-display {
     display: flex;
     flex-direction: row;
-    border: 2px solid red;
+    border: 2px solid blue;
+    height: 75%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+}
 
+.FIllPage-middle-score-display::-webkit-scrollbar {
+    display: none;
 }
 
 .FIllPage-middle-score-display-column {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
     border: 2px solid red;
     width: 50%;
+
+}
+
+.scorecard-game-info-middle #turn-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid yellow;
+    justify-content: space-around;
+    width: 100%;
 
 }
 
@@ -60,22 +82,39 @@
     border: 1px solid black;
     display: flex;
     flex-direction: column;
-    justify-self: flex-end;
-    align-items: center;
+    justify-self: flex-start;
 }
 
 
-.FillPage-middle-score-input #score-buttons{
-    background-color: red;
-   display: flex;
-    flex-direction: column;
-    justify-self: flex-end;
+.FillPage-middle-score-input #score-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    font-size: xxx-large;
+
+
 }
 
-.FillPage-middle-score-input #score-edit-button{
-    border: 1px solid black;
+.FillPage-middle-score-input #score-edit-button {
     display: block;
-    align-items: center;
+    border: 1px solid black;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    background-color: red;
+}
+
+
+.FillPage-middle-score-input #score-edit-button-active {
+    display: block;
+    border: 1px solid black;
+    width: 100%;
+    background-color: limegreen;
+    cursor: pointer;
+    padding: 20px 0 20px 0;
+    text-align: center;
+
+
 }
 
 .player-turn button {
