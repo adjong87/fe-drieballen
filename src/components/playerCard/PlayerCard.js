@@ -38,6 +38,7 @@ function PlayerCard({username, page}) {
         fetchPlayer();
     }, [edit]);
 
+
     async function deletePhoto(e) {
         if (window.confirm('Weet je zeker dat je deze foto wilt verwijderen?')) {
 
@@ -148,7 +149,7 @@ function PlayerCard({username, page}) {
                                         ?
                                         <img src={playerData.photo.url} alt="profielfoto"/>
                                         :
-                                        <img src={NoImage} alt="geeh profielfoto"/>
+                                        <img src={NoImage} alt="geen profielfoto"/>
                                     }
                                 </div>
                             </Link>
@@ -157,7 +158,7 @@ function PlayerCard({username, page}) {
                                 {playerData.photo
                                     ? <img src={playerData.photo.url} alt="profielfoto"/>
                                     :
-                                    <img src={NoImage} alt="geeh profielfoto"/>
+                                    <img src={NoImage} alt="geen profielfoto"/>
                                 }
                             </div>
                         }
@@ -179,7 +180,7 @@ function PlayerCard({username, page}) {
                         }
 
                         <div className="playerCard-content-button">
-                            {!edit &&
+                            {page !== "create" && !edit &&
                                 <button
                                     onClick={() => toggleEdit(!edit)}>
                                     <ImWrench size={20}/>
@@ -212,6 +213,10 @@ function PlayerCard({username, page}) {
                             <form
                                 className="playerCard-upload-form"
                                 onSubmit={sendImage}>
+                                <input type="button"
+                                       id="delete-photo"
+                                       onClick={deletePhoto}
+                                />
                                 <input type="file"
                                        id="upload-photo"
                                        name="files[]"
@@ -223,21 +228,15 @@ function PlayerCard({username, page}) {
                                     :
                                     <label id="upload-photo-label" htmlFor="upload-photo">Kies een foto</label>
                                 }
+                                {!previewUrl && playerData.photo &&
+                                    <label id="upload-photo-label" htmlFor="delete-photo">Verwijder huidige
+                                        foto</label>}
                                 {previewUrl &&
                                     <button id="upload-button" type="submit" value="Upload!">
                                         Upload
                                     </button>
                                 }
                             </form>
-
-                            <div className="playerCard-content-stats">
-                                    <span>Te behalen score:
-                                        <input
-                                            type="text"
-                                            id="aimScore"
-                                            placeholder={playerData.aimScore}/>
-                                    </span>
-                            </div>
 
                             <div className="playerCard-content-button">
                                 <button

@@ -19,16 +19,7 @@ body {
 .container {
     display: flex;
     align-content: center;
-}
-
-.footer{
-    background-color: black;
-    border-top:2px solid red;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    color: white;
-    font-size: 25px;
+    flex-direction: column;
 }
 
 .app{
@@ -39,7 +30,6 @@ body {
 
 .app> Div{
     Width:100%;
-
 }
 
 .app .navBar{
@@ -48,5 +38,31 @@ body {
 
 .app .content{
     Height:85%;
-
 }
+
+.home-container{
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 600px;
+}
+
+.home-title{
+    display: flex;
+    justify-content: space-between;
+    align-self:  center;
+}
+
+.home-message{
+    min-height: 200px;
+    flex-direction: column;
+    justify-content: space-around;
+    display: flex;
+    padding: 30px;
+    background-color: lightblue;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.06);
+}
+
+

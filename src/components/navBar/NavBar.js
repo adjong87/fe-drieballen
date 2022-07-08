@@ -11,21 +11,18 @@ import Dropdown from "./Dropdown";
 function NavBar() {
     const {isAuth, user, gebruikersrollen} = useContext(AuthContext)
     const [adminDropDown, setAdminDropdown] = useState(false);
-    const [refereeDropDown, setRefereeDropdown] = useState(false);
-
     const history = useHistory();
-
         return (
         <>
             <nav className="navbar">
-                <Link to="/" className="navbar-logo">
+                <div className="navbar-logo">
                     <img src={balls} alt="logo"/>
                     DE DRIE BALLEN
-                </Link>
+                </div>
                 <ul className="nav-items">
-                    <li key="1" className="nav-item">
-                        <Link to="/home">Home</Link>
-                    </li>
+                    {isAuth &&    <li key="1" className="nav-item">
+                        <Link to="/">Home</Link>
+                    </li>}
                     {isAuth && <li key="2" className="nav-item">
                         <Link to={`/profile/${user.username}`}>Mijn profiel</Link>
                     </li>}
@@ -39,30 +36,20 @@ function NavBar() {
                                     onMouseLeave={() => setAdminDropdown(false)}
                                 >
                                     {item.path !== "" &&  <Link to={item.path}>{item.title}</Link>}
-
                                     {adminDropDown &&
                                         <Dropdown
-                                            role='admin'/>}
+                                            />}
                                 </li>
                             );
                         }
                     })}
 
-                    {isAuth && gebruikersrollen.includes('ROLE_MODERATOR') && navItems.map(item => {
-                        if (item.title === "Wedstrijden") {
-                            return (
-                                <li
-                                    key={item.id}
-                                    className={item.cName}
-                                    onMouseEnter={() => setRefereeDropdown(true)}
-                                    onMouseLeave={() => setRefereeDropdown(false)}
-                                >
-                                    {item.path !== "" &&  <Link to={item.path}>{item.title}</Link>}
-                                    {refereeDropDown && <Dropdown role='referee'/>}
-                                </li>
-                            );
-                        }
-                    })}
+                    {isAuth && gebruikersrollen.includes('ROLE_MODERATOR') &&
+
+                            <li key="4" className="nav-item">
+                                <Link to="/gamecheck">Wedstrijden</Link>
+                            </li>}
+
                 </ul>
                 <Button/>
             </nav>

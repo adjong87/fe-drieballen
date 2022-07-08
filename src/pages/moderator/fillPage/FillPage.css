@@ -1,7 +1,6 @@
 .FillPage-container {
     display: flex;
     width: 100%;
-    border: 2px solid red;
     height: 100%;
     position: relative;
     left: 0;
@@ -9,11 +8,15 @@
 
 }
 
+.FillPage-container button{
+    border: none;
+}
+
+
 .FillPage-sides-container {
     display: flex;
     flex-basis: 300px;
     flex-grow: 1;
-    border: 2px solid yellow;
     flex-direction: column;
     justify-content: space-around;
 
@@ -22,7 +25,6 @@
 .FillPage-sides-game-content {
     display: flex;
     justify-content: center;
-    border: 2px solid red;
     font-size: xxx-large;
 }
 
@@ -33,7 +35,6 @@
 .FillPage-sides-player-content {
     display: flex;
     justify-content: space-evenly;
-    border: 2px solid red;
     cursor: pointer;
 
 }
@@ -41,7 +42,6 @@
 .FillPage-middle-column {
     display: flex;
     width: 33%;
-    border: 2px solid red;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -49,43 +49,47 @@
 .FIllPage-middle-score-display {
     display: flex;
     flex-direction: row;
-    border: 2px solid blue;
     height: 75%;
     overflow-y: scroll;
     -ms-overflow-style: none;
+    border: 1px solid black;
+
 }
 
 .FIllPage-middle-score-display::-webkit-scrollbar {
     display: none;
+
 }
 
-.FIllPage-middle-score-display-column {
+.FIllPage-middle-score-display-column  {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px solid red;
     width: 50%;
-
+    border: 1px solid black;
+    border-top: none;
 }
 
 .scorecard-game-info-middle #turn-info {
     display: flex;
     flex-direction: row;
     align-items: center;
-    border: 1px solid yellow;
     justify-content: space-around;
-    width: 100%;
+    width: content-box;
+    flex-grow: 1;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
 
 }
 
 .FillPage-middle-score-input {
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-self: flex-start;
+    border: 2px solid black;
 }
 
-.FillPage-middle-score-submit{
+.FillPage-middle-score-submit {
     display: flex;
     background-color: blue;
     height: 50%;
@@ -107,7 +111,11 @@
     width: 100%;
     font-size: xxx-large;
 
+}
 
+.FillPage-middle-score-input #score-buttons button {
+
+    background-color: transparent;
 }
 
 .FillPage-middle-score-input #score-edit-button {

@@ -7,17 +7,15 @@ import './App.css';
 import Overview from "./pages/admin/overview/Overview";
 import CreateGamePage from "./pages/admin/createGamePage/CreateGamePage";
 import AddMember from "./pages/admin/addMember/AddMember";
-import ScoreCardOverview from "./pages/moderator/scoreCardOverview/ScoreCardOverView";
+import GameCheckPage from "./pages/moderator/gamecheck/GameCheckPage";
 import FillPage from "./pages/moderator/fillPage/FillPage";
 import Home from "./pages/Home";
 import LoginPage from "./pages/loginPage/LoginPage";
-import Footer from "./components/footer/Footer";
 
 function PrivateRoute({children, isAuth, ...rest}) {
-    sessionStorage.getItem("roles")
     return (
         <Route {...rest}>
-            {isAuth ? children : <Redirect to="/"/>}
+            {isAuth ? children : <Redirect to="/login"/>}
         </Route>
     )
 }
@@ -49,7 +47,7 @@ function App() {
                         </PrivateRoute>
 
                         <PrivateRoute exact path="/gamecheck" isAuth={isAuth}>
-                            <ScoreCardOverview/>
+                            <GameCheckPage/>
                         </PrivateRoute>
                         <PrivateRoute exact path="/fill/:id" isAuth={isAuth}>
                             <FillPage/>
@@ -63,13 +61,6 @@ function App() {
                     </Switch>
                 </div>
 
-                <div className="footer">
-
-
-                    <footer>
-                        <Footer/>
-                    </footer>
-                </div>
             </div>
         </>
     );

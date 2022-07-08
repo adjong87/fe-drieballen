@@ -1,27 +1,28 @@
 .playedGame-container {
     display: flex;
-    border: 2px solid red;
-    margin: 10px;
+    margin: 20px;
     border-radius: 10px;
     height: 100px;
-
+    background-color: lightblue;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.06);
 }
 
 .playedGame-contents{
     width: 100%;
     display: flex;
-    border: 2px solid red;
     justify-content: space-between;
+
 }
 
 .playedGame-contents-sides{
     display: flex;
-    border: 2px solid yellow;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    padding: 10px;
+    padding: 15px;
     width: 30%;
+
+
 }
 
 .playedGame-contents-sides #player-name {
@@ -35,9 +36,9 @@
 
 .playedGame-contents-middle{
     display: flex;
-    border: 2px solid yellow;
     margin: 5px;
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
+    padding: 5px;
 }

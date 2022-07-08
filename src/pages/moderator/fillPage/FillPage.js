@@ -76,19 +76,20 @@ function FillPage() {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 }
-            )
+            ).then(r => {
+                toggleSuccessful(!successful)
+                history.push("/gamecheck")
+            })
         } catch (e) {
             console.error(e.message)
         }
-        toggleSuccessful(!successful)
-        history.push("/gamecheck");
+
     }
 
     function checkRemainder(aimScore, sum) {
         if (aimScore - sum > 0) {
             return aimScore - sum;
-        } else if (aimScore - sum < 0)
-        {
+        } else if (aimScore - sum < 0) {
             return 0
         }
     }

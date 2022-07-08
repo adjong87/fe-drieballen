@@ -11,32 +11,10 @@ function AuthContextProvider({children}) {
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
         user: null,
-        status: 'pending',
+        status: 'done',
     });
     const history = useHistory();
 
-    // MOUNTING EFFECT
-    useEffect(() => {
-        // haal de JWT op uit Local Storage
-        const token = localStorage.getItem('token');
-
-        // als er WEL een token is, haal dan opnieuw de gebruikersdata op
-        if (token && isTokenValid(token)) {
-            const decoded = jwt_decode(token);
-            fetchUserData(decoded.sub, token);
-        } else {
-            // als er GEEN token is doen we niks, en zetten we de status op 'done'
-            toggleIsAuth({
-                isAuth: false,
-                user: {
-                    username: null,
-                    email: null,
-                    gebruikersrollen: []
-                },
-                status: 'done',
-            });
-        }
-    }, []);
 
     function login(response) {
         localStorage.setItem('token', response.data.accessToken);

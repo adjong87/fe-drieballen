@@ -16,12 +16,11 @@
 
 .navbar-logo {
     color: white;
-    text-decoration: none;
     font-size: 2rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     margin: 10px;
+    border: none;
 }
 
 .nav-items {
@@ -49,5 +48,5 @@
 }
 
 .nav-item a:hover{
-    background-color: rgb(0,212,212);
+    background-color: lightblue;
 }

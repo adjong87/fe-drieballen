@@ -1,15 +1,18 @@
 .btn {
     border: none;
     background: transparent;
-    padding: 6px 16px;
+    padding-right: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     font-size: 1.1rem;
     color: white;
     border-radius: 5px;
     transition: 0.3s all ease-out;
     cursor: pointer;
+    width: 150px;
 }
 
 .btn:hover {
-    color: rgb(0, 212, 212);
-    background: white;
+    color: white;
+    background: lightblue;
 }
