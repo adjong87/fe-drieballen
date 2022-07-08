@@ -10,6 +10,8 @@ import Turn from "./components/Turn";
 import {TbArrowBigLeftLines, TbArrowBigRightLines} from "react-icons/tb";
 import {GiPodiumWinner} from "react-icons/gi";
 import {useHistory} from 'react-router-dom';
+import CheckHighest from "../../../components/helpers/checkHighest";
+import checkAverage from "../../../components/helpers/checkAverage";
 
 function FillPage() {
     const history = useHistory();
@@ -26,6 +28,7 @@ function FillPage() {
     const [playerOne, setPlayerOne] = useState([])
     const [playerTwo, setPlayerTwo] = useState([])
     const [edit, toggleEdit] = useState(false)
+    const [turns, setTurns] = useState(0)
 
 
     async function getScoreCard() {
@@ -59,10 +62,13 @@ function FillPage() {
         try {
             axios.put(
                 `http://localhost:8082/scorecards/fill?id=${id}`, {
-                    playerOneScore: p1Score,
-                    playerTwoScore: p2Score,
+                    highestSerieP1: CheckHighest(p1Score),
+                    highestSerieP2: CheckHighest(p2Score),
                     remainderP1: restP1,
-                    remainderP2: restP2
+                    remainderP2: restP2,
+                    averageP1: checkAverage(p1Score),
+                    averageP2: checkAverage(p2Score),
+                    nrOfTurns: turns
                 },
                 {
                     headers: {
@@ -76,12 +82,13 @@ function FillPage() {
         }
         toggleSuccessful(!successful)
         history.push("/gamecheck");
-    };
+    }
 
     function checkRemainder(aimScore, sum) {
         if (aimScore - sum > 0) {
             return aimScore - sum;
-        } else {
+        } else if (aimScore - sum < 0)
+        {
             return 0
         }
     }
@@ -94,27 +101,31 @@ function FillPage() {
         PPT > 1 ? setPPT(PPT - 1) : setPPT(0)
     }
 
-    function checkTurns() {
-        return p1Score.length === p2Score.length;
+    function addTurn() {
+        P1Active && setTurns(turns + 1)
     }
 
     function passTurn() {
+        turns === 30 && toggleFinished(true)
+        addTurn()
 
-        checkTurns()
         P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
 
+        P1Active && (checkWinner(playerOne.aimScore, checkSum(p1Score))) && setP1Active(!P1Active)
+
         {
-            (checkWinner(playerOne.aimScore, checkSum(p1Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
+            (!P1Active && checkWinner(playerOne.aimScore, checkSum(p1Score))) ? toggleFinished(true) : setP1Active(!P1Active)
         }
         {
-            (checkWinner(playerTwo.aimScore, checkSum(p2Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
+            (checkWinner(playerTwo.aimScore, checkSum(p2Score))) ? toggleFinished(true) : setP1Active(!P1Active)
         }
 
-        setRestP1(checkRemainder(playerTwo.aimScore, checkSum(p1Score)))
+        setRestP1(checkRemainder(playerOne.aimScore, checkSum(p1Score)))
         setRestP2(checkRemainder(playerTwo.aimScore, checkSum(p2Score)))
         console.log(finished)
         setPPT(0)
     }
+
 
     return (
         <>
@@ -164,7 +175,7 @@ function FillPage() {
                                 {P1Active
                                     ?
                                     <div id="turn-info">
-                                       <TbArrowBigLeftLines size={80}/>
+                                        <TbArrowBigLeftLines size={80}/>
                                         <h2> {playerOne.firstName} aan de beurt</h2>
 
                                     </div>
@@ -172,16 +183,16 @@ function FillPage() {
                                     <div id="turn-info">
 
                                         <h2>  {playerTwo.firstName} aan de beurt</h2>
-                                            <TbArrowBigRightLines size={80}/>
+                                        <TbArrowBigRightLines size={80}/>
 
                                     </div>}
                             </div>}
                         {finished && !successful ?
-                            <div className="successfull">
-                                <button
+                            <div className="FillPage-middle-score-submit">
+                                <div
                                     onClick={submitScore}>
-                                    scores doorgeven
-                                </button>
+                                    Scores opslaan
+                                </div>
                             </div> :
                             <div className="FillPage-middle-score-input">
                                 {!edit &&

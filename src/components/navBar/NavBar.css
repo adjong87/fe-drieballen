@@ -1,10 +1,5 @@
-.navbar img {
-    width: 150px;
-    height: 150px;
-}
-
 .navbar {
-    height: 10vh;
+    height: 12vh;
     background-color: black;
     color: white;
     display: flex;
@@ -14,6 +9,11 @@
 
 }
 
+.navbar img {
+    width: 125px;
+    height: 125px;
+}
+
 .navbar-logo {
     color: white;
     text-decoration: none;
@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 10rem;
+    margin: 10px;
 }
 
 .nav-items {

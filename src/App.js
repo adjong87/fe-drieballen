@@ -7,7 +7,6 @@ import './App.css';
 import Overview from "./pages/admin/overview/Overview";
 import CreateGamePage from "./pages/admin/createGamePage/CreateGamePage";
 import AddMember from "./pages/admin/addMember/AddMember";
-import ScoreCard from "./components/scoreCard/ScoreCard";
 import ScoreCardOverview from "./pages/moderator/scoreCardOverview/ScoreCardOverView";
 import FillPage from "./pages/moderator/fillPage/FillPage";
 import Home from "./pages/Home";
@@ -25,8 +24,6 @@ function PrivateRoute({children, isAuth, ...rest}) {
 
 function App() {
     const {isAuth} = useContext(AuthContext);
-    console.log(isAuth)
-
     return (
         <>
             <div className="app">
@@ -50,17 +47,12 @@ function App() {
                         <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
                             <Profile/>
                         </PrivateRoute>
-                        <PrivateRoute exact path="/scorecards/:id" isAuth={isAuth}>
-                            <ScoreCard/>
-                        </PrivateRoute>
+
                         <PrivateRoute exact path="/gamecheck" isAuth={isAuth}>
                             <ScoreCardOverview/>
                         </PrivateRoute>
                         <PrivateRoute exact path="/fill/:id" isAuth={isAuth}>
                             <FillPage/>
-                        </PrivateRoute>
-                        <PrivateRoute exact path="/scorecard" isAuth={isAuth}>
-                            <ScoreCard/>
                         </PrivateRoute>
                         <Route exact path="/login">
                             <LoginPage/>

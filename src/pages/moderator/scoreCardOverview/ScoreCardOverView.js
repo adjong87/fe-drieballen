@@ -31,11 +31,11 @@ function ScoreCardOverview() {
 
     return (
         <div className="scorecard-overview-outer-container">
-            <h2>Ready to rumble</h2>
+            {(scoreCardData < 1) ? <h2> Vraag de voorzitter om een wedstrijd klaar te zetten </h2> : <h2>Ready to rumble</h2>}
             <div className="scorecard-overview-inner-container">
                 {scoreCardData && scoreCardData.map((scoreCard, index) => {
                     return (
-                        <Link to={`/fill/${scoreCard.id}`} key={scoreCard.id + index}>
+                        <Link to={`/fill/${scoreCard.id}`}>
                         <div className="scorecard-overview-card" key={scoreCard.id + index}>
                             <span><h4>Speeldatum: {scoreCard.gespeeldOp}</h4></span>
                             <span><h2>{scoreCard.playerOneName} ({scoreCard.aimScoreP1}) versus {scoreCard.playerTwoName} ({scoreCard.aimScoreP2})</h2></span>

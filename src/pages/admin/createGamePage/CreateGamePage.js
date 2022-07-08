@@ -7,8 +7,8 @@ import PlayerCard from "../../../components/playerCard/PlayerCard";
 
 function CreateGamePage() {
 
-    const [playerOne, setPlayerOne] = useState("");
-    const [playerTwo, setPlayerTwo] = useState("");
+    const [playerOne, setPlayerOne] = useState(null);
+    const [playerTwo, setPlayerTwo] = useState(null);
     const [allPlayers, setAllPlayers] = useState([])
     const [double, setDouble] = useState(false)
 

@@ -85,6 +85,21 @@
     justify-self: flex-start;
 }
 
+.FillPage-middle-score-submit{
+    display: flex;
+    background-color: blue;
+    height: 50%;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.FillPage-middle-score-submit :hover {
+    display: block;
+    background-color: lime;
+}
 
 .FillPage-middle-score-input #score-buttons {
     display: flex;

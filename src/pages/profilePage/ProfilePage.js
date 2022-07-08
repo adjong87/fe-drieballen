@@ -36,15 +36,10 @@ function ProfilePage() {
                 <div className="playedGames-list-container">
                     {profile &&
                         profile.map((scoreCard, index) => {
-                        if(scoreCard.scoreCard.nrOfTurns < 1) {
                             return <PlayedGame
                                 id={scoreCard.scoreCard.id}
                                 key={index}/>
-                        }
-                        else
-                        {
-                            return ""
-                        }
+
                     })}
                 </div>
             </div>

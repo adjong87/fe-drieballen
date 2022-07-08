@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom";
 import axios from "axios";
 import {useEffect} from 'react'
 import './PlayedGame.css'
 import {GiPodiumWinner} from "react-icons/gi";
-import CheckAverage from "../../../components/helpers/checkAverage";
-import CheckHighest from "../../../components/helpers/checkHighest";
 
 function PlayedGame({id}) {
     const [scoreData, setScoreData] = useState({})
@@ -21,6 +18,7 @@ function PlayedGame({id}) {
                     }
                 })
             setScoreData(result.data);
+            console.log(scoreData)
         } catch (e) {
             console.error(e);
             console.log(e.response.data)
@@ -47,18 +45,11 @@ function PlayedGame({id}) {
 
                                     </div>
                                 }
-                                {scoreData.playerOneScore && <span>
-                                    <p>Hoogste serie: {scoreData.playerOneScore.length < 1
-                                        ?
-                                        "?"
-                                        :
-                                        CheckHighest(scoreData.playerOneScore)}
+                                {scoreData && <span>
+                                    <p>
+                                        Hoogste serie: {scoreData.highestSerieP1}
                                     </p>
-                                <p>Gemiddelde: {CheckAverage(scoreData.playerOneScore) <= 0
-                                    ?
-                                    "?"
-                                    :
-                                    CheckAverage(scoreData.playerOneScore)}
+                                <p>Gemiddelde: {scoreData.averageP1}
                                 </p>
                                 </span>
                                 }
@@ -73,7 +64,8 @@ function PlayedGame({id}) {
                             </div>
                         </div>
                         <div className="playedGame-contents-middle">
-                            {scoreData.gespeeldOp}
+                            <b>{scoreData.gespeeldOp}</b>
+                           <p>Aantal Beurten {scoreData.nrOfTurns}</p>
                         </div>
                         <div className="playedGame-contents-sides">
                             <div id="player-name">
@@ -88,23 +80,18 @@ function PlayedGame({id}) {
                                 {scoreData &&
                                     <div>
                                         {scoreData.aimScoreP2 - scoreData.remainderP2} van de {scoreData.aimScoreP2}
+
+
                                     </div>
                                 }
-                                {scoreData.playerTwoScore &&
-                                    <span>
-                                        <p>Hoogste serie: {scoreData.playerTwoScore.length < 1
-                                            ?
-                                            "?"
-                                            :
-                                            CheckHighest(scoreData.playerTwoScore)}
-                                        </p>
-                                <p>Gemiddelde: {CheckAverage(scoreData.playerTwoScore) <= 0
-                                    ?
-                                    "?"
-                                    :
-                                    CheckAverage(scoreData.playerTwoScore)}
+                                {scoreData && <span>
+                                    <p>
+                                        Hoogste serie: {scoreData.highestSerieP2}
+                                    </p>
+                                <p>
+                                    Gemiddelde: {scoreData.averageP2}
                                 </p>
-                                    </span>
+                                </span>
                                 }
                             </section>
 

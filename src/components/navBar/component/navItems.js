@@ -3,13 +3,13 @@ export const navItems = [
     {
         id: 1,
         title: "Leden",
-        // path: "",
+        // path: null,
         cName: "nav-item",
     },
     {
         id: 2,
         title: "Wedstrijden",
-        // path: "",
+        // path: null,
         cName: "nav-item",
     }
 ];
