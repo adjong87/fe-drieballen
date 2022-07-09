@@ -1,19 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import './FillPage.css'
-import CheckAverage from '../../../components/helpers/checkAverage'
-import CheckHighest from "../../../components/helpers/checkHighest";
 import {useParams} from "react-router-dom";
-import Plus from '../../../assets/plus.png';
-import Minus from '../../../assets/minus.png';
 import checkSum from "../../../components/helpers/checkSum";
-import showTurn from "../../../components/helpers/showTurn";
 import checkWinner from "../../../components/helpers/checkWinner";
-import Winner from '../../../assets/winner.svg'
+import PlayerCard from "../../../components/playerCard/PlayerCard";
+import {HiMinusCircle, HiPlusCircle} from "react-icons/hi";
 import Turn from "./components/Turn";
+import {TbArrowBigLeftLines, TbArrowBigRightLines} from "react-icons/tb";
+import {GiPodiumWinner} from "react-icons/gi";
+import {useHistory} from 'react-router-dom';
+import CheckHighest from "../../../components/helpers/checkHighest";
+import checkAverage from "../../../components/helpers/checkAverage";
 
 function FillPage() {
-
+    const history = useHistory();
+    const {id} = useParams();
     const [scoreCard, setScoreCard] = useState({})
     const [p1Score] = useState([])
     const [p2Score] = useState([])
@@ -23,13 +25,17 @@ function FillPage() {
     const [successful, toggleSuccessful] = useState(false)
     const [restP1, setRestP1] = useState(null)
     const [restP2, setRestP2] = useState(null)
+    const [playerOne, setPlayerOne] = useState([])
+    const [playerTwo, setPlayerTwo] = useState([])
+    const [edit, toggleEdit] = useState(false)
+    const [turns, setTurns] = useState(0)
 
-    const {id} = useParams();
 
     async function getScoreCard() {
+
         console.log("getscorecard wordt aangeroepen")
         try {
-            const result = await axios.get(`http://localhost:8082/scorecards/card?id=${id}`,
+            const result = await axios.get(`http://localhost:8082/playedgame/findbyid?id=${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -37,7 +43,10 @@ function FillPage() {
                     }
                 })
             setScoreCard(result.data);
-            console.log(scoreCard);
+            setPlayerOne(result.data[0].profile)
+            setPlayerTwo(result.data[1].profile)
+            console.log(playerOne)
+            console.log(playerTwo)
         } catch (e) {
             console.error(e);
             console.log(e.response.data)
@@ -53,10 +62,13 @@ function FillPage() {
         try {
             axios.put(
                 `http://localhost:8082/scorecards/fill?id=${id}`, {
-                    playerOneScore: p1Score,
-                    playerTwoScore: p2Score,
+                    highestSerieP1: CheckHighest(p1Score),
+                    highestSerieP2: CheckHighest(p2Score),
                     remainderP1: restP1,
-                    remainderP2: restP2
+                    remainderP2: restP2,
+                    averageP1: checkAverage(p1Score),
+                    averageP2: checkAverage(p2Score),
+                    nrOfTurns: turns
                 },
                 {
                     headers: {
@@ -64,17 +76,22 @@ function FillPage() {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 }
-            )
+            ).then(r => {
+                toggleSuccessful(!successful)
+                history.push("/gamecheck")
+            })
         } catch (e) {
             console.error(e.message)
         }
-        toggleSuccessful(!successful)
-    };
 
-    function checkRemainder(aimScore, sum){
-        if(aimScore - sum > 0){
+    }
+
+    function checkRemainder(aimScore, sum) {
+        if (aimScore - sum > 0) {
             return aimScore - sum;
-        } else { return 0}
+        } else if (aimScore - sum < 0) {
+            return 0
+        }
     }
 
     function handlePlus() {
@@ -85,173 +102,140 @@ function FillPage() {
         PPT > 1 ? setPPT(PPT - 1) : setPPT(0)
     }
 
-    function checkTurns() {
-        return p1Score.length === p2Score.length;
+    function addTurn() {
+        P1Active && setTurns(turns + 1)
     }
 
     function passTurn() {
+        turns === 30 && toggleFinished(true)
+        addTurn()
 
-        checkTurns()
+        P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
+
+        P1Active && (checkWinner(playerOne.aimScore, checkSum(p1Score))) && setP1Active(!P1Active)
+
         {
-            P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
+            (!P1Active && checkWinner(playerOne.aimScore, checkSum(p1Score))) ? toggleFinished(true) : setP1Active(!P1Active)
         }
         {
-            (checkWinner(scoreCard.aimScoreP1, checkSum(p1Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
-        }
-        {
-            (checkWinner(scoreCard.aimScoreP2, checkSum(p2Score))) && checkTurns ? toggleFinished(true) : setP1Active(!P1Active)
+            (checkWinner(playerTwo.aimScore, checkSum(p2Score))) ? toggleFinished(true) : setP1Active(!P1Active)
         }
 
-        setRestP1(checkRemainder(scoreCard.aimScoreP1, checkSum(p1Score)))
-        setRestP2(checkRemainder(scoreCard.aimScoreP2, checkSum(p2Score)))
+        setRestP1(checkRemainder(playerOne.aimScore, checkSum(p1Score)))
+        setRestP2(checkRemainder(playerTwo.aimScore, checkSum(p2Score)))
         console.log(finished)
         setPPT(0)
     }
 
+
     return (
         <>
             {scoreCard &&
-                <div className="scorecard-container">
-                    <div className="scorecard-fill-container">
-                        {P1Active && !finished &&
-                            <div className="score-module">
-                                <button onClick={handlePlus}>
-                                    <img src={Plus} alt="plus"/>
-                                </button>
-                                <input
-                                    type="number"
-                                    id="playerOne"
-                                    value=''
-                                    placeholder={PPT}
-                                    onChange={((e) => {
-                                        setPPT(e.target.value)
-                                    })}/>
-                                <button onClick={handleMinus}>
-                                    <img src={Minus} alt="minus"/>
-                                </button>
-                                <button
-                                    onClick={passTurn}>BEURT DOORGEVEN
-                                </button>
-                            </div>}
-                    </div>
-                    <div className="scorecard-player-container">
-                        <div className="scorecard-current-score">
-                            {checkWinner(scoreCard.aimScoreP1, checkSum(p1Score)) &&
-                                <div className="scorecard-current-winner">
-                                    <img src={Winner} alt="winner"/>
-                                </div>
-                            }
+                <div className="FillPage-container">
+
+                    <div className="FillPage-sides-container">
+                        <div className="FillPage-sides-game-content">
                             <h1>{checkSum(p1Score)}</h1>
                         </div>
-                        {!finished && P1Active ?
-                            <div className="scorecard-current-turn">
-                                <h2>BEURT {showTurn(p1Score)}</h2>
-                                <h1>{PPT}</h1>
-                            </div> : <div className="scorecard-current-turn"></div>}
-                        <div className="scorecard-player-info-container">
-                            <div className="scorecard-player-winner">
+                        {checkWinner(playerOne.aimScore, checkSum(p1Score)) &&
+                            <div id="game-winner">
+                                <GiPodiumWinner size={70}/>
+                            </div>}
+                        <div className="FillPage-sides-player-content">
 
-                            </div>
-                            <div className="scorecard-player-info">
-
-                                <h1>{scoreCard.playerOneName} ({scoreCard.aimScoreP1})</h1>
-                                <h3>Hoogste
-                                    serie: {p1Score.length < 1 ? "?" : CheckHighest(p1Score)} </h3>
-                                <h3>Gemiddelde: {CheckAverage(p1Score) <= 0 ? "?" : CheckAverage(p1Score)}</h3>
-                            </div>
-                        </div>
-                        <div className="scorecard-player-scores">
-                            {!p1Score.length < 1 ? p1Score.map((turn, index) => {
-                                    return <Turn
-                                        key={index + "p1"}
-                                        index={index}
-                                        turn={turn}
-                                        score={p1Score}/>
-                                })
-                                : <p>Er is nog niet gespeeld</p>}
+                            <PlayerCard username={playerOne.username} key={playerOne.username}/>
                         </div>
                     </div>
-                    <div className="scorecard-game-info-container">
-                        <div className="scorecard-game-info-top">
-                            {successful && <h1>SCORES SUCCESVOL DOORGESTUURD</h1>}
+                    <div className="FillPage-middle-column">
+                        <div className="FIllPage-middle-score-display">
+                            <div className="FIllPage-middle-score-display-column">
+                                {!p1Score.length < 1 ? p1Score.map((turn, index) => {
+                                        return <Turn
+                                            key={index + "p1"}
+                                            index={index}
+                                            turn={turn}
+                                            score={p1Score}
+                                            edit={edit}/>
+                                    })
+                                    : <p>Er is nog niet gespeeld</p>}
+                            </div>
+                            <div className="FIllPage-middle-score-display-column">
+                                {!p2Score.length < 1 ? p2Score.map((turn, index) => {
+                                        return <Turn
+                                            key={index + "p2"}
+                                            index={index}
+                                            turn={turn}
+                                            score={p2Score}/>
+                                    })
+                                    : <p>Er is nog niet gespeeld</p>}
+                            </div>
+
                         </div>
-                        {!finished &&
+                        {scoreCard && !finished &&
                             <div className="scorecard-game-info-middle">
-                                {P1Active ? <h2>{scoreCard.playerOneName} aan de beurt</h2> :
-                                    <h2> {scoreCard.playerTwoName} aan de beurt</h2>}
-                            </div>}
-                        <div className="scorecard-game-info-bottom"></div>
+                                {P1Active
+                                    ?
+                                    <div id="turn-info">
+                                        <TbArrowBigLeftLines size={80}/>
+                                        <h2> {playerOne.firstName} aan de beurt</h2>
 
-                        {finished && !successful &&
-                            <div className="successfull">
-                                <button
+                                    </div>
+                                    :
+                                    <div id="turn-info">
+
+                                        <h2>  {playerTwo.firstName} aan de beurt</h2>
+                                        <TbArrowBigRightLines size={80}/>
+
+                                    </div>}
+                            </div>}
+                        {finished && !successful ?
+                            <div className="FillPage-middle-score-submit">
+                                <div
                                     onClick={submitScore}>
-                                    scores doorgeven
-                                </button>
+                                    Scores opslaan
+                                </div>
+                            </div> :
+                            <div className="FillPage-middle-score-input">
+                                {!edit &&
+                                    <div id="score-buttons">
+                                        <button onClick={handleMinus}>
+                                            <HiMinusCircle size={70}/>
+                                        </button>
+                                        <h1>
+                                            {PPT}
+                                        </h1>
+                                        <button onClick={handlePlus}>
+                                            <HiPlusCircle size={70}/>
+                                        </button>
+                                    </div>
+                                }
+                                <section>
+                                    {!edit &&
+                                        <div id="score-edit-button-active"
+                                             onClick={passTurn}>Score invoeren
+                                        </div>}
+                                    <div id={!edit ? 'score-edit-button' : 'score-edit-button-active'}
+                                         onClick={(() => {
+                                             toggleEdit(!edit)
+                                         })}>
+                                        {!edit ? "CORRECTIE" : "CORRECTIE OPSLAAN"}
+                                    </div>
+                                </section>
                             </div>}
                     </div>
-
-                    <div className="scorecard-player-container">
-                        <div className="scorecard-current-score">
-                            {checkWinner(scoreCard.aimScoreP2, checkSum(p2Score)) &&
-                                <div className="scorecard-current-winner">
-                                    <img src={Winner} alt="winner"/>
-                                </div>
-                            }
+                    <div className="FillPage-sides-container">
+                        <div className="FillPage-sides-game-content">
                             <h1>{checkSum(p2Score)}</h1>
                         </div>
-                        {!checkWinner(scoreCard.aimScoreP2, p2Score) && !P1Active ?
-                            <div className="scorecard-current-turn">
-                                <h2>BEURT {showTurn(p2Score)}</h2>
-                                <h1>{PPT}</h1>
-                            </div> : <div className="scorecard-current-turn"></div>}
-                        <div className="scorecard-player-info-container">
-                            <div className="scorecard-player-winner">
+                        {checkWinner(playerTwo.aimScore, checkSum(p2Score)) &&
+                            <div id="game-winner">
+                                <GiPodiumWinner size={70}/>
+                            </div>}
+                        <div className="FillPage-sides-player-content">
 
-                            </div>
-                            <div className="scorecard-player-info">
-
-                                <h1>{scoreCard.playerTwoName} ({scoreCard.aimScoreP2})</h1>
-                                <h3>Hoogste
-                                    serie: {p2Score.length < 1 ? "?" : CheckHighest(p2Score)} </h3>
-                                <h3>Gemiddelde: {CheckAverage(p2Score) <= 0 ? "?" : CheckAverage(p2Score)}</h3>
-                            </div>
-                        </div>
-                        <div className="scorecard-player-scores">
-                            {!p1Score.length < 1 ? p2Score.map((turn, index) => {
-                                    return <Turn
-                                        key={index + "p2"}
-                                        index={index}
-                                        turn={turn}
-                                        score={p2Score}/>
-                                })
-                                : <p>Er is nog niet gespeeld</p>}
+                            <PlayerCard username={playerTwo.username} key={playerTwo.username}/>
                         </div>
                     </div>
-                    <div className="scorecard-fill-container">
-                        {!P1Active && !checkWinner(scoreCard.aimscoreP2, checkSum(p2Score)) &&
-                            <div className="score-module">
-                                <button onClick={handlePlus}>
-                                    <img src={Plus} alt="plus"/>
-                                </button>
-                                <input
-                                    type="number"
-                                    id="playerTwo"
-                                    value={PPT}
-                                    placeholder="score"
-                                    onChange={((e) => {
-                                        setPPT(e.target.value)
-                                    })}/>
-                                <button onClick={handleMinus}>
-                                    <img src={Minus} alt="minus"/>
-                                </button>
-                                <button
-                                    onClick={passTurn}>BEURT DOORGEVEN
-                                </button>
-                            </div>
-                        }
-                    </div>
-
                 </div>
             }
         </>

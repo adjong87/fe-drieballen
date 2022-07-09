@@ -2,20 +2,51 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
 
 }
 
 .add-member-form {
-    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
     min-width: 600px;
-    width: 1068px;
+    width: 50%;
     border-radius: 5px;
-    background-color: lightgray;
-
+    background-color: lightblue;
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.06);
 }
+
+.form-group label {
+    padding: 5px;
+}
+
+.form-group input {
+    padding: 2px;
+}
+
+
 
 .form-group {
     justify-content: space-evenly;
     display: flex;
     flex-direction: column;
+}
+
+.form-group-bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group-bottom-button{
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+
+.form-group-bottom-button button{
+    cursor:pointer;
 }

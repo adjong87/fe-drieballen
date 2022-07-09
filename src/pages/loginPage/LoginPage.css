@@ -1,9 +1,40 @@
-*{
-    border: 0;
-    margin: 0;
+.login-outer-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    margin-top: 40px;
 }
 
-.form-group{
-    align-self: center;
+.login-center-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    min-height: 500px;
 
+}
+
+.login-center-inner-container{
+    border-radius: 10px;
+    width: 30%;
+    flex-direction: column;
+    display: flex;
+    background-color: lightblue;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.06);
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+
+.login-form-group{
+    flex-direction: column;
+    align-self: center;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.login-form-group p{
+    padding:5px;
+    color: red;
 }

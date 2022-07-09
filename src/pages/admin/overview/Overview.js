@@ -3,7 +3,6 @@ import {useEffect, useState} from 'react';
 import axios from "axios";
 import './Overview.css'
 import PlayerCard from "../../../components/playerCard/PlayerCard";
-import {Link} from "react-router-dom";
 
 function Overview() {
     const [playersData, setPlayersData] = useState([]);
@@ -37,6 +36,7 @@ function Overview() {
                     return <PlayerCard
                         username={player.username}
                         page="admin"
+                        key={index}
                     />
                 })}
             </div>

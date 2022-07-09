@@ -1,26 +1,26 @@
-.navbar img {
-    width: 150px;
-    height: 150px;
-}
-
 .navbar {
-    height: 10vh;
+    height: 12vh;
     background-color: black;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 
+}
+
+.navbar img {
+    width: 125px;
+    height: 125px;
 }
 
 .navbar-logo {
     color: white;
-    text-decoration: none;
     font-size: 2rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 10rem;
+    margin: 10px;
+    border: none;
 }
 
 .nav-items {
@@ -44,8 +44,9 @@
     margin-right: 2rem;
     padding: 6px 16px;
     border: 5px;
+    border-radius: 5px;
 }
 
 .nav-item a:hover{
-    background-color: rgb(0,212,212);
+    background-color: lightblue;
 }

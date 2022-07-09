@@ -2,17 +2,14 @@ import React, {useState} from 'react';
 import {AiOutlineSave} from "react-icons/ai";
 import {ImWrench} from "react-icons/im";
 
-function Turn({index, turn, score}) {
+function Turn({index, turn, score, edit}) {
 
     const [correct, toggleCorrect] = useState(true)
     const [correctScore, setCorrectScore] = useState(turn)
 
-    function handleSubmit(e) {
+    function handleSubmit() {
         score[index] = parseInt(correctScore)
-        console.log(correctScore)
         toggleCorrect(!correct)
-        console.log(score)
-        console.log(index)
     }
 
     return (
@@ -21,10 +18,12 @@ function Turn({index, turn, score}) {
                 <div
                     className="player-turn">
                     <span>Beurt{index + 1} : {correctScore}</span>
-                    <button onClick={(() => {
+                    {edit && <span><button onClick={(() => {
                         toggleCorrect(false)
-                    })}><ImWrench/>
+                    })}>
+                        <ImWrench/>
                     </button>
+                        </span>}
                 </div>
                 :
                 <div className="player-turn-correct">
@@ -32,6 +31,9 @@ function Turn({index, turn, score}) {
                         type={"number"}
                         id="correction"
                         placeholder={score[index]}
+                        onSubmit={((e) => {
+                            score[index] = parseInt(correctScore)
+                        })}
                         onChange={((e) => {
                             setCorrectScore(e.target.value)
                         })}>

@@ -20,7 +20,6 @@ function ProfilePage() {
                         }
                     })
                 setProfile(response.data);
-                console.log(response.data);
             } catch (e) {
                 console.error(e);
             }
@@ -30,14 +29,17 @@ function ProfilePage() {
     }, []);
     return (
         <>
-            <div className="profile-container">
-                <PlayerCard username={username}/>
+            <div className="profile-page-container">
+                <PlayerCard
+                    username={username}/>
 
                 <div className="playedGames-list-container">
-                    {profile && profile.map((scoreCard, index) => {
-                        return <PlayedGame
-                            id={scoreCard.scoreCard.id}
-                            key={index}/>
+                    {profile &&
+                        profile.map((scoreCard, index) => {
+                            return <PlayedGame
+                                id={scoreCard.scoreCard.id}
+                                key={index}/>
+
                     })}
                 </div>
             </div>

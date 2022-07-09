@@ -8,7 +8,7 @@ import {AuthContext} from "../../components/context/AuthContext";
 
 
 function LoginPage() {
-    const { login } = useContext(AuthContext);
+    const {login, isAuth, toggleIsAuth} = useContext(AuthContext);
     const {register, handleSubmit, formState: {errors}} = useForm()
 
     const onFormSubmit = async data => {
@@ -18,7 +18,9 @@ function LoginPage() {
                 data,
                 {headers: {'Content-Type': 'application/json'}}
             ).then(response => {
-                login(response.data.accessToken)
+                login(response)
+                console.log(response)
+
             })
         } catch (e) {
             console.error(e.message)
@@ -29,14 +31,10 @@ function LoginPage() {
     return (
         <>
             <div className="login-outer-container">
-                <div className="login-fill-container">
-                </div>
                 <div className="login-center-container">
                     <div className="login-center-inner-container">
-                        <div className="login-center-container-top">
                             <img src={balls} alt="ballen"/>
                             <h1>Inloggen bij de Drie Ballen</h1>
-                        </div>
                         <div className="login-center-container-bottom">
                             <form onSubmit={handleSubmit(onFormSubmit)}>
                                 <div className="login-form-group">
@@ -57,15 +55,15 @@ function LoginPage() {
                                         Wachtwoord:
                                         <input
                                             type="password"
-                                            id="password"
-                                            {...register("password")}
-                                            placeholder="wachtwoord"
-                                        />
+                                            {...register("password", {
+                                                required: "Wachtwoord mag niet leeg zijn.",
+                                            })}
+                                                placeholder="wachtwoord"/>
                                     </label>
                                     {errors.password && <p>{errors.password.message}</p>}
                                 </div>
                                 <div className="login-form-group">
-                                    <button className="btn btn-primary btn-block">
+                                    <button className="login-form-group-button">
                                         <span>Login</span>
                                     </button>
                                 </div>
@@ -73,8 +71,6 @@ function LoginPage() {
                             </form>
                         </div>
                     </div>
-                </div>
-                <div className="login-fill-container">
                 </div>
             </div>
         </>

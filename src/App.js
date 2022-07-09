@@ -7,65 +7,60 @@ import './App.css';
 import Overview from "./pages/admin/overview/Overview";
 import CreateGamePage from "./pages/admin/createGamePage/CreateGamePage";
 import AddMember from "./pages/admin/addMember/AddMember";
-import ScoreCard from "./components/scoreCard/ScoreCard";
-import ScoreCardOverview from "./pages/moderator/scoreCardOverview/ScoreCardOverView";
+import GameCheckPage from "./pages/moderator/gamecheck/GameCheckPage";
 import FillPage from "./pages/moderator/fillPage/FillPage";
 import Home from "./pages/Home";
 import LoginPage from "./pages/loginPage/LoginPage";
-import Footer from "./components/footer/Footer";
 
 function PrivateRoute({children, isAuth, ...rest}) {
     return (
         <Route {...rest}>
-            {isAuth ? children : <Redirect to="/"/>}
+            {isAuth ? children : <Redirect to="/login"/>}
         </Route>
     )
 }
 
 function App() {
     const {isAuth} = useContext(AuthContext);
-    console.log(isAuth)
-
     return (
         <>
-            <div className="container">
-                <NavBar/>
-            <Switch>
-                <Route exact path="/">
-                    <Home/>
-                </Route>
-                <PrivateRoute exact path="/addMember" isAuth={isAuth}>
-                    <AddMember/>
-                </PrivateRoute>
-                <PrivateRoute exact path="/overview" isAuth={isAuth}>
-                    <Overview/>
-                </PrivateRoute>
-                <PrivateRoute exact path="/create" isAuth={isAuth}>
-                    <CreateGamePage/>
-                </PrivateRoute>
-                <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
-                    <Profile/>
-                </PrivateRoute>
-                <PrivateRoute exact path="/scorecards/:id" isAuth={isAuth}>
-                    <ScoreCard/>
-                </PrivateRoute>
-                <PrivateRoute exact path="/gamecheck" isAuth={isAuth}>
-                    <ScoreCardOverview/>
-                </PrivateRoute>
-                <PrivateRoute exact path="/fill/:id" isAuth={isAuth}>
-                    <FillPage/>
-                </PrivateRoute>
-                <PrivateRoute exact path="/scorecard" isAuth={isAuth}>
-                    <ScoreCard/>
-                </PrivateRoute>
-                <Route exact path="/login">
-                    <LoginPage/>
-                </Route>
-                {/*<Route exact path="/addMember">*/}
-                {/*/!*    <NewMember />*!/*/}
-                {/*</Route>*/}
-            </Switch>
-                <Footer/>
+            <div className="app">
+                <div className="nav">
+                    <NavBar/>
+                </div>
+                <div className="content">
+                    <Switch>
+                        <Route exact path="/">
+                            <Home/>
+                        </Route>
+                        <PrivateRoute exact path="/addMember" isAuth={isAuth}>
+                            <AddMember/>
+                        </PrivateRoute>
+                        <PrivateRoute exact path="/overview" isAuth={isAuth}>
+                            <Overview/>
+                        </PrivateRoute>
+                        <PrivateRoute exact path="/create" isAuth={isAuth}>
+                            <CreateGamePage/>
+                        </PrivateRoute>
+                        <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
+                            <Profile/>
+                        </PrivateRoute>
+
+                        <PrivateRoute exact path="/gamecheck" isAuth={isAuth}>
+                            <GameCheckPage/>
+                        </PrivateRoute>
+                        <PrivateRoute exact path="/fill/:id" isAuth={isAuth}>
+                            <FillPage/>
+                        </PrivateRoute>
+                        <Route exact path="/login">
+                            <LoginPage/>
+                        </Route>
+                        {/*<Route exact path="/addMember">*/}
+                        {/*/!*    <NewMember />*!/*/}
+                        {/*</Route>*/}
+                    </Switch>
+                </div>
+
             </div>
         </>
     );

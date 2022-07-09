@@ -3,14 +3,18 @@ import './CreateGamePage.css'
 import {useEffect, useState} from 'react'
 import axios from "axios";
 import PlayerCard from "../../../components/playerCard/PlayerCard";
+import {useHistory} from "react-router-dom";
 
 
 function CreateGamePage() {
+    const history = useHistory();
 
-    const [playerOne, setPlayerOne] = useState("");
-    const [playerTwo, setPlayerTwo] = useState("");
+    const [playerOne, setPlayerOne] = useState(null);
+    const [playerTwo, setPlayerTwo] = useState(null);
     const [allPlayers, setAllPlayers] = useState([])
     const [double, setDouble] = useState(false)
+    const [succesFull, setSuccesFull] = useState(false)
+
 
     function checkDouble() {
         if (playerOne === playerTwo) {
@@ -57,12 +61,22 @@ function CreateGamePage() {
                         }
                     }
                 ).then(response => {
-                    console.log("gelukt")
+                    console.log(response)
+                    if (window.confirm('Wedstrijd is succesvol aangemaakt. Druk op OK om nog een wedstrijd aan te maken, druk op annuleren om terug te gaan naar de overzicht pagina')) {
+                        setSuccesFull(false)
+                        setPlayerOne(null)
+                        setPlayerTwo(null)
+
+                    } else history.push("/overview");
+
                 })
             } catch (e) {
                 console.error(e.message)
+                setSuccesFull(false)
+
             }
         }
+
     }
 
     useEffect(() => {
@@ -79,39 +93,49 @@ function CreateGamePage() {
                         </div>
 
                         <div className="create-game-inner-side-player-selection">
+
                             <div>
-                                <PlayerCard
+                                {playerOne&&<PlayerCard
                                     username={playerOne}
-                                    key={playerOne}/>
+                                    key={playerOne}
+                                    page="create"/>}
                             </div>
-                            <form>
-                                <label htmlFor="playerOne"></label>
-                                <select name="playerOneSelect" id="p1"
-                                        onChange={(e) => setPlayerOne(e.target.value)}>
-                                    {allPlayers.map((p1, index) => {
-                                        return <option key={index} value={p1.username}>{p1.firstName}</option>
-                                    })}
-                                </select>
-                            </form>
+                            <div className="createGamePage-player-pick">
+                                <form>
+                                    <label htmlFor="playerOne"></label>
+                                    <select name="playerOneSelect" id="p1"
+                                            onChange={(e) => setPlayerOne(e.target.value)}>
+                                        {allPlayers.map((p1, index) => {
+                                            return <option key={index} value={p1.username}>{p1.firstName}</option>
+                                        })}
+                                    </select>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div className="create-game-inner-middle">
-                        {!double ?
-                            <span><h1>{playerOne} VS {playerTwo}</h1> <button
-                                onClick={createGame}>Create game</button></span> :
-                            <h1>Dit kan niet</h1>}
+                    {succesFull ?
+                        <div className="create-game-inner-middle">
+                            <h1>Wedstrijd is klaargezet</h1>
+                        </div>
+                        :
+                        <div className="create-game-inner-middle">
+                            {playerOne !== null && playerTwo !== null & !double ?
+                                <div onClick={createGame} className="create-game-inner-button">START</div> :
+                                <h1>Kies twee (verschillende) spelers</h1>}
 
-                    </div>
+                        </div>
+                    }
                     <div className="create-game-inner-sides">
 
 
                         <div className="create-game-inner-side-player-selection">
                             <div>
-                                <PlayerCard
+                                {playerTwo&&<PlayerCard
                                     username={playerTwo}
-                                    key={playerTwo}/>
+                                    key={playerTwo}
+                                    page="create"/>}
                             </div>
-                            <form>
+                            <form className="createGamePage-player-pick">
                                 <label htmlFor="playerTwo"></label>
                                 <select name="playerTwoSelect" id="p2"
                                         onChange={(e) => setPlayerTwo(e.target.value)}>

@@ -3,11 +3,12 @@ import {useForm} from 'react-hook-form';
 import './AddMember.css'
 import {useState} from 'react';
 import axios from "axios";
+import {AiOutlineUserAdd} from "react-icons/ai";
 
 export default function AddMember() {
 
     const [successful, setSuccessful] = useState(false);
-
+    const [error, toggleError] = useState()
     const {
         register,
         formState: {errors},
@@ -15,8 +16,6 @@ export default function AddMember() {
     } = useForm();
 
     const onSubmit = data => {
-        console.log(data)
-
         try {
             axios.post(
                 "http://localhost:8082/api/auth/signUp",
@@ -27,18 +26,22 @@ export default function AddMember() {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 }
-            )
+            ).then(r => toggleError(r))
+            setSuccessful(true)
+            console.log(error)
+
         } catch (e) {
             console.error(e.message)
+            setSuccessful(false)
+
         }
-        setSuccessful(!successful)
     };
 
     return (
-                <>
-
-            {!successful ?
-                <div className="add-member-container">
+        <>
+            <div className="add-member-container">
+                {!successful
+                    ?
                     <div className="add-member-form">
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="form-group">
@@ -190,44 +193,49 @@ export default function AddMember() {
                                 <br/>
                                 <br/>
                             </div>
-                            <div className="form-group">
-                                <label>
-                                    <input
-                                        name="role"
-                                        type="checkbox"
-                                        value="ADMIN"
-                                        {...register('role', {
-                                            required: 'Dit veld is verplicht'
-                                        })}/>{' '}
-                                    Admin
-                                </label>
-                                <label>
-                                    <input
-                                        name="role"
-                                        type="checkbox"
-                                        value="MOD"
-                                        {...register('role', {
-                                            required: 'Dit veld is verplicht'
-                                        })}/>{' '}
-                                    Scheidsrechter
-                                </label>
-                                <label>
-                                    <input
-                                        name="role"
-                                        type="checkbox"
-                                        value="USER"
-                                        {...register('role', {
-                                            required: 'Dit veld is verplicht'
+                            <div className="form-group-bottom">
+                                <div className="form-group">
+                                    <p>Kies de gewenste gebruikersrollen</p>
+                                    <label>
+                                        <input
+                                            name="role"
+                                            type="checkbox"
+                                            value="ADMIN"
+                                            {...register('role', {
+                                                required: 'Dit veld is verplicht'
+                                            })}/>{' '}
+                                        Admin
+                                    </label>
+                                    <label>
+                                        <input
+                                            name="role"
+                                            type="checkbox"
+                                            value="MOD"
+                                            {...register('role', {
+                                                required: 'Dit veld is verplicht'
+                                            })}/>{' '}
+                                        Scheidsrechter
+                                    </label>
+                                    <label>
+                                        <input
+                                            name="role"
+                                            type="checkbox"
+                                            value="USER"
+                                            {...register('role', {
+                                                required: 'Dit veld is verplicht'
 
-                                        })}/>{' '}
-                                    Gebruiker
-                                </label>
-                                {errors.role && <p>{errors.role.message}</p>}
+                                            })}/>{' '}
+                                        Gebruiker
+                                    </label>
+                                    {errors.role && <p>{errors.role.message}</p>}
+                                </div>
+                                <div className="form-group-bottom-button">
+                                    <button type="submit"><AiOutlineUserAdd size={70}/></button>
+                                </div>
                             </div>
-                            <button type="submit">Submit</button>
                         </form>
-                    </div>
-                </div> : <div>Nieuwe gebruiker aangemaakt!</div>}
+                    </div> : <div><h1>Nieuwe gebruiker aangemaakt!</h1></div>}
+            </div>
         </>
     );
 }

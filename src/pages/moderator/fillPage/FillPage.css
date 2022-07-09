@@ -1,131 +1,157 @@
-.scorecard-fill-container {
+.FillPage-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    left: 0;
+    overflow: hidden;
+
 }
 
-.scorecard-fill-container img {
-    width: 75px;
-    height: 75px;
+.FillPage-container button{
+    border: none;
 }
 
-.scorecard-container {
-    display: flex;
-    width: 1000px;
-    height: 1000px;
-    justify-content: space-between;
-}
 
-.scorecard-fill-container{
-    width: 100px;
+.FillPage-sides-container {
     display: flex;
-    flex-shrink: 3;
-}
-
-.scorecard-player-container {
-    display: flex;
-    align-items: center;
-    margin: 10px;
+    flex-basis: 300px;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: space-around;
-    border: 2px solid red;
+
 }
 
-.scorecard-current-winner img {
+.FillPage-sides-game-content {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
-    border: 2px solid red;
-}
-
-.scorecard-current-score{
     font-size: xxx-large;
+}
+
+.FillPage-sides-game-content #game-winner {
+    align-self: center;
+}
+
+.FillPage-sides-player-content {
     display: flex;
+    justify-content: space-evenly;
+    cursor: pointer;
+
+}
+
+.FillPage-middle-column {
+    display: flex;
+    width: 33%;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid red;
-    width: 150px;
-    height: 150px;
-}
-
-.scorecard-current-turn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid red;
-    width: 150px;
-    height: 150px;
-}
-
-.scorecard-player-info-container {
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid red;
-}
-
-.scorecard-player-winner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border: 2px solid red;
-}
-
-.winner {
-    width: 50px;
-    height: 50px;
-}
-
-.scorecard-player-info {
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    border: 2px solid red;
-}
-
-.scorecard-player-scores {
-    display: flex;
-    border: 1px solid pink;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.scorecard-game-info-container {
     justify-content: space-between;
-    display: flex;
-    align-items: center;
-    margin: 10px;
-    flex-direction: column;
-    border: 2px solid red;
 }
 
-.scorecard-game-info-top {
-    margin-top: 50px;
-    border: 2px solid red;
+.FIllPage-middle-score-display {
+    display: flex;
+    flex-direction: row;
+    height: 75%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    border: 1px solid black;
+
+}
+
+.FIllPage-middle-score-display::-webkit-scrollbar {
+    display: none;
+
+}
+
+.FIllPage-middle-score-display-column  {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 50%;
+    border: 1px solid black;
+    border-top: none;
+}
+
+.scorecard-game-info-middle #turn-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: content-box;
+    flex-grow: 1;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+
+}
+
+.FillPage-middle-score-input {
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-start;
+    border: 2px solid black;
+}
+
+.FillPage-middle-score-submit {
+    display: flex;
+    background-color: blue;
+    height: 50%;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
+    font-size: xx-large;
+    font-weight: bold;
 }
 
-.scorecard-game-info-middle {
+.FillPage-middle-score-submit :hover {
+    display: block;
+    background-color: lime;
+}
+
+.FillPage-middle-score-input #score-buttons {
     display: flex;
-    flex-direction: column;
-    border: 2px solid red;
+    justify-content: space-evenly;
+    width: 100%;
+    font-size: xxx-large;
 
 }
 
-.scorecard-game-info-bottom{
+.FillPage-middle-score-input #score-buttons button {
+
+    background-color: transparent;
+}
+
+.FillPage-middle-score-input #score-edit-button {
+    display: block;
+    border: 1px solid black;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    background-color: red;
+}
+
+
+.FillPage-middle-score-input #score-edit-button-active {
+    display: block;
+    border: 1px solid black;
+    width: 100%;
+    background-color: limegreen;
+    cursor: pointer;
+    padding: 20px 0 20px 0;
+    text-align: center;
+
+
+}
+
+.player-turn button {
+    padding: 0;
+}
+
+.player-turn {
+    gap: 15px;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
-    border: 2px solid red;
-    align-items: center;
+    justify-content: space-between;
+}
+
+.player-turn-correct {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
 }

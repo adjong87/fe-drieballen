@@ -7,12 +7,16 @@
 }
 
 .leden-submenu > li {
-    background-color: rgb(0, 212, 212);
+    background-color: lightblue;
     cursor: pointer;
+    border: 1px solid white;
+    border-top: none;
+
 }
 
 .leden-submenu > li a:hover {
-    background: rgb(0, 175, 175);
+    background: white;
+    color: lightblue;
 }
 .leden-submenu.clicked > {
     display: none;

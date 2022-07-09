@@ -1,0 +1,58 @@
+.gamecheck-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+    width:100%;
+}
+
+.gamecheck-contents h1 a:link {
+text-decoration: none;
+}
+
+.gamecheck-contents{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    background-color: lightblue;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.06);
+    height: 100px;
+    margin: 20px;
+    border-radius: 10px;
+    justify-self: center;
+
+}
+
+.gamecheck-contents a {
+}
+
+.gamecheck-contents:hover {
+    background-color: #F4ECE5;
+    color: lightblue;
+}
+
+.gamecheck-contents-sides {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 15px;
+    width: 30%;
+}
+
+.gamecheck-contents-sides #player-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+
+}
+
+.gamecheck-contents-middle{
+    display: flex;
+    margin: 5px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+}

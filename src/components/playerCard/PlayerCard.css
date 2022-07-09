@@ -1,25 +1,36 @@
 .playerCard-container {
     display: flex;
-    border: 2px solid blue;
-    flex-basis: 275px;
-    flex-grow: 0;
     margin-left: 1vw;
-    margin-top: 1vw;
+    margin-top: 20px;
+    justify-content: center;
+    min-width: 400px;
+    min-height: 500px;
 }
 
+.playerCard-container button {
+    cursor: pointer;
+    background-color: lightblue;
+    border: none;
+}
+
+
 .playerCard-content {
-    width: 100%;
+    max-height: 500px;
     display: flex;
     flex-direction: column;
-    border: 2px solid red;
     border-radius: 10px;
-    justify-content: center;
     align-items: center;
+    background-color: lightblue;
+    width: 100%;
+    justify-content: space-between;
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.06);
+
 }
 
 .playerCard-content-name {
     align-self: center;
     padding-top: 10px;
+    margin-top: 10px;
 }
 
 .playerCard-content-photo {
@@ -27,11 +38,10 @@
     align-items: center;
     align-self: center;
     color: white;
-    border: 2px solid red;
     margin: 20px;
     border-radius: 10px;
-    height: 135px;
-    width: 135px;
+    height: 200px;
+    width: 200px;
 }
 
 
@@ -45,44 +55,41 @@
     display: flex;
     align-items: flex-start;
     margin: 20px;
-    border: 2px solid red;
+    border: 1px solid lightcyan;
     flex-direction: column;
     border-radius: 10px;
+        gap: 10px;
+    font-size: large;
+}
+
+.playerCard-content-stats input {
+    border: 1px solid black;
 }
 
 .playerCard-content-button {
     align-self: flex-end;
-    padding: 10px;
+    padding-right: 5px;
+    gap: 10px
 }
 
 .playerCard-content-edit-open {
     width: 30%;
+    max-height: 500px;
+
 }
 
-.playerCard-content-edit-photo img {
+.playerCard-content-photo img {
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
 
-
-.playerCard-content-edit-photo {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    color: white;
-    margin: 20px;
-    border-radius: 10px;
-    height: 135px;
-    width: 135px;
-    flex-direction: column;
-    border: 2px solid green;
+.image-preview {
+    height: 200px;
+    width: 200px;
+    border: 1px solid black;
 }
 
-.playerCard-upload-form {
-    display: flex;
-}
 
 #upload-photo {
     height: 0;
@@ -90,10 +97,11 @@
 }
 
 #upload-photo-label {
-    border: 1px solid #cccccc;
-    padding: 5px 30px;
-    font-size: 13px;
+    border: 1px solid black;
+    padding: 5px 20px;
+    font-size: 16px;
     width: 100%;
+    background-color: lightgray;
 }
 
 #upload-photo-label:active {
@@ -101,11 +109,17 @@
 }
 
 #upload-button {
-    border: 1px solid #cccccc;
+    align-self: center;
+    border: 1px solid black;
     padding: 5px 30px;
     font-size: 13px;
+    background-color: lightgray;
 }
 
 #upload-button:active {
     background: #ccc;
+}
+
+#delete-photo input{
+background-color: lightblue
 }
