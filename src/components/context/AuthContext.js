@@ -15,6 +15,26 @@ function AuthContextProvider({children}) {
     });
     const history = useHistory();
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if (token && isTokenValid(token)) {
+            const decoded = jwt_decode(token);
+            console.log(decoded)
+            fetchUserData(decoded.sub, token);
+        } else {
+            // als er GEEN token is doen we niks, en zetten we de status op 'done'
+            toggleIsAuth({
+                isAuth: false,
+                user: {
+                    username: null,
+                    email: null,
+                    gebruikersrollen: []
+                },
+                status: 'done',
+            });
+        }
+    }, []);
 
     function login(response) {
         localStorage.setItem('token', response.data.accessToken);
@@ -31,13 +51,6 @@ function AuthContextProvider({children}) {
             status: 'done',
         })
         history.push("/");
-
-        // zet de token in de Local Storage
-        // decode de token zodat we de ID van de gebruiker hebben en data kunnen ophalen voor de context
-
-        // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
-        // link de gebruiker door naar de profielpagina
-        // history.push('/profile');
     }
 
     function logout() {
@@ -59,6 +72,7 @@ function AuthContextProvider({children}) {
 
         history.push('/');
     }
+
 
     // Omdat we deze functie in login- en het mounting-effect gebruiken, staat hij hier gedeclareerd!
     async function fetchUserData(id, token, redirectUrl) {

@@ -3,7 +3,6 @@ import axios from "axios";
 import './GameCheckPage.css'
 import React from 'react';
 import {Link} from "react-router-dom";
-import {GiPodiumWinner} from "react-icons/gi";
 
 function GameCheckPage() {
     const [scoreCardData, setScoreCardData] = useState([]);
@@ -32,7 +31,7 @@ function GameCheckPage() {
     return (
 
         <div className="gamecheck-container">
-            {(scoreCardData < 1) ? <h2> Vraag de voorzitter om een wedstrijd klaar te zetten </h2> : <h2>Ready to rumble</h2>}
+            {(scoreCardData < 1) ? <h1> Vraag de voorzitter om een wedstrijd klaar te zetten </h1> : <h1>Nog te spelen wedstrijden</h1>}
             {scoreCardData && scoreCardData.map((scoreCard) => {
                 return (
                     <Link to={`/fill/${scoreCard.id}`} style={{ textDecoration: 'none' }}>

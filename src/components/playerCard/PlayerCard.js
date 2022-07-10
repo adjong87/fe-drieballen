@@ -10,8 +10,7 @@ import {Link, useHistory} from 'react-router-dom';
 import {RiDeleteBinLine} from "react-icons/ri";
 
 function PlayerCard({username, page}) {
-
-    const {user} = useContext(AuthContext)
+    const {user, gebruikersrollen} = useContext(AuthContext)
     const [playerData, setPlayerData] = useState({})
     const [edit, toggleEdit] = useState(false)
     const [file, setFile] = useState([]);
@@ -39,11 +38,10 @@ function PlayerCard({username, page}) {
     }, [edit]);
 
 
-    async function deletePhoto(e) {
+    async function deletePhoto() {
         if (window.confirm('Weet je zeker dat je deze foto wilt verwijderen?')) {
 
             // Voorkom een refresh op submit
-            e.preventDefault();
             // maak een nieuw FormData object (ingebouwd type van JavaScript)
             const formData = new FormData();
             // Voeg daar ons bestand uit de state aan toe onder de key "file"
@@ -62,7 +60,11 @@ function PlayerCard({username, page}) {
             } catch (e) {
                 console.error(e)
             }
-            history.push("/overview");
+            if (gebruikersrollen.includes('ROLE_ADMIN')) {
+                history.push("/overview");
+            } else {
+                history.push("/");
+            }
         }
     }
 
@@ -89,7 +91,7 @@ function PlayerCard({username, page}) {
             } catch (e) {
                 console.error(e)
             }
-            history.push("/overview");
+            history.push("/");
         }
     }
 
@@ -180,7 +182,7 @@ function PlayerCard({username, page}) {
                         }
 
                         <div className="playerCard-content-button">
-                            {page !== "create" && !edit &&
+                            {page !== "create" && page !== "fill" && !edit &&
                                 <button
                                     onClick={() => toggleEdit(!edit)}>
                                     <ImWrench size={20}/>
@@ -224,7 +226,8 @@ function PlayerCard({username, page}) {
                                        onChange={handleImageChange}
                                 />
                                 {previewUrl ?
-                                    <label id="upload-photo-label" htmlFor="upload-photo">Kies een andere foto</label>
+                                    <label id="upload-photo-label" htmlFor="upload-photo">Kies een andere
+                                        foto</label>
                                     :
                                     <label id="upload-photo-label" htmlFor="upload-photo">Kies een foto</label>
                                 }
@@ -239,10 +242,10 @@ function PlayerCard({username, page}) {
                             </form>
 
                             <div className="playerCard-content-button">
-                                <button
+                                {gebruikersrollen.includes('ROLE_ADMIN') &&<button
                                     onClick={deleteProfile}>
                                     <RiDeleteBinLine size={20}/>
-                                </button>
+                                </button>}
                                 {edit &&
                                     <button onClick={() => toggleEdit(!edit)}>
                                         <AiOutlineSave size={20}/>
