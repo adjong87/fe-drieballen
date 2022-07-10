@@ -55,9 +55,7 @@ function App() {
                         <Route exact path="/login">
                             <LoginPage/>
                         </Route>
-                        {/*<Route exact path="/addMember">*/}
-                        {/*/!*    <NewMember />*!/*/}
-                        {/*</Route>*/}
+
                     </Switch>
                 </div>
 

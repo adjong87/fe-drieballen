@@ -143,7 +143,10 @@ function FillPage() {
                             </div>}
                         <div className="FillPage-sides-player-content">
 
-                            <PlayerCard username={playerOne.username} key={playerOne.username}/>
+                            <PlayerCard
+                                username={playerOne.username}
+                                page="fill"
+                                key={playerOne.username}/>
                         </div>
                     </div>
                     <div className="FillPage-middle-column">
@@ -233,7 +236,10 @@ function FillPage() {
                             </div>}
                         <div className="FillPage-sides-player-content">
 
-                            <PlayerCard username={playerTwo.username} key={playerTwo.username}/>
+                            <PlayerCard
+                                username={playerTwo.username}
+                                page="fill"
+                                key={playerTwo.username}/>
                         </div>
                     </div>
                 </div>

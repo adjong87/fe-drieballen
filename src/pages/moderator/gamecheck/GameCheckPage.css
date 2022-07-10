@@ -1,24 +1,27 @@
 .gamecheck-container {
     display: flex;
     flex-direction: column;
-    justify-content: center ;
-    width:100%;
+    justify-content: center;
+    width: 100%;
 }
 
-.gamecheck-contents h1 a:link {
-text-decoration: none;
+.gamecheck-container h1 {
+    align-self: center;
 }
 
-.gamecheck-contents{
+
+.gamecheck-contents {
     width: 80%;
     display: flex;
     justify-content: space-between;
     background-color: lightblue;
-    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.06);
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.06);
     height: 100px;
     margin: 20px;
     border-radius: 10px;
     justify-self: center;
+    align-self: center;
+
 
 }
 
@@ -48,7 +51,7 @@ text-decoration: none;
 
 }
 
-.gamecheck-contents-middle{
+.gamecheck-contents-middle {
     display: flex;
     margin: 5px;
     align-items: center;
