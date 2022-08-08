@@ -8,7 +8,7 @@ import Button from './component/Button'
 import Dropdown from "./Dropdown";
 
 function NavBar() {
-    const {isAuth, user, gebruikersrollen} = useContext(AuthContext)
+    const {isAuth, user } = useContext(AuthContext)
     const [adminDropDown, setAdminDropdown] = useState(false);
 
         return (
@@ -20,12 +20,12 @@ function NavBar() {
                 </div>
                 <ul className="nav-items">
                     {isAuth &&    <li key="1" className="nav-item">
-                        <Link to="/">Home</Link>
+                        <Link to="/home">Home</Link>
                     </li>}
                     {isAuth && <li key="2" className="nav-item">
                         <Link to={`/profile/${user.username}`}>Mijn profiel</Link>
                     </li>}
-                    {isAuth && gebruikersrollen.includes('ROLE_ADMIN') && navItems.map(item => {
+                    {isAuth && user.gebruikersrollen.includes('ROLE_ADMIN') && navItems.map(item => {
                         if (item.title === "Leden") {
                             return (
                                 <li
@@ -42,7 +42,7 @@ function NavBar() {
                             );
                         }
                     })}
-                    {isAuth && gebruikersrollen.includes('ROLE_MODERATOR') &&
+                    {isAuth && user.gebruikersrollen.includes('ROLE_MODERATOR') &&
 
                             <li key="4" className="nav-item">
                                 <Link to="/gamecheck">Wedstrijden</Link>

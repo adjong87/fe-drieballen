@@ -31,8 +31,6 @@ function FillPage() {
     const [turns, setTurns] = useState(0)
 
     async function getScoreCard() {
-
-        console.log("getscorecard wordt aangeroepen")
         try {
             const result = await axios.get(`http://localhost:8082/playedgame/findbyid?id=${id}`,
                 {

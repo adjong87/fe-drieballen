@@ -7,7 +7,7 @@ import isTokenValid from '../helpers/isTokenValid';
 export const AuthContext = createContext({});
 
 function AuthContextProvider({children}) {
-    const [userRoles, setUserRoles] = useState([])
+    const [userRole, setUserRole] = useState([])
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
         user: null,
@@ -17,18 +17,12 @@ function AuthContextProvider({children}) {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-
         if (token && isTokenValid(token)) {
             const decoded = jwt_decode(token);
-            setUserRoles(decoded.roles)
-            toggleIsAuth({
-                ...isAuth,
-                isAuth: true,
-                user: {
-                    username: decoded.sub,
-                    gebruikersrollen: userRoles
-                }
-            })
+            setUserRole(decoded.roles.map((role) => { return userRole.push(role) }));
+            fetchUserData(decoded, token);
+
+
         } else {
             // als er GEEN token is doen we niks, en zetten we de status op 'done'
             toggleIsAuth({
@@ -38,24 +32,26 @@ function AuthContextProvider({children}) {
                     gebruikersrollen: []
                 },
                 status: 'done',
+
             });
-            history.push("/");
+            console.log("er gaat wat mis")
         }
+
     }, []);
 
     function login(response) {
         localStorage.setItem('token', response.data.accessToken);
-        setUserRoles(response.data.roles)
+        setUserRole(response.data.roles.map((role) => { return userRole.push(role) }));
         toggleIsAuth({
             ...isAuth,
             isAuth: true,
             user: {
                 username: response.data.username,
-                gebruikersrollen: userRoles
+                gebruikersrollen: response.data.roles,
             },
             status: 'done',
         })
-        history.push("/");
+        history.push("/home");
     }
 
     function logout() {
@@ -64,17 +60,58 @@ function AuthContextProvider({children}) {
             isAuth: false,
             user: {
                 username: null,
+                email: null,
                 gebruikersrollen: []
             },
             status: 'done',
         });
-        history.push('/');
+
+        console.log('Gebruiker is uitgelogd!');
+
+
+        history.push('/login');
+    }
+
+
+    // Omdat we deze functie in login- en het mounting-effect gebruiken, staat hij hier gedeclareerd!
+    async function fetchUserData(decoded, token) {
+        try {
+            // haal gebruikersdata op met de token en id van de gebruiker
+            await axios.get(`http://localhost:8082/profiles/getUserData/${decoded.sub}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }).then(result => {
+                toggleIsAuth({
+                    ...isAuth,
+                    isAuth: true,
+                    user: {
+                        username: result.data.username,
+                        email: result.data.email,
+                        gebruikersrollen: [...decoded.roles],
+
+                    },
+                    status: 'done',
+                })
+            })
+
+            history.push("/profile")
+
+        } catch (e) {
+            console.error(e);
+            toggleIsAuth({
+                isAuth: false,
+                user: null,
+                status: 'done',
+            });
+        }
     }
 
     const contextData = {
         isAuth: isAuth.isAuth,
         user: isAuth.user,
-        gebruikersrollen: [...userRoles],
+        menuRoles: isAuth.user.gebruikersrollen,
         login: login,
         logout: logout,
     };

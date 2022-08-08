@@ -57,7 +57,6 @@ function CreateGamePage() {
                         }
                     }
                 ).then(response => {
-                    console.log(response)
                     if (window.confirm('Wedstrijd is succesvol aangemaakt. Druk op OK om nog een wedstrijd aan te maken, druk op annuleren om terug te gaan naar de overzicht pagina')) {
                         setSuccesFull(false)
                         setPlayerOne(null)

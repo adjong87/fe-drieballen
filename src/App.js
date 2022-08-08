@@ -31,12 +31,15 @@ function App() {
                 <div className="content">
                     <Switch>
                         <Route exact path="/">
-                            <Home/>
+                            <LoginPage/>
                         </Route>
                         <PrivateRoute exact path="/addMember" isAuth={isAuth}>
                             <AddMember/>
                         </PrivateRoute>
-                        <PrivateRoute exact path="/overview" isAuth={isAuth}>
+                        <PrivateRoute path="/home" isAuth={isAuth}>
+                            <Home/>
+                        </PrivateRoute>
+                        <PrivateRoute path="/overview" isAuth={isAuth}>
                             <Overview/>
                         </PrivateRoute>
                         <PrivateRoute exact path="/create" isAuth={isAuth}>
@@ -45,7 +48,6 @@ function App() {
                         <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
                             <Profile/>
                         </PrivateRoute>
-
                         <PrivateRoute exact path="/gamecheck" isAuth={isAuth}>
                             <GameCheckPage/>
                         </PrivateRoute>
@@ -55,10 +57,8 @@ function App() {
                         <Route exact path="/login">
                             <LoginPage/>
                         </Route>
-
                     </Switch>
                 </div>
-
             </div>
         </>
     );
