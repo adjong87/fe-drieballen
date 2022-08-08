@@ -5,16 +5,13 @@ import axios from "axios";
 import PlayerCard from "../../../components/playerCard/PlayerCard";
 import {useHistory} from "react-router-dom";
 
-
 function CreateGamePage() {
     const history = useHistory();
-
     const [playerOne, setPlayerOne] = useState(null);
     const [playerTwo, setPlayerTwo] = useState(null);
     const [allPlayers, setAllPlayers] = useState([])
     const [double, setDouble] = useState(false)
     const [succesFull, setSuccesFull] = useState(false)
-
 
     function checkDouble() {
         if (playerOne === playerTwo) {
@@ -37,7 +34,6 @@ function CreateGamePage() {
             setAllPlayers(result.data);
         } catch (e) {
             console.error(e);
-            console.log(e.response.data)
         }
     }
 
@@ -45,7 +41,7 @@ function CreateGamePage() {
         fetchPlayers()
     }, []);
 
-    function createGame() {
+    async function createGame() {
         if (!double) {
             try {
                 axios.post(
@@ -95,7 +91,7 @@ function CreateGamePage() {
                         <div className="create-game-inner-side-player-selection">
 
                             <div>
-                                {playerOne&&<PlayerCard
+                                {playerOne && <PlayerCard
                                     username={playerOne}
                                     key={playerOne}
                                     page="create"/>}
@@ -113,7 +109,8 @@ function CreateGamePage() {
                             </div>
                         </div>
                     </div>
-                    {succesFull ?
+                    {succesFull
+                        ?
                         <div className="create-game-inner-middle">
                             <h1>Wedstrijd is klaargezet</h1>
                         </div>
@@ -130,7 +127,7 @@ function CreateGamePage() {
 
                         <div className="create-game-inner-side-player-selection">
                             <div>
-                                {playerTwo&&<PlayerCard
+                                {playerTwo && <PlayerCard
                                     username={playerTwo}
                                     key={playerTwo}
                                     page="create"/>}
@@ -152,22 +149,3 @@ function CreateGamePage() {
 }
 
 export default CreateGamePage;
-
-
-// <div className="player-containers">
-//
-//     </div>
-
-//     <div className="player-containers">
-//         <form className="player-forms">
-//             <label htmlFor="playerTwo">Zonder pit</label>
-//             <select name="playerOneSelect" id="p2" onChange={(e) => setPlayerTwo(e.target.value)}>
-//                 {allPlayers.map((p2, index) => {
-//                     return <option key={index} value={p2.username}>{p2.firstName}</option>
-//                 })}
-//             </select>
-//         </form>
-//     </div>
-// </div>}
-
-

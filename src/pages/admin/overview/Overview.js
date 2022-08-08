@@ -9,7 +9,6 @@ function Overview() {
 
 
     useEffect(() => {
-
         async function fetchData() {
             try {
                 const result = await axios.get("http://localhost:8082/profiles/all",
@@ -23,7 +22,6 @@ function Overview() {
                 setPlayersData(result.data);
             } catch (e) {
                 console.error(e);
-                console.log(e.response.data)
             }
         }
         fetchData()

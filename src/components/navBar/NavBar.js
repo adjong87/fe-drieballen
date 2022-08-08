@@ -1,7 +1,6 @@
 import {Link, useHistory} from "react-router-dom";
 import './NavBar.css'
-import {useEffect, useState} from "react";
-import {useContext} from 'react';
+import {useState, useContext} from "react";
 import {AuthContext} from "../context/AuthContext";
 import balls from '../../assets/balls.png'
 import {navItems} from "./component/navItems";
@@ -11,7 +10,7 @@ import Dropdown from "./Dropdown";
 function NavBar() {
     const {isAuth, user, gebruikersrollen} = useContext(AuthContext)
     const [adminDropDown, setAdminDropdown] = useState(false);
-    const history = useHistory();
+
         return (
         <>
             <nav className="navbar">
@@ -43,13 +42,11 @@ function NavBar() {
                             );
                         }
                     })}
-
                     {isAuth && gebruikersrollen.includes('ROLE_MODERATOR') &&
 
                             <li key="4" className="nav-item">
                                 <Link to="/gamecheck">Wedstrijden</Link>
                             </li>}
-
                 </ul>
                 <Button/>
             </nav>

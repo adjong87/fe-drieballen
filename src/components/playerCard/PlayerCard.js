@@ -10,7 +10,7 @@ import {Link, useHistory} from 'react-router-dom';
 import {RiDeleteBinLine} from "react-icons/ri";
 
 function PlayerCard({username, page}) {
-    const {user, gebruikersrollen} = useContext(AuthContext)
+    const {gebruikersrollen} = useContext(AuthContext)
     const [playerData, setPlayerData] = useState({})
     const [edit, toggleEdit] = useState(false)
     const [file, setFile] = useState([]);
@@ -28,7 +28,6 @@ function PlayerCard({username, page}) {
                         }
                     })
                 setPlayerData(response.data);
-                console.log(response.data);
             } catch (e) {
                 console.error(e);
             }
@@ -40,13 +39,6 @@ function PlayerCard({username, page}) {
 
     async function deletePhoto() {
         if (window.confirm('Weet je zeker dat je deze foto wilt verwijderen?')) {
-
-            // Voorkom een refresh op submit
-            // maak een nieuw FormData object (ingebouwd type van JavaScript)
-            const formData = new FormData();
-            // Voeg daar ons bestand uit de state aan toe onder de key "file"
-            formData.append("file", file);
-
             try {
                 // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
                 // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
@@ -70,17 +62,8 @@ function PlayerCard({username, page}) {
 
     async function deleteProfile(e) {
         if (window.confirm('Weet je zeker dat je deze gebruiker wilt verwijderen?')) {
-
-            // Voorkom een refresh op submit
             e.preventDefault();
-            // maak een nieuw FormData object (ingebouwd type van JavaScript)
-            const formData = new FormData();
-            // Voeg daar ons bestand uit de state aan toe onder de key "file"
-            formData.append("file", file);
-
             try {
-                // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
-                // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
                 await axios.delete(`http://localhost:8082/profiles/delete/${playerData.username}`,
                     {
                         headers: {
@@ -96,34 +79,23 @@ function PlayerCard({username, page}) {
     }
 
     function handleImageChange(e) {
-        // Sla het gekozen bestand op
         const uploadedFile = e.target.files[0];
-        console.log(uploadedFile);
-        // Sla het gekozen bestand op in de state
         setFile(uploadedFile);
-        // Sla de preview URL op zodat we deze kunnen laten zien in een <img>
         setPreviewUrl(URL.createObjectURL(uploadedFile));
     }
 
     async function sendImage(e) {
-        // Voorkom een refresh op submit
         e.preventDefault();
-        // maak een nieuw FormData object (ingebouwd type van JavaScript)
         const formData = new FormData();
-        // Voeg daar ons bestand uit de state aan toe onder de key "file"
         formData.append("file", file);
-
         try {
-            // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
-            // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
-            const result = await axios.post(`http://localhost:8082/upload/${playerData.username}/photo`, formData,
+            await axios.post(`http://localhost:8082/upload/${playerData.username}/photo`, formData,
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     },
                 })
-            console.log(result.data);
             setPreviewUrl('')
             toggleEdit(!edit)
         } catch (e) {
@@ -242,7 +214,7 @@ function PlayerCard({username, page}) {
                             </form>
 
                             <div className="playerCard-content-button">
-                                {gebruikersrollen.includes('ROLE_ADMIN') &&<button
+                                {gebruikersrollen.includes('ROLE_ADMIN') && <button
                                     onClick={deleteProfile}>
                                     <RiDeleteBinLine size={20}/>
                                 </button>}

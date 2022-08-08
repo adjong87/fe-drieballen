@@ -30,7 +30,6 @@ function FillPage() {
     const [edit, toggleEdit] = useState(false)
     const [turns, setTurns] = useState(0)
 
-
     async function getScoreCard() {
 
         console.log("getscorecard wordt aangeroepen")
@@ -45,11 +44,9 @@ function FillPage() {
             setScoreCard(result.data);
             setPlayerOne(result.data[0].profile)
             setPlayerTwo(result.data[1].profile)
-            console.log(playerOne)
-            console.log(playerTwo)
+
         } catch (e) {
             console.error(e);
-            console.log(e.response.data)
         }
     }
 
@@ -130,7 +127,7 @@ function FillPage() {
 
     return (
         <>
-            {scoreCard &&
+            {scoreCard && playerOne && playerTwo &&
                 <div className="FillPage-container">
 
                     <div className="FillPage-sides-container">
@@ -143,10 +140,10 @@ function FillPage() {
                             </div>}
                         <div className="FillPage-sides-player-content">
 
-                            <PlayerCard
+                            {playerOne && <PlayerCard
                                 username={playerOne.username}
                                 page="fill"
-                                key={playerOne.username}/>
+                                key={playerOne.username}/>}
                         </div>
                     </div>
                     <div className="FillPage-middle-column">
@@ -236,10 +233,10 @@ function FillPage() {
                             </div>}
                         <div className="FillPage-sides-player-content">
 
-                            <PlayerCard
+                            {playerTwo &&     <PlayerCard
                                 username={playerTwo.username}
                                 page="fill"
-                                key={playerTwo.username}/>
+                                key={playerTwo.username}/>}
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,6 @@ export const navItems = [
     {
         id: 1,
         title: "Leden",
-        // path: null,
         cName: "nav-item",
     },
     {

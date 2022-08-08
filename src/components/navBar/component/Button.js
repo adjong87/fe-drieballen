@@ -4,12 +4,9 @@ import {useContext} from 'react';
 import {AuthContext} from "../../context/AuthContext";
 import {Link} from "react-router-dom";
 
-
 function Button() {
     const {logout} = useContext(AuthContext)
     const {isAuth} = useContext(AuthContext)
-
-
 
     return (
         <>
@@ -17,12 +14,14 @@ function Button() {
                 <button className="btn"
                         onClick={logout}>
                     Uitloggen
-                </button> : <Link to="/Login"><button className="btn">
-                    Inloggen
-                </button></Link>}
+                </button>
+                :
+                <Link to="/Login">
+                    <button className="btn">
+                        Inloggen
+                    </button>
+                </Link>}
         </>
-
-
     )
 }
 

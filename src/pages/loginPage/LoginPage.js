@@ -1,14 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import './LoginPage.css'
 import axios from "axios";
-import {useHistory} from "react-router-dom";
 import balls from '../../assets/balls.png'
 import {useForm} from 'react-hook-form';
 import {AuthContext} from "../../components/context/AuthContext";
 
 
 function LoginPage() {
-    const {login, isAuth, toggleIsAuth} = useContext(AuthContext);
+    const {login} = useContext(AuthContext);
     const {register, handleSubmit, formState: {errors}} = useForm()
 
     const onFormSubmit = async data => {
@@ -19,13 +18,10 @@ function LoginPage() {
                 {headers: {'Content-Type': 'application/json'}}
             ).then(response => {
                 login(response)
-                console.log(response)
-
             })
         } catch (e) {
             console.error(e.message)
         }
-
     };
 
     return (

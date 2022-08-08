@@ -8,7 +8,6 @@ import {AiOutlineUserAdd} from "react-icons/ai";
 export default function AddMember() {
 
     const [successful, setSuccessful] = useState(false);
-    const [error, toggleError] = useState()
     const {
         register,
         formState: {errors},
@@ -26,14 +25,11 @@ export default function AddMember() {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 }
-            ).then(r => toggleError(r))
+            )
             setSuccessful(true)
-            console.log(error)
-
         } catch (e) {
             console.error(e.message)
             setSuccessful(false)
-
         }
     };
 
@@ -234,7 +230,12 @@ export default function AddMember() {
                                 </div>
                             </div>
                         </form>
-                    </div> : <div><h1>Nieuwe gebruiker aangemaakt!</h1></div>}
+                    </div>
+                    :
+                    <div>
+                        <h1>Nieuwe gebruiker aangemaakt!</h1>
+                    </div>
+                }
             </div>
         </>
     );
