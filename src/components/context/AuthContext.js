@@ -55,7 +55,6 @@ function AuthContextProvider({children}) {
 
     function logout() {
         localStorage.removeItem("token");
-        sessionStorage.removeItem("roles");
 
         toggleIsAuth({
             isAuth: false,

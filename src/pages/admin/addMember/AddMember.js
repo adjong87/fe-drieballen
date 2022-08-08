@@ -26,7 +26,7 @@ export default function AddMember() {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 }
-            ).then(r => toggleError(r))
+            ).then(r =>  toggleError(r))
             setSuccessful(true)
             console.log(error)
 

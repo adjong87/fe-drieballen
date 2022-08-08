@@ -18,14 +18,15 @@ function GameCheckPage() {
                         }
                 })
             setScoreCardData(result.data);
+            console.log(result.data)
         } catch (e) {
             console.error(e);
-            console.log(e.response.data)
         }
     }
 
     useEffect(() => {
         fetchData()
+
     }, [])
 
     return (
@@ -58,7 +59,8 @@ function GameCheckPage() {
                                 {scoreCard.aimScoreP2}
                             </h1>
                         </div>
-                    </div></Link>)
+                    </div>
+                    </Link>)
             })}
         </div>
 

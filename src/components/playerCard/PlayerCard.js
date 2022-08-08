@@ -143,8 +143,7 @@ function PlayerCard({username, page}) {
                             </h2>
                         </div>
 
-                        {page === "admin"
-                            ?
+                        {page === "admin" ?
                             <Link to={`/profile/${playerData.username}`}>
                                 <div className="playerCard-content-photo">
                                     {playerData.photo

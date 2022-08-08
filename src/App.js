@@ -12,13 +12,14 @@ import FillPage from "./pages/moderator/fillPage/FillPage";
 import Home from "./pages/Home";
 import LoginPage from "./pages/loginPage/LoginPage";
 
-function PrivateRoute({children, isAuth, ...rest}) {
+function PrivateRoute({children, isAuth, role, ...rest}) {
     return (
         <Route {...rest}>
             {isAuth ? children : <Redirect to="/login"/>}
         </Route>
     )
 }
+
 
 function App() {
     const {isAuth} = useContext(AuthContext);
@@ -41,7 +42,7 @@ function App() {
                         </PrivateRoute>
                         <PrivateRoute exact path="/create" isAuth={isAuth}>
                             <CreateGamePage/>
-                        </PrivateRoute>
+                        </PrivateRoute>x
                         <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
                             <Profile/>
                         </PrivateRoute>

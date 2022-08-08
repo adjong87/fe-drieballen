@@ -12,6 +12,7 @@ import {GiPodiumWinner} from "react-icons/gi";
 import {useHistory} from 'react-router-dom';
 import CheckHighest from "../../../components/helpers/checkHighest";
 import checkAverage from "../../../components/helpers/checkAverage";
+import checkHighest from "../../../components/helpers/checkHighest";
 
 function FillPage() {
     const history = useHistory();
@@ -23,12 +24,19 @@ function FillPage() {
     const [P1Active, setP1Active] = useState(true)
     const [finished, toggleFinished] = useState(false)
     const [successful, toggleSuccessful] = useState(false)
-    const [restP1, setRestP1] = useState(null)
-    const [restP2, setRestP2] = useState(null)
+    const [scores, setScores] = useState(
+        {
+            highestSerieP1: 0,
+            highestSerieP2: 0,
+            restP1: 0,
+            restP2: 0,
+            averageP1: 0,
+            averageP2: 0,
+            turns: 30
+        })
     const [playerOne, setPlayerOne] = useState([])
     const [playerTwo, setPlayerTwo] = useState([])
     const [edit, toggleEdit] = useState(false)
-    const [turns, setTurns] = useState(0)
 
 
     async function getScoreCard() {
@@ -59,16 +67,15 @@ function FillPage() {
 
 
     function submitScore() {
+        setScores(scores.highestSerieP1 = checkHighest(p1Score))
+        setScores(scores.highestSerieP2 = checkHighest(p2Score))
+        setScores(scores.averageP1 = checkAverage(p1Score))
+        setScores(scores.averageP2 = checkAverage(p2Score))
         try {
             axios.put(
-                `http://localhost:8082/scorecards/fill?id=${id}`, {
-                    highestSerieP1: CheckHighest(p1Score),
-                    highestSerieP2: CheckHighest(p2Score),
-                    remainderP1: restP1,
-                    remainderP2: restP2,
-                    averageP1: checkAverage(p1Score),
-                    averageP2: checkAverage(p2Score),
-                    nrOfTurns: turns
+                `http://localhost:8082/scorecards/fill?id=${id}`,
+                {
+                    scores,
                 },
                 {
                     headers: {
@@ -103,27 +110,24 @@ function FillPage() {
     }
 
     function addTurn() {
-        P1Active && setTurns(turns + 1)
+        P1Active && setScores(scores.turns + 1)
     }
 
     function passTurn() {
-        turns === 30 && toggleFinished(true)
+        scores.turns === 30 && toggleFinished(true)
         addTurn()
 
         P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
 
         P1Active && (checkWinner(playerOne.aimScore, checkSum(p1Score))) && setP1Active(!P1Active)
 
-        {
-            (!P1Active && checkWinner(playerOne.aimScore, checkSum(p1Score))) ? toggleFinished(true) : setP1Active(!P1Active)
-        }
-        {
-            (checkWinner(playerTwo.aimScore, checkSum(p2Score))) ? toggleFinished(true) : setP1Active(!P1Active)
-        }
 
-        setRestP1(checkRemainder(playerOne.aimScore, checkSum(p1Score)))
-        setRestP2(checkRemainder(playerTwo.aimScore, checkSum(p2Score)))
-        console.log(finished)
+        (!P1Active && checkWinner(playerOne.aimScore, checkSum(p1Score))) ? toggleFinished(true) : setP1Active(!P1Active)
+
+        (checkWinner(playerTwo.aimScore, checkSum(p2Score))) ? toggleFinished(true) : setP1Active(!P1Active)
+
+        setScores(scores.restP1 = checkRemainder(playerOne.aimScore, checkSum(p1Score)))
+        setScores(scores.restP2 = checkRemainder(playerOne.aimScore, checkSum(p2Score)))
         setPPT(0)
     }
 
