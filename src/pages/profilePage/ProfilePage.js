@@ -7,7 +7,7 @@ import PlayedGame from "./component/PlayedGame";
 
 function ProfilePage() {
     const {username} = useParams();
-    const [profile, setProfile] = useState([])
+    const [profile, setProfile] = useState(null)
 
     useEffect(() => {
         async function fetchProfile() {

@@ -3,6 +3,7 @@ export const navItems = [
     {
         id: 1,
         title: "Leden",
+        path: "/overview",
         cName: "nav-item",
     },
     {

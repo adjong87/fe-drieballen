@@ -10,7 +10,7 @@ import {Link, useHistory} from 'react-router-dom';
 import {RiDeleteBinLine} from "react-icons/ri";
 
 function PlayerCard({username, page}) {
-    const {gebruikersrollen} = useContext(AuthContext)
+    const {user} = useContext(AuthContext)
     const [playerData, setPlayerData] = useState({})
     const [edit, toggleEdit] = useState(false)
     const [file, setFile] = useState([]);
@@ -52,7 +52,7 @@ function PlayerCard({username, page}) {
             } catch (e) {
                 console.error(e)
             }
-            if (gebruikersrollen.includes('ROLE_ADMIN')) {
+            if (user.gebruikersrollen.includes('ROLE_ADMIN')) {
                 history.push("/overview");
             } else {
                 history.push("/");
@@ -214,7 +214,7 @@ function PlayerCard({username, page}) {
                             </form>
 
                             <div className="playerCard-content-button">
-                                {gebruikersrollen.includes('ROLE_ADMIN') && <button
+                                {user.gebruikersrollen.includes('ROLE_ADMIN') && <button
                                     onClick={deleteProfile}>
                                     <RiDeleteBinLine size={20}/>
                                 </button>}

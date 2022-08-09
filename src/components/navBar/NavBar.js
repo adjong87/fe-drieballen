@@ -1,4 +1,4 @@
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import './NavBar.css'
 import {useState, useContext} from "react";
 import {AuthContext} from "../context/AuthContext";
@@ -8,7 +8,7 @@ import Button from './component/Button'
 import Dropdown from "./Dropdown";
 
 function NavBar() {
-    const {isAuth, user } = useContext(AuthContext)
+    const {isAuth, user} = useContext(AuthContext)
     const [adminDropDown, setAdminDropdown] = useState(false);
 
         return (
@@ -25,11 +25,11 @@ function NavBar() {
                     {isAuth && <li key="2" className="nav-item">
                         <Link to={`/profile/${user.username}`}>Mijn profiel</Link>
                     </li>}
-                    {isAuth && user.gebruikersrollen.includes('ROLE_ADMIN') && navItems.map(item => {
+                    {isAuth && user.gebruikersrollen.includes('ROLE_ADMIN') && navItems.map((item, index) => {
                         if (item.title === "Leden") {
                             return (
                                 <li
-                                    key={item.id}
+                                    key={item.id + index}
                                     className={item.cName}
                                     onMouseEnter={() => setAdminDropdown(true)}
                                     onMouseLeave={() => setAdminDropdown(false)}
