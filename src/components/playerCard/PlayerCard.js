@@ -3,13 +3,15 @@ import {ImWrench} from "react-icons/im";
 import {AiOutlineSave} from "react-icons/ai";
 import React from 'react';
 import {useContext, useEffect, useState} from 'react'
-import axios from "axios";
 import {AuthContext} from "../context/AuthContext";
 import './PlayerCard.css'
 import {Link, useHistory} from 'react-router-dom';
 import {RiDeleteBinLine} from "react-icons/ri";
+import ApiService from "../../services/ApiService";
+import notificationManager from "react-notifications/lib/NotificationManager";
+import {NotificationManager} from "react-notifications";
 
-function PlayerCard({username, page}) {
+function PlayerCard({username, page, remove}) {
     const {user} = useContext(AuthContext)
     const [playerData, setPlayerData] = useState({})
     const [edit, toggleEdit] = useState(false)
@@ -18,63 +20,27 @@ function PlayerCard({username, page}) {
     const history = useHistory();
 
     useEffect(() => {
-        async function fetchPlayer() {
-            try {
-                const response = await axios.get(`http://localhost:8082/profiles/profile?username=${username}`,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${localStorage.getItem("token")}`
-                        }
-                    })
-                setPlayerData(response.data);
-            } catch (e) {
-                console.error(e);
-            }
-        }
+        ApiService.fetchPlayer(username)
+            .then(res => {
+                setPlayerData(res.data)
+            }).catch(err => {
+            console.log(err)
+        })
+    }, [edit])
 
-        fetchPlayer();
-    }, [edit]);
-
-
-    async function deletePhoto() {
+    function deletePhoto() {
         if (window.confirm('Weet je zeker dat je deze foto wilt verwijderen?')) {
-            try {
-                // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
-                // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
-                await axios.delete(`http://localhost:8082/delete/${playerData.username}/photo`,
-                    {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                            "Authorization": `Bearer ${localStorage.getItem("token")}`
-                        },
-                    })
-            } catch (e) {
-                console.error(e)
-            }
-            if (user.gebruikersrollen.includes('ROLE_ADMIN')) {
-                history.push("/overview");
-            } else {
-                history.push("/");
-            }
+            ApiService.deletePhoto(playerData.username).catch(err => console.error(err))
+            {user.gebruikersrollen.includes('ROLE_ADMIN') ? history.push("/overview") : history.push("/")}
         }
     }
 
-    async function deleteProfile(e) {
+    function deleteProfile(e) {
+        e.preventDefault();
         if (window.confirm('Weet je zeker dat je deze gebruiker wilt verwijderen?')) {
-            e.preventDefault();
-            try {
-                await axios.delete(`http://localhost:8082/profiles/delete/${playerData.username}`,
-                    {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                            "Authorization": `Bearer ${localStorage.getItem("token")}`
-                        },
-                    })
-            } catch (e) {
-                console.error(e)
-            }
-            history.push("/");
+            remove(username)
+            ApiService.deleteProfile(username).catch(e => console.error(e))
+            {user.gebruikersrollen.includes('ROLE_ADMIN') ? history.push("/overview") : history.push("/")}
         }
     }
 
@@ -84,23 +50,19 @@ function PlayerCard({username, page}) {
         setPreviewUrl(URL.createObjectURL(uploadedFile));
     }
 
-    async function sendImage(e) {
+    function sendImage(e) {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", file);
-        try {
-            await axios.post(`http://localhost:8082/upload/${playerData.username}/photo`, formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`
-                    },
-                })
-            setPreviewUrl('')
-            toggleEdit(!edit)
-        } catch (e) {
-            console.error(e)
-        }
+        ApiService.uploadPhoto(
+            playerData.username,
+            formData)
+            .then(() => {
+                setPreviewUrl('')
+                toggleEdit(!edit)
+                NotificationManager.success('Je foto is geupload', 'HET IS GELUKT')
+                {user.gebruikersrollen.includes('ROLE_ADMIN') ? history.push("/overview") : history.push("/")}
+            }).catch(e => console.error(e))
     }
 
     return (
@@ -186,6 +148,7 @@ function PlayerCard({username, page}) {
 
                             <form
                                 className="playerCard-upload-form"
+                                id="photo-form"
                                 onSubmit={sendImage}>
                                 <input type="button"
                                        id="delete-photo"
@@ -195,8 +158,7 @@ function PlayerCard({username, page}) {
                                        id="upload-photo"
                                        name="files[]"
                                        accept="image/*"
-                                       onChange={handleImageChange}
-                                />
+                                       onChange={handleImageChange}/>
                                 {previewUrl ?
                                     <label id="upload-photo-label" htmlFor="upload-photo">Kies een andere
                                         foto</label>
@@ -207,7 +169,11 @@ function PlayerCard({username, page}) {
                                     <label id="upload-photo-label" htmlFor="delete-photo">Verwijder huidige
                                         foto</label>}
                                 {previewUrl &&
-                                    <button id="upload-button" type="submit" value="Upload!">
+                                    <button
+                                        id="upload-button"
+                                        type="submit"
+                                        form="photo-form"
+                                        value="Upload">
                                         Upload
                                     </button>
                                 }
@@ -231,5 +197,6 @@ function PlayerCard({username, page}) {
         </>
     )
 }
+
 
 export default PlayerCard;

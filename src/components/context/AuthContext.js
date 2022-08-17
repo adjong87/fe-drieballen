@@ -2,6 +2,7 @@ import React, {createContext, useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import isTokenValid from '../helpers/isTokenValid';
+import ApiService from "../../services/ApiService";
 
 export const AuthContext = createContext({});
 
@@ -19,6 +20,7 @@ function AuthContextProvider({children}) {
         if (token && isTokenValid(token)) {
             const decoded = jwt_decode(token);
             setUserRole(decoded.roles.map((role) => { return userRole.push(role) }));
+            ApiService.setToken(token);
             toggleIsAuth({
                 ...isAuth,
                 isAuth: true,
@@ -44,6 +46,7 @@ function AuthContextProvider({children}) {
 
     function login(response) {
         localStorage.setItem('token', response.data.accessToken);
+        ApiService.setToken(response.data.accessToken);
         toggleIsAuth({
             ...isAuth,
             isAuth: true,

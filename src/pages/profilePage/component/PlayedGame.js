@@ -1,30 +1,17 @@
 import React, {useState} from 'react';
-import axios from "axios";
 import {useEffect} from 'react'
 import './PlayedGame.css'
 import {GiPodiumWinner} from "react-icons/gi";
+import ApiService from "../../../services/ApiService";
 
 function PlayedGame({id}) {
     const [scoreData, setScoreData] = useState({})
 
-
-    async function fetchScores() {
-        try {
-            const result = await axios.get(`http://localhost:8082/scorecards/donecard?id=${id}`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`
-                    }
-                })
-            setScoreData(result.data);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     useEffect(() => {
-        fetchScores()
+        ApiService
+            .getPlayedGame(id)
+            .then(res => setScoreData(res.data))
+            .catch(err => console.log(err))
     }, []);
 
     return (
@@ -63,7 +50,7 @@ function PlayedGame({id}) {
                         </div>
                         <div className="playedGame-contents-middle">
                             <b>{scoreData.gespeeldOp}</b>
-                           <p>Aantal Beurten {scoreData.nrOfTurns}</p>
+                            <p>Aantal Beurten {scoreData.nrOfTurns}</p>
                         </div>
                         <div className="playedGame-contents-sides">
                             <div id="player-name">
