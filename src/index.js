@@ -6,7 +6,6 @@ import './index.css';
 import AuthContextProvider from "./components/context/AuthContext";
 
 ReactDOM.render(
-    <React.StrictMode>
         <Router>
             <AuthContextProvider>
 
@@ -15,6 +14,6 @@ ReactDOM.render(
 
         </Router>
 
-    </React.StrictMode>,
+ ,
     document.getElementById('root')
 );

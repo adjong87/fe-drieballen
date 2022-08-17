@@ -1,32 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import axios from "axios";
 import './ProfilePage.css';
 import PlayerCard from "../../components/playerCard/PlayerCard";
 import PlayedGame from "./component/PlayedGame";
+import ApiService from "../../services/ApiService";
 
 function ProfilePage() {
     const {username} = useParams();
     const [profile, setProfile] = useState(null)
 
     useEffect(() => {
-        async function fetchProfile() {
-            try {
-                const response = await axios.get(`http://localhost:8082/playedgame/find?username=${username}`,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${localStorage.getItem("token")}`
-                        }
-                    })
-                setProfile(response.data);
-            } catch (e) {
-                console.error(e);
+        document.title = `de Drie Ballen - Profiel van ${username}`
+        ApiService.getProfile(username).then(
+            (response) => {
+                setProfile(response.data)
+            }).catch(error => {
+                console.log(error)
             }
-        }
-
-        fetchProfile();
+        )
     }, []);
+
     return (
         <>
             <div className="profile-page-container">
@@ -40,7 +33,7 @@ function ProfilePage() {
                                 id={scoreCard.scoreCard.id}
                                 key={index}/>
 
-                    })}
+                        })}
                 </div>
             </div>
         </>

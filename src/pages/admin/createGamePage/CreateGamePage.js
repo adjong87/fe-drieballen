@@ -1,9 +1,10 @@
 import React from 'react';
 import './CreateGamePage.css'
 import {useEffect, useState} from 'react'
-import axios from "axios";
 import PlayerCard from "../../../components/playerCard/PlayerCard";
 import {useHistory} from "react-router-dom";
+import ApiService from "../../../services/ApiService";
+import {NotificationManager} from "react-notifications";
 
 function CreateGamePage() {
     const history = useHistory();
@@ -21,57 +22,37 @@ function CreateGamePage() {
         }
     }
 
-    async function fetchPlayers() {
-        try {
-            const result = await axios.get("http://localhost:8082/profiles/all",
-                {
-                    headers:
-                        {
-                            'Content-Type': 'application/json',
-                            "Authorization": `Bearer ${localStorage.getItem("token")}`
-                        }
-                })
-            setAllPlayers(result.data);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     useEffect(() => {
-        fetchPlayers()
+        document.title = `ADMIN - de Drie Ballen - Wedstrijd klaarzetten`
+        ApiService
+            .getAllProfiles()
+            .then(res => setAllPlayers(res.data))
+            .catch(err => console.error(err))
     }, []);
 
-    async function createGame() {
-        if (!double) {
-            try {
-                axios.post(
-                    `http://localhost:8082/playedgame/createGame?playerOne=${playerOne}&playerTwo=${playerTwo}`,
-                    {
-                        playerOne: playerOne,
-                        playerTwo: playerTwo
-                    },
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${localStorage.getItem("token")}`
-                        }
-                    }
-                ).then(response => {
-                    if (window.confirm('Wedstrijd is succesvol aangemaakt. Druk op OK om nog een wedstrijd aan te maken, druk op annuleren om terug te gaan naar de overzicht pagina')) {
-                        setSuccesFull(false)
-                        setPlayerOne(null)
-                        setPlayerTwo(null)
-
-                    } else history.push("/overview");
-
+    function createGame() {
+        if (double) {
+            setSuccesFull(false)
+        } else {
+            ApiService
+                .createGame(playerOne, playerTwo)
+                .then(() => {
+                    setSuccesFull(false)
+                    setPlayerOne(null)
+                    setPlayerTwo(null)
+                    NotificationManager
+                        .success(
+                            'Klik hier om nog een wedstrijd aan te maken',
+                            'Wedstrijd succesvol aangemaakt',
+                            5000,
+                            () => history.push('/create'))
+                    history.push('/overview')
                 })
-            } catch (e) {
-                console.error(e.message)
-                setSuccesFull(false)
-
-            }
+                .catch(err => {
+                    NotificationManager.warning('Probeer het opnieuw', 'Er ging wat mis!!', 3500);
+                    console.error(err)
+                })
         }
-
     }
 
     useEffect(() => {
@@ -115,7 +96,7 @@ function CreateGamePage() {
                         </div>
                         :
                         <div className="create-game-inner-middle">
-                            {playerOne !== null && playerTwo !== null & !double ?
+                            {playerOne !== null && playerTwo !== null && !double ?
                                 <div onClick={createGame} className="create-game-inner-button">START</div> :
                                 <h1>Kies twee (verschillende) spelers</h1>}
 
@@ -136,7 +117,11 @@ function CreateGamePage() {
                                 <select name="playerTwoSelect" id="p2"
                                         onChange={(e) => setPlayerTwo(e.target.value)}>
                                     {allPlayers.map((p2, index) => {
-                                        return <option key={index} value={p2.username}>{p2.firstName}</option>
+                                        return (
+                                            <option key={index} value={p2.username}>
+                                                {p2.firstName}
+                                            </option>
+                                        )
                                     })}
                                 </select>
                             </form>

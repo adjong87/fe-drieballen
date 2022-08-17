@@ -6,11 +6,13 @@ import {AuthContext} from './components/context/AuthContext';
 import './App.css';
 import Overview from "./pages/admin/overview/Overview";
 import CreateGamePage from "./pages/admin/createGamePage/CreateGamePage";
-import AddMember from "./pages/admin/addMember/AddMember";
 import GameCheckPage from "./pages/moderator/gamecheck/GameCheckPage";
 import FillPage from "./pages/moderator/fillPage/FillPage";
 import Home from "./pages/Home";
 import LoginPage from "./pages/loginPage/LoginPage";
+import AddMember from "./pages/admin/addMember/AddMember";
+import NotificationContainer from "react-notifications/lib/NotificationContainer";
+import 'react-notifications/lib/notifications.css';
 
 function PrivateRoute({children, isAuth, ...rest}) {
     return (
@@ -33,7 +35,7 @@ function App() {
                         <Route exact path="/">
                             <LoginPage/>
                         </Route>
-                        <PrivateRoute exact path="/addMember" isAuth={isAuth}>
+                        <PrivateRoute path="/addmember" isAuth={isAuth}>
                             <AddMember/>
                         </PrivateRoute>
                         <PrivateRoute path="/home" isAuth={isAuth}>
@@ -45,7 +47,7 @@ function App() {
                         <PrivateRoute exact path="/create" isAuth={isAuth}>
                             <CreateGamePage/>
                         </PrivateRoute>
-                        <PrivateRoute exact path="/profile/:username" isAuth={isAuth}>
+                        <PrivateRoute path="/profile/:username" isAuth={isAuth}>
                             <Profile/>
                         </PrivateRoute>
                         <PrivateRoute exact path="/gamecheck" isAuth={isAuth}>
@@ -54,12 +56,14 @@ function App() {
                         <PrivateRoute exact path="/fill/:id" isAuth={isAuth}>
                             <FillPage/>
                         </PrivateRoute>
-                        <Route exact path="/login">
+                        <Route path="/login">
                             <LoginPage/>
                         </Route>
                     </Switch>
                 </div>
             </div>
+            <NotificationContainer />
+
         </>
     );
 }

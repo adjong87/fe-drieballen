@@ -1,30 +1,22 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
-import axios from "axios";
 import './Overview.css'
 import PlayerCard from "../../../components/playerCard/PlayerCard";
+import ApiService from "../../../services/ApiService";
 
 function Overview() {
     const [playersData, setPlayersData] = useState([]);
 
+    function removePlayer(username) {
+        playersData.filter(player => player.username !== username);
+    }
 
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const result = await axios.get("http://localhost:8082/profiles/all",
-                    {
-                        headers:
-                            {
-                                'Content-Type': 'application/json',
-                                "Authorization": `Bearer ${localStorage.getItem("token")}`
-                            }
-                    })
-                setPlayersData(result.data);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-        fetchData()
+        document.title = `ADMIN - de Drie Ballen - Ledenoverzicht pagina`
+        ApiService
+            .getAllProfiles()
+            .then(res => setPlayersData(res.data))
+            .catch(err => console.log(err))
     }, []);
 
     return (
@@ -35,6 +27,7 @@ function Overview() {
                         username={player.username}
                         page="admin"
                         key={index}
+                        remove={removePlayer}
                     />
                 })}
             </div>
