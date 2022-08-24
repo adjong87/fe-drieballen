@@ -3,16 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "artyom.js": "^1.0.6",
+    "animate.css": "^4.1.1",
+    "axios": "^0.27.2",
+    "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
+    "react-awesome-reveal": "^4.0.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.32.2",
     "react-icons": "^4.4.0",
     "react-notifications": "^1.7.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
+    "react-speech-recognition": "^3.9.1",
+    "react-validation": "^3.0.7",
+    "speech-synth": "^1.0.1",
+    "validator": "^13.7.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -27,6 +36,10 @@
       "react-app/jest"
     ]
   },
+  "browser": {
+    "fs": false,
+    "child_process": false
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -38,12 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "axios": "^0.27.2",
-    "jwt-decode": "^3.1.2",
-    "react-hook-form": "^7.32.2",
-    "react-validation": "^3.0.7",
-    "validator": "^13.7.0"
   }
 }

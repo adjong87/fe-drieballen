@@ -5,11 +5,12 @@ import PlayerCard from "../../../components/playerCard/PlayerCard";
 import {useHistory} from "react-router-dom";
 import ApiService from "../../../services/ApiService";
 import {NotificationManager} from "react-notifications";
+import {Flip, Rotate} from "react-awesome-reveal";
 
 function CreateGamePage() {
     const history = useHistory();
-    const [playerOne, setPlayerOne] = useState(null);
-    const [playerTwo, setPlayerTwo] = useState(null);
+    const [playerOne, setPlayerOne] = useState({});
+    const [playerTwo, setPlayerTwo] = useState({});
     const [allPlayers, setAllPlayers] = useState([])
     const [double, setDouble] = useState(false)
     const [succesFull, setSuccesFull] = useState(false)
@@ -55,6 +56,7 @@ function CreateGamePage() {
         }
     }
 
+
     useEffect(() => {
         checkDouble()
     }, [playerOne, playerTwo]);
@@ -70,12 +72,12 @@ function CreateGamePage() {
 
                         <div className="create-game-inner-side-player-selection">
 
-                            <div>
+                            <Flip>
                                 {playerOne && <PlayerCard
                                     username={playerOne}
                                     key={playerOne}
                                     page="create"/>}
-                            </div>
+                            </Flip>
                             <div className="createGamePage-player-pick">
                                 <form>
                                     <label htmlFor="playerOne"></label>
@@ -107,10 +109,12 @@ function CreateGamePage() {
 
                         <div className="create-game-inner-side-player-selection">
                             <div>
+                                <Flip>
                                 {playerTwo && <PlayerCard
                                     username={playerTwo}
                                     key={playerTwo}
                                     page="create"/>}
+                                </Flip>
                             </div>
                             <form className="createGamePage-player-pick">
                                 <label htmlFor="playerTwo"></label>

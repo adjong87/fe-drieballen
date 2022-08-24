@@ -14,14 +14,14 @@ function PlayedGame({id}) {
             .catch(err => console.log(err))
     }, []);
 
+
     return (
         <>
+
             <div className="playedGame-container">
                 {scoreData &&
                     <div className="playedGame-contents">
                         <div className="playedGame-contents-sides">
-
-
                             <section>
                                 {scoreData &&
                                     <div>

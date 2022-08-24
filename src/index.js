@@ -8,7 +8,6 @@ import AuthContextProvider from "./components/context/AuthContext";
 ReactDOM.render(
         <Router>
             <AuthContextProvider>
-
                 <App/>
             </AuthContextProvider>
 

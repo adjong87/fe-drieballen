@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import './Overview.css'
 import PlayerCard from "../../../components/playerCard/PlayerCard";
 import ApiService from "../../../services/ApiService";
+import {Zoom} from "react-awesome-reveal";
 
 function Overview() {
     const [playersData, setPlayersData] = useState([]);
@@ -22,7 +23,9 @@ function Overview() {
     return (
         <>
             <div className="playerCard-overview">
-                {playersData && playersData.map((player, index) => {
+                <Zoom direction="right"  cascade>
+
+                {playersData?.map((player, index) => {
                     return <PlayerCard
                         username={player.username}
                         page="admin"
@@ -30,9 +33,10 @@ function Overview() {
                         remove={removePlayer}
                     />
                 })}
+                </Zoom>
             </div>
         </>
     )
 }
 
-export default Overview
+export default Overview;

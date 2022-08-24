@@ -4,6 +4,7 @@ import './ProfilePage.css';
 import PlayerCard from "../../components/playerCard/PlayerCard";
 import PlayedGame from "./component/PlayedGame";
 import ApiService from "../../services/ApiService";
+import {Bounce, Rotate} from "react-awesome-reveal";
 
 function ProfilePage() {
     const {username} = useParams();
@@ -23,17 +24,31 @@ function ProfilePage() {
     return (
         <>
             <div className="profile-page-container">
-                <PlayerCard
-                    username={username}/>
 
+                <Rotate>
+                    <PlayerCard
+                        username={username}/>
+                </Rotate>
                 <div className="playedGames-list-container">
-                    {profile &&
-                        profile.map((scoreCard, index) => {
-                            return <PlayedGame
-                                id={scoreCard.scoreCard.id}
-                                key={index}/>
 
-                        })}
+                    {profile && profile.length > 0 ?
+                        <>
+                            <Bounce cascade>
+
+                                {profile?.map((id, index) => {
+                                    return <PlayedGame
+                                        id={id}
+                                        key={index}/>
+
+                                })}
+                            </Bounce>
+                        </>
+                        :
+                        <div className="no-games-played">
+                            <h1>Je hebt nog geen spellen gespeeld</h1>
+                        </div>
+                    }
+
                 </div>
             </div>
         </>

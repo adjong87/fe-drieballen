@@ -8,8 +8,8 @@ import './PlayerCard.css'
 import {Link, useHistory} from 'react-router-dom';
 import {RiDeleteBinLine} from "react-icons/ri";
 import ApiService from "../../services/ApiService";
-import notificationManager from "react-notifications/lib/NotificationManager";
 import {NotificationManager} from "react-notifications";
+import {Slide} from "react-awesome-reveal";
 
 function PlayerCard({username, page, remove}) {
     const {user} = useContext(AuthContext)
@@ -68,6 +68,7 @@ function PlayerCard({username, page, remove}) {
     return (
         <>
             {playerData &&
+
                 <div className="playerCard-container">
 
                     <div className="playerCard-content">
@@ -125,9 +126,11 @@ function PlayerCard({username, page, remove}) {
                         </div>
                     </div>
                 </div>
+
             }
 
             {edit &&
+                <Slide direction="down">
                 <div className="playerCard-content-edit-open">
                     <div className="playerCard-container">
                         <div className="playerCard-content">
@@ -193,6 +196,7 @@ function PlayerCard({username, page, remove}) {
                         </div>
                     </div>
                 </div>
+                </Slide>
             }
         </>
     )

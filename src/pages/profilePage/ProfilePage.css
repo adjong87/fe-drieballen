@@ -11,3 +11,9 @@
     border-radius: 10px;
 }
 
+.no-games-played  {
+    display: flex;
+    align-self: center;
+
+
+}

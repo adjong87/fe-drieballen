@@ -16,6 +16,7 @@ export default function AddMember() {
     } = useForm();
 
     const onSubmit = data => {
+        console.log(data)
         ApiService
             .addMember(data)
             .then(() => {
@@ -163,6 +164,31 @@ export default function AddMember() {
                                 />
 
                                 {errors.dob && NotificationManager.error(errors.dob.message, "ER GING WAT MIS")}
+                                <br/>
+                                <br/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="gender">Geslacht</label>
+                                <input
+                                    id="Man"
+                                    type="radio"
+                                    value="MALE"
+                                    {...register(
+                                        "gender",
+                                        {required: true})}
+                                />
+                                <input
+                                    id="Vrouw"
+                                    type="radio"
+                                    value="FEMALE"
+                                    {...register(
+                                        "gender",
+                                        {required: true})}
+                                />
+
+
+                                {errors.email && NotificationManager.error(errors.gender.message, "ER GING WAT MIS")}
+
                                 <br/>
                                 <br/>
                             </div>

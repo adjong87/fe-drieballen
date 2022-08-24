@@ -6,8 +6,6 @@ const PROFILE_API_BASE_URL = "http://localhost:8082/profiles"
 const API_BASE_URL = "http://localhost:8082"
 let token = localStorage.getItem("token");
 
-
-
 const PHOTO_CONFIG = {
     headers:
         {

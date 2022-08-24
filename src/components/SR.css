@@ -1,0 +1,15 @@
+.microphone-wrapper button {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #000;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 5px;
+    padding: 0;
+    text-align: center;
+    width: 30px;
+}

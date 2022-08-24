@@ -12,31 +12,35 @@ import {useHistory} from 'react-router-dom';
 import checkAverage from "../../../components/helpers/checkAverage";
 import ApiService from "../../../services/ApiService";
 import checkHighest from "../../../components/helpers/checkHighest";
+import {Zoom} from "react-awesome-reveal";
+import SR from "../../../components/SR";
+import Speech from "../../../components/Speech";
 
 function FillPage() {
     const history = useHistory();
-    const {id} = useParams();
+    const { id } = useParams();
     const [scoreCard, setScoreCard] = useState({})
-    const [p1Score] = useState([])
-    const [p2Score] = useState([])
+    const p1Score = []
+    const p2Score = []
     const [PPT, setPPT] = useState(0)
     const [P1Active, setP1Active] = useState(true)
     const [finished, toggleFinished] = useState(false)
     const [successful, toggleSuccessful] = useState(false)
-    const [restP1, setRestP1] = useState(null)
-    const [restP2, setRestP2] = useState(null)
-    const [playerOne, setPlayerOne] = useState(null)
-    const [playerTwo, setPlayerTwo] = useState(null)
+    const [restP1, setRestP1] = useState()
+    const [restP2, setRestP2] = useState()
+    const [playerOne, setPlayerOne] = useState({})
+    const [playerTwo, setPlayerTwo] = useState({})
     const [edit, toggleEdit] = useState(false)
     const [turns, setTurns] = useState(0)
+
     const [data, setData] = useState({
-        highestSerieP1: null,
-        highestSerieP2: null,
-        remainderP1: null,
-        remainderP2: null,
-        averageP1: null,
-        averageP2: null,
-        nrOfTurns: null
+        highestSerieP1: 0,
+        highestSerieP2: 0,
+        remainderP1: 0,
+        remainderP2: 0,
+        averageP1: 0,
+        averageP2: 0,
+        nrOfTurns: 0
     })
 
     useEffect(() => {
@@ -48,11 +52,13 @@ function FillPage() {
                 setScoreCard(result.data);
                 setPlayerOne(result.data[0].profile)
                 setPlayerTwo(result.data[1].profile)
+                console.log(result.data)
             }).catch(error => console.log(error))
-    }, []);
+    }, [id]);
 
     function submitScore() {
         setData({
+            ...data,
             highestSerieP1: checkHighest(p1Score),
             highestSerieP2: checkHighest(p2Score),
             remainderP1: restP1,
@@ -91,11 +97,12 @@ function FillPage() {
         P1Active && setTurns(turns + 1)
     }
 
-    function passTurn() {
+    function passTurn(punten) {
         turns === 30 && toggleFinished(true)
         addTurn()
+        Speech.say(P1Active ? "Einde Beurt! " + checkSum(p1Score) + " punten voor wit" : "Einde Beurt! " + checkSum(p2Score) + " punten voor geel.", 'Google NL Dutch')
 
-        P1Active ? p1Score.push(PPT) : p2Score.push(PPT)
+        P1Active ? p1Score.push((punten)) : p2Score.push(parseInt(punten))
 
         P1Active && (checkWinner(playerOne.aimScore, checkSum(p1Score))) && setP1Active(!P1Active)
 
@@ -108,12 +115,25 @@ function FillPage() {
 
         setRestP1(checkRemainder(playerOne.aimScore, checkSum(p1Score)))
         setRestP2(checkRemainder(playerTwo.aimScore, checkSum(p2Score)))
+        Speech.say(P1Active ? PPT + "punten voor " + playerOne.firstName : PPT + "punten voor " + playerTwo.firstName, 'Google NL Dutch');
         setPPT(0)
+
     }
 
 
     return (
         <>
+            <SR
+                playerActive={P1Active}
+                turnScore={PPT}
+                setTurnScore={setPPT}
+                nextTurn={passTurn}
+                p1score={p1Score}
+                p2score={p2Score}
+            />
+
+
+
             {scoreCard && playerOne && playerTwo && <div className="FillPage-container">
 
                 <div className="FillPage-sides-container">
@@ -123,14 +143,16 @@ function FillPage() {
                     {checkWinner(playerOne.aimScore, checkSum(p1Score)) && <div id="game-winner">
                         <GiPodiumWinner size={70}/>
                     </div>}
-                    <div className="FillPage-sides-player-content">
+                    <Zoom>
+                        <div className="FillPage-sides-player-content">
 
-                        {playerOne && <PlayerCard
-                            username={playerOne.username}
-                            page="fill"
-                            key={playerOne.username}/>}
-                        ;
-                    </div>
+                            {playerOne && <PlayerCard
+                                username={playerOne.username}
+                                page="fill"
+                                key={playerOne.username}/>}
+                            ;
+                        </div>
+                    </Zoom>
                 </div>
                 <div className="FillPage-middle-column">
                     <div className="FIllPage-middle-score-display">
@@ -204,6 +226,7 @@ function FillPage() {
                     {checkWinner(playerTwo.aimScore, checkSum(p2Score)) && <div id="game-winner">
                         <GiPodiumWinner size={70}/>
                     </div>}
+                    <Zoom>
                     <div className="FillPage-sides-player-content">
 
                         {playerTwo && <PlayerCard
@@ -211,6 +234,7 @@ function FillPage() {
                             page="fill"
                             key={playerTwo.username}/>}
                     </div>
+                    </Zoom>
                 </div>
             </div>
             }
