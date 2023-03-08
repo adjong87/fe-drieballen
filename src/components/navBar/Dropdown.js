@@ -1,31 +1,32 @@
-import React, {useState} from 'react'
-import {AdminDropdown} from './component/navItems';
-import './Dropdown.css'
-import {Link} from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AdminDropdown } from './component/navItems';
+import './Dropdown.css';
 
 function Dropdown() {
-    const [adminDropDown, setAdminDropdown] = useState(false);
+  const [adminDropDown, setAdminDropdown] = useState(false);
 
-    return (
+  return (
 
-        <ul className={adminDropDown ? "leden-submenu clicked" : "leden-submenu"}
-            onClick={() => setAdminDropdown(!adminDropDown)}>
+    <ul
+      className={adminDropDown ? 'leden-submenu clicked' : 'leden-submenu'}
+      onClick={() => setAdminDropdown(!adminDropDown)}
+    >
 
-            {AdminDropdown.map((item) => {
-                return (
-                    <li key={item.id}>
-                        <Link to={item.path}
-                              className={item.cName}
-                              onClick={() => setAdminDropdown(false)}
-                        >
-                            {item.title}
-                        </Link>
-                    </li>
-                );
-            })}
+      {AdminDropdown.map((item) => (
+        <li key={item.id}>
+          <Link
+            to={item.path}
+            className={item.cName}
+            onClick={() => setAdminDropdown(false)}
+          >
+            {item.title}
+          </Link>
+        </li>
+      ))}
 
-        </ul>
-    )
+    </ul>
+  );
 }
 
 export default Dropdown;

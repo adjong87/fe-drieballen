@@ -16,7 +16,7 @@
     width: 50%;
     border-radius: 5px;
     background-color: lightblue;
-    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.06);
+    box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.06);
 }
 
 .form-group label {
@@ -26,8 +26,6 @@
 .form-group input {
     padding: 2px;
 }
-
-
 
 .form-group {
     justify-content: space-evenly;
